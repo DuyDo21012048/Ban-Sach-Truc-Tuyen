@@ -1,3 +1,5 @@
+/* HOME PAGE */
+
 body {
   background: #f5f5f5;
 }
@@ -21,4 +23,260 @@ body {
 .card img {
   height: 250px;
   object-fit: cover;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* CART PAGE */
+
+body {
+    background: #f5f5f5;
+    font-family: Arial, sans-serif;
+    color: #111;
+}
+
+/* container spacing */
+.container {
+    max-width: 1250px;
+}
+
+/* back button */
+.back-link {
+    text-decoration: none;
+    color: #222;
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.back-link:hover {
+    color: #1f5eff;
+}
+
+/* title */
+.page-title {
+    font-size: 52px;
+    font-weight: 700;
+    margin: 25px 0 35px;
+}
+
+/* =========================
+   LEFT PRODUCT CARD
+========================= */
+
+.cart-card {
+    background: #fff;
+    border-radius: 18px;
+    padding: 24px 28px;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.04);
+    border: 1px solid #f1f1f1;
+}
+
+/* image */
+.cart-image {
+    width: 95px;
+    height: 130px;
+    object-fit: cover;
+    border-radius: 8px;
+    flex-shrink: 0;
+}
+
+/* title */
+.book-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+/* price */
+.book-price {
+    color: #1f5eff;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 18px;
+}
+
+/* qty */
+.qty-box {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.qty-btn {
+    width: 34px;
+    height: 34px;
+    border: 1px solid #d9d9d9;
+    border-radius: 50%;
+    background: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    color: #333;
+    font-size: 20px;
+    transition: 0.2s;
+}
+
+.qty-btn:hover {
+    border-color: #1f5eff;
+    color: #1f5eff;
+    background: #f7f9ff;
+}
+
+.qty-number {
+    font-size: 18px;
+    font-weight: 500;
+    min-width: 20px;
+    text-align: center;
+}
+
+/* remove */
+.remove-btn {
+    color: #ff3b30;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.remove-btn:hover {
+    color: #d60000;
+}
+
+/* =========================
+   RIGHT SUMMARY BOX
+========================= */
+
+.summary-box {
+    background: #fff;
+    border-radius: 18px;
+    padding: 28px;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.04);
+    border: 1px solid #f1f1f1;
+    position: sticky;
+    top: 30px;
+}
+
+/* title */
+.summary-title {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 28px;
+}
+
+/* rows */
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+    font-size: 17px;
+}
+
+.price-right {
+    min-width: 130px;
+    text-align: right;
+}
+
+/* divider */
+.summary-box hr {
+    margin: 20px 0;
+    border-color: #ededed;
+}
+
+/* total */
+.summary-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.price-total {
+    color: #1f5eff;
+    font-size: 20px;
+    font-weight: 700;
+    min-width: 140px;
+    text-align: right;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+.checkout-btn {
+    background: #1f5eff;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 14px;
+    font-size: 17px;
+    font-weight: 600;
+    margin-bottom: 14px;
+}
+
+.checkout-btn:hover {
+    background: #1749d1;
+    color: white;
+}
+
+.continue-btn {
+    background: white;
+    border: 1px solid #dcdcdc;
+    border-radius: 12px;
+    padding: 14px;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.continue-btn:hover {
+    background: #fafafa;
+}
+
+/* =========================
+   DISCOUNT
+========================= */
+
+.discount-label {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 14px;
+}
+
+.form-control {
+    height: 58px;
+    border-radius: 12px;
+    border: 1px solid #ddd;
+    font-size: 16px;
+    padding-left: 16px;
+}
+
+.apply-btn {
+    background: #16294c;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 0 24px;
+    font-weight: 600;
+    min-width: 110px;
+}
+
+.apply-btn:hover {
+    opacity: 0.95;
+}
+
+/* spacing */
+.mb-4 {
+    margin-bottom: 22px !important;
 }
