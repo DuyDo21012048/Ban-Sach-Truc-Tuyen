@@ -132,3 +132,29 @@ body { background: #f7f7f7; } /* Khung tóm tắt đơn hàng */
     background: #1748cc;
     color: white;
 }
+
+/* Box mỗi sản phẩm trong giỏ hàng */
+.cart-card {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 24px 28px;
+    border: 1px solid #eeeeee;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+}
+
+/* Ảnh sách trong giỏ hàng */
+.cart-image {
+    width: 120px;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 1px solid #eeeeee;
+}
+
+/* Giá sách */
+.book-price {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1f5eff;
+    margin: 8px 0;
+}
