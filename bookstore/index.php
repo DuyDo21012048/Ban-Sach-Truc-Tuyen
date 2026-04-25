@@ -14,7 +14,7 @@ if (isset($_SESSION['cart'])) {
 <head>
   <title>Bookstore</title>
 
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="css/home.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
