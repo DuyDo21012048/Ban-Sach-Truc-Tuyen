@@ -22,19 +22,37 @@ if (isset($_SESSION['cart'])) {
 
 <!-- HEADER -->
 <div class="container-fluid p-3 shadow-sm bg-white">
-  <div class="d-flex justify-content-between align-items-center">
+  <div class="d-flex justify-content-evenly align-items-center">
 
+    <!-- Logo -->
     <h3 class="fw-bold text-primary">BOOKSTORE</h3>
 
+    <!-- Search -->
     <input class="form-control w-50" placeholder="Tìm kiếm sách...">
 
+    <!-- Login -->
     <div>
-      <a href="login.php" class="me-3">Login</a>
-      <a href="cart.php">Cart (<?= $count ?>)</a>
+      <a href="login.php" class="text-decoration-none text-dark fw-semibold fs-6 me-3"> 
+        <i class="bi bi-person-circle me-1"></i> Login 
+      </a> 
+    <!-- Cart --> 
+      <a href="cart.php" class="text-decoration-none text-dark position-relative pe-4 fw-semibold fs-6"> 
+        <i class="bi bi-cart3 me-1"></i> Cart 
+
+        <?php if ($count > 0): ?> 
+          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"> 
+            <?= $count ?> 
+          </span> 
+        <?php endif; ?> 
+      </a>
     </div>
 
   </div>
 </div>
+
+<!-- Bootstrap Icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
 
 <!-- LIST BOOK -->
 <div class="container mt-5">
