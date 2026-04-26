@@ -73,8 +73,12 @@ session_start();
                             <!-- QTY -->
                             <div class="qty-box">
 
-                                <a href="update_cart.php?id=<?= $id ?>&action=minus"
-                                class="qty-btn">−</a>
+                                <?php if ($qty > 1): ?>
+                                    <a href="update_cart.php?id=<?= $id ?>&action=minus"
+                                    class="qty-btn">−</a>
+                                <?php else: ?>
+                                    <span class="qty-btn disabled-btn">−</span>
+                                <?php endif; ?>
 
                                 <span class="qty-number">
                                     <?= $qty ?>
@@ -91,7 +95,7 @@ session_start();
                     <!-- RIGHT -->
                     <div>
                         <a href="remove.php?id=<?= $id ?>" class="remove-btn">
-                            🗑 Xóa
+                            <i class="bi bi-trash3-fill"></i> Xóa
                         </a>
                     </div>
 
