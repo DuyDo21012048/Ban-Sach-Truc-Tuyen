@@ -16,6 +16,9 @@ session_start();
 </head>
 <body>
 
+<!-- HEADER -->
+<?php include 'header.php'; ?>
+
 <div class="container mt-5">
 
     <!-- Back -->
@@ -102,43 +105,45 @@ session_start();
                 </div>
 
             </div>
+                                    
+            <?php 
 
-        <?php
-            }
+                    } 
 
-        } else {
-        ?>
+            } else { 
+            ?>
+                <!-- Empty Cart Box -->
+                <div class="row justify-content-center">
 
-            <!-- Empty Cart Box -->
-            <div class="row justify-content-center">
-                <div class="col-md-8">
+                    <div class="col-md-8">
 
-                    <div class="empty-cart-box text-center">
+                        <div class="empty-cart-box text-center">
 
-                        <div class="empty-icon">
-                            <i class="bi bi-bag-heart"></i>
+                            <div class="empty-icon">
+                                <i class="bi bi-bag-heart"></i>
+                            </div>
+
+                            <h3 class="empty-title">
+                                Giỏ hàng trống
+                            </h3>
+
+                            <p class="empty-text">
+                                Hãy thêm sản phẩm vào giỏ hàng để tiếp tục mua sắm
+                            </p>
+
+                            <a href="home.php" class="btn explore-btn">
+                                Khám phá sách
+                            </a>
+
                         </div>
 
-                        <h3 class="empty-title">
-                            Giỏ hàng trống
-                        </h3>
-
-                        <p class="empty-text">
-                            Hãy thêm sản phẩm vào giỏ hàng để tiếp tục mua sắm
-                        </p>
-
-                        <a href="home.php" class="btn explore-btn">
-                            Khám phá sách
-                        </a>
-
                     </div>
-                </div>
-            </div>
-        <?php
-        }
-?>
 
-        </div>
+                </div>
+
+            <?php } ?>
+
+        </div>      
 
         <!-- RIGHT SIDE -->
             <?php if (isset($_SESSION['cart']) && count($_SESSION['cart']) > 0): ?>

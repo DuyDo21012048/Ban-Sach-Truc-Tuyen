@@ -30,34 +30,13 @@ if (isset($_SESSION['cart'])) {
 <body>
 
 <!-- HEADER -->
-<div class="container-fluid p-3 shadow-sm bg-white">
-    <div class="d-flex justify-content-evenly align-items-center">
-
-        <h3 class="fw-bold text-primary m-0">BOOKSTORE</h3>
-
-        <input class="form-control w-50" placeholder="Tìm kiếm sách...">
-
-        <div>
-            <a href="login.php" class="text-decoration-none text-dark fw-semibold fs-6 me-3">
-                <i class="bi bi-person-circle me-1"></i> Login
-            </a>
-
-            <a href="cart.php" class="text-decoration-none text-dark position-relative pe-4 fw-semibold fs-6">
-                <i class="bi bi-cart3 me-1"></i> Cart
-
-                <?php if ($count > 0): ?>
-                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                        <?= $count ?>
-                    </span>
-                <?php endif; ?>
-            </a>
-        </div>
-
-    </div>
-</div>
+<?php include 'header.php'; ?>
 
 <div class="container my-5">
-
+    <!-- Back -->
+    <a href="home.php" class="text-dark text-decoration-none fw-semibold">
+        ← Quay lại
+    </a>
     <!-- BOX TRÊN -->
     <div class="detail-top-box">
         <div class="row align-items-start">

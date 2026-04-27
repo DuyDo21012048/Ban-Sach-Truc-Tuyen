@@ -21,34 +21,7 @@ if (isset($_SESSION['cart'])) {
 <body>
 
 <!-- HEADER -->
-<div class="container-fluid p-3 shadow-sm bg-white">
-  <div class="d-flex justify-content-evenly align-items-center">
-
-    <!-- Logo -->
-    <h3 class="fw-bold text-primary">BOOKSTORE</h3>
-
-    <!-- Search -->
-    <input class="form-control w-50" placeholder="Tìm kiếm sách...">
-
-    <!-- Login -->
-    <div>
-      <a href="login.php" class="text-decoration-none text-dark fw-semibold fs-6 me-3"> 
-        <i class="bi bi-person-circle me-1"></i> Login 
-      </a> 
-    <!-- Cart --> 
-      <a href="cart.php" class="text-decoration-none text-dark position-relative pe-4 fw-semibold fs-6"> 
-        <i class="bi bi-cart3 me-1"></i> Cart 
-
-        <?php if ($count > 0): ?> 
-          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"> 
-            <?= $count ?> 
-          </span> 
-        <?php endif; ?> 
-      </a>
-    </div>
-
-  </div>
-</div>
+<?php include 'header.php'; ?>
 
 <!-- Bootstrap Icons -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
@@ -67,9 +40,13 @@ if (isset($_SESSION['cart'])) {
     <div class="col-md-4">
       <div class="card p-2 shadow-sm">
 
-        <img src="<?= $row['image'] ?>" class="img-fluid rounded">
+        <a href="detail.php?id=<?= $row['id'] ?>" class="text-decoration-none text-dark">
+            <img src="<?= $row['image'] ?>" class="img-fluid rounded">
 
-        <h5 class="mt-2"><?= $row['title'] ?></h5>
+            <h5 class="mt-2">
+                <?= $row['title'] ?>
+            </h5>
+        </a>
 
         <p class="price"><?= number_format($row['price']) ?>đ</p>
 
