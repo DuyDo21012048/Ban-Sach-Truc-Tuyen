@@ -38,75 +38,128 @@ if (!$book) {
     </a>
     <!-- BOX TRÊN -->
     <div class="detail-top-box">
-        <div class="row align-items-start">
 
-            <!-- ẢNH SÁCH -->
-            <div class="col-md-4 text-center">
-                <img src="<?= $book['image'] ?>" class="detail-image" alt="<?= $book['title'] ?>">
-            </div>
+        <div class="row g-4 align-items-start">
 
-            <!-- THÔNG TIN -->
-            <div class="col-md-6">
-                <h2 class="book-title"><?= $book['title'] ?></h2>
+            <!-- BOX ẢNH -->
+            <div class="col-md-5">
+                <div class="image-box text-center">
 
-                <p class="book-rating">
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-half"></i>
-                    <span>(4.5 đánh giá)</span>
-                </p>
-
-                <p class="book-author">
-                    Tác giả: <strong><?= $book['author'] ?? 'Đang cập nhật' ?></strong>
-                </p>
-
-                <p class="book-price">
-                    <?= number_format($book['price']) ?>đ
-                </p>
-
-                <!-- SỐ LƯỢNG -->
-                <div class="qty-box mb-4">
-
-                    <?php if (isset($_GET['qty']) && $_GET['qty'] > 1): ?>
-                        <a href="detail.php?id=<?= $book['id'] ?>&qty=<?= $_GET['qty'] - 1 ?>"
-                        class="qty-btn">−</a>
-                    <?php else: ?>
-                        <span class="qty-btn disabled-btn">−</span>
-                    <?php endif; ?>
-
-                    <span class="qty-number">
-                        <?= isset($_GET['qty']) ? (int)$_GET['qty'] : 1 ?>
-                    </span>
-
-                    <a href="detail.php?id=<?= $book['id'] ?>&qty=<?= isset($_GET['qty']) ? $_GET['qty'] + 1 : 2 ?>"
-                    class="qty-btn">+</a>
+                    <img
+                        src="<?= $book['image'] ?>"
+                        class="detail-image"
+                        alt="<?= $book['title'] ?>"
+                    >
 
                 </div>
-
-                <!-- BUTTON -->
-                <form action="add_to_cart.php" method="POST">
-                    <input type="hidden" name="id" value="<?= $book['id'] ?>">
-                    <input
-                        type="hidden"
-                        name="quantity"
-                        value="<?= isset($_GET['qty']) ? (int)$_GET['qty'] : 1 ?>"
-                    >
-                    <button class="btn add-cart-btn">
-                        Thêm vào giỏ
-                    </button>
-                </form>
             </div>
 
-            <!-- NÚT THÍCH -->
-            <div class="col-md-2 text-end">
-                <button class="wishlist-btn">
-                    <i class="bi bi-heart"></i>
-                </button>
+            <!-- BOX THÔNG TIN -->
+            <div class="col-md-7">
+                <div class="info-box">
+
+                    <h2 class="book-title">
+                        <?= $book['title'] ?>
+                    </h2>
+
+                    <p class="book-rating">
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-half"></i>
+                        <span>(4.5 đánh giá)</span>
+                    </p>
+
+                    <p class="book-author">
+                        Tác giả:
+                        <strong>
+                            <?= $book['author'] ?? 'Đang cập nhật' ?>
+                        </strong>
+                    </p>
+
+                    <p class="book-price">
+                        <?= number_format($book['price']) ?>đ
+                    </p>
+
+                    <!-- SỐ LƯỢNG -->
+                    <div class="qty-box mb-4">
+
+                        <?php if (isset($_GET['qty']) && $_GET['qty'] > 1): ?>
+                            <a href="detail.php?id=<?= $book['id'] ?>&qty=<?= $_GET['qty'] - 1 ?>"
+                            class="qty-btn">−</a>
+                        <?php else: ?>
+                            <span class="qty-btn disabled-btn">−</span>
+                        <?php endif; ?>
+
+                        <span class="qty-number">
+                            <?= isset($_GET['qty']) ? (int)$_GET['qty'] : 1 ?>
+                        </span>
+
+                        <a href="detail.php?id=<?= $book['id'] ?>&qty=<?= isset($_GET['qty']) ? $_GET['qty'] + 1 : 2 ?>"
+                        class="qty-btn">+</a>
+
+                    </div>
+
+                    <!-- BUTTONS -->
+                    <div class="action-buttons">
+
+                        <!-- Add to cart -->
+                        <form action="add_to_cart.php" method="POST">
+
+                            <input
+                                type="hidden"
+                                name="id"
+                                value="<?= $book['id'] ?>"
+                            >
+
+                            <input
+                                type="hidden"
+                                name="quantity"
+                                value="<?= isset($_GET['qty']) ? (int)$_GET['qty'] : 1 ?>"
+                            >
+
+                            <button class="btn add-cart-btn">
+                                <i class="bi bi-cart3 me-2"></i>
+                                Thêm vào giỏ
+                            </button>
+
+                        </form>
+
+                        <!-- Wishlist -->
+                        <button class="wishlist-btn">
+                            <i class="bi bi-heart"></i>
+                        </button>
+
+                    </div>
+
+
+                    <!-- SERVICE INFO -->
+                    <div class="service-info">
+
+                        <div class="service-item">
+                            <i class="bi bi-truck"></i>
+                            <span>Giao hàng miễn phí cho đơn từ 200.000đ</span>
+                        </div>
+
+                        <div class="service-item">
+                            <i class="bi bi-shield-check"></i>
+                            <span>Bảo hành chất lượng sách</span>
+                        </div>
+
+                        <div class="service-item">
+                            <i class="bi bi-arrow-counterclockwise"></i>
+                            <span>Đổi trả trong 7 ngày</span>
+                        </div>
+
+                    </div>
+
+
+                </div>
             </div>
 
         </div>
+
     </div>
 
     <!-- BOX DƯỚI -->

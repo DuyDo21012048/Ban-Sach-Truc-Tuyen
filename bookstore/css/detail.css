@@ -1,0 +1,184 @@
+/* ===== BOX TRÊN ===== */
+
+.detail-top-box {
+    background: #ffffff;
+    border: 1px solid #e6eaf2;
+    border-radius: 20px;
+    padding: 32px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+/* BOX ẢNH */
+.image-box {
+    background: #ffffff;
+    border: 1px solid #e8edf5;
+    border-radius: 20px;
+    padding: 0;
+
+    overflow: hidden;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ẢNH SÁCH */
+.detail-image {
+
+    min-height: 580px;
+    max-height: 580px;
+    min-width: 580px;
+    max-width: 580px;
+
+    object-fit: cover;
+    object-position: center;
+
+    display: block;
+
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    padding: 0;
+}
+
+/* Giá tiền */
+.book-price {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1f5eff;
+    text-align: left;
+}
+
+/* Box số lượng */
+.qty-box {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-top: 12px;
+}
+
+/* Nút + - hình tròn */
+a.qty-btn,
+span.qty-btn {
+    font-size: 22px !important;
+    font-weight: 700 !important;
+    color: #111 !important;
+    text-decoration: none !important;
+
+    width: 42px;
+    height: 42px;
+
+    border: 1px solid #dddddd;
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #ffffff;
+    transition: 0.2s;
+}
+
+/* Hover */
+a.qty-btn:hover {
+    background: #f7f7f7 !important;
+    color: #111 !important;
+    text-decoration: none !important;
+}
+
+/* Số lượng */
+.qty-number {
+    font-size: 20px !important;
+    font-weight: 700 !important;
+    min-width: 30px;
+    text-align: center;
+}
+
+/* Nút disable */
+.disabled-btn {
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* Nút thêm vào giỏ */
+
+.action-buttons {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 20px;
+}
+
+/* Add to cart */
+.add-cart-btn {
+    height: 54px;
+    background: #1f5eff !important;
+    color: #ffffff !important;
+    font-weight: 700;
+    font-size: 16px;
+    border: none;
+    border-radius: 14px;
+    padding: 0 28px;
+    min-width: 220px;
+
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+
+    box-shadow: 0 6px 18px rgba(31, 94, 255, 0.15);
+    transition: 0.2s;
+}
+
+.add-cart-btn:hover {
+    background: #1749d1 !important;
+    color: #ffffff !important;
+    transform: translateY(-1px);
+}
+
+/* Wishlist */
+.wishlist-btn {
+    width: 54px;
+    height: 54px;
+    border: 1px solid #dfe6f2;
+    border-radius: 14px;
+    background: #ffffff;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 22px;
+    color: #1f5eff;
+    transition: 0.2s;
+}
+
+.wishlist-btn:hover {
+    background: #f5f8ff;
+    border-color: #1f5eff;
+    color: #ff4d6d;
+}
+
+/* Thông tin dịch vụ */
+
+.service-info {
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid #e8edf5;
+}
+
+.service-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 18px;
+    font-size: 16px;
+    font-weight: 500;
+    color: #1f2d3d;
+}
+
+.service-item i {
+    font-size: 22px;
+    color: #1f5eff;
+    min-width: 24px;
+}
