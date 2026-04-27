@@ -22,6 +22,22 @@
     white-space: nowrap;
 }
 
+/* Logo link */
+a.logo-link,
+a.logo-link:hover,
+a.logo-link:focus,
+a.logo-link:active,
+a.logo-link:visited {
+    text-decoration: none !important;
+    color: inherit !important;
+}
+
+/* H3 bên trong */
+.logo-link .logo {
+    margin: 0;
+    text-decoration: none !important;
+}
+
 /* Search */
 .search-box {
     flex: 1;

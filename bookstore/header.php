@@ -20,7 +20,10 @@ if (isset($_SESSION['cart']) && is_array($_SESSION['cart'])) {
     <div class="d-flex justify-content-evenly align-items-center">
 
         <!-- Logo -->
-        <h3 class="logo">BOOKSTORE</h3>
+        
+        <a href="home.php" class="logo-link">
+            <h3 class="logo">BOOKSTORE</h3>
+        </a>
 
         <!-- Search -->
         <input

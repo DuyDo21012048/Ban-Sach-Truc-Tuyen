@@ -9,11 +9,10 @@ if ($id <= 0) {
 }
 $result = mysqli_query($conn, "SELECT * FROM books WHERE id = $id");
 $book = mysqli_fetch_assoc($result);
-
-$count = 0;
-if (isset($_SESSION['cart'])) {
-    $count = array_sum($_SESSION['cart']);
+if (!$book) {
+    die("Sản phẩm không tồn tại.");
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -69,14 +68,31 @@ if (isset($_SESSION['cart'])) {
 
                 <!-- SỐ LƯỢNG -->
                 <div class="qty-box mb-4">
-                    <a href="#" class="qty-btn">−</a>
-                    <span class="qty-number">1</span>
-                    <a href="#" class="qty-btn">+</a>
+
+                    <?php if (isset($_GET['qty']) && $_GET['qty'] > 1): ?>
+                        <a href="detail.php?id=<?= $book['id'] ?>&qty=<?= $_GET['qty'] - 1 ?>"
+                        class="qty-btn">−</a>
+                    <?php else: ?>
+                        <span class="qty-btn disabled-btn">−</span>
+                    <?php endif; ?>
+
+                    <span class="qty-number">
+                        <?= isset($_GET['qty']) ? (int)$_GET['qty'] : 1 ?>
+                    </span>
+
+                    <a href="detail.php?id=<?= $book['id'] ?>&qty=<?= isset($_GET['qty']) ? $_GET['qty'] + 1 : 2 ?>"
+                    class="qty-btn">+</a>
+
                 </div>
 
                 <!-- BUTTON -->
                 <form action="add_to_cart.php" method="POST">
                     <input type="hidden" name="id" value="<?= $book['id'] ?>">
+                    <input
+                        type="hidden"
+                        name="quantity"
+                        value="<?= isset($_GET['qty']) ? (int)$_GET['qty'] : 1 ?>"
+                    >
                     <button class="btn add-cart-btn">
                         Thêm vào giỏ
                     </button>
