@@ -1,0 +1,162 @@
+body {
+    background: #f7f8fc;
+    font-family: Arial, sans-serif;
+}
+
+/* Back */
+.back-link {
+    text-decoration: none;
+    color: #2d3748;
+    font-weight: 600;
+}
+
+/* Header */
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 30px 0;
+}
+
+.admin-title {
+    font-size: 42px;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.admin-subtitle {
+    color: #6b7280;
+    font-size: 17px;
+}
+
+/* Add button */
+.add-book-btn {
+    background: #1f5eff;
+    color: white;
+    text-decoration: none;
+    padding: 14px 24px;
+    border-radius: 14px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.add-book-btn:hover {
+    color: white;
+    background: #1749d1;
+}
+
+/* Search */
+.search-wrapper {
+    background: white;
+    padding: 18px;
+    border-radius: 18px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.04);
+}
+
+.admin-search {
+    height: 52px;
+    border-radius: 14px;
+}
+
+/* Table */
+.table-box {
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.04);
+}
+
+table th {
+    padding: 22px !important;
+    font-size: 14px;
+    font-weight: 700;
+    color: #4b5563;
+    text-align: center; /* căn giữa title */
+    vertical-align: middle;
+}
+
+table td {
+    padding: 22px !important;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.admin-book-image {
+    width: 70px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.book-name {
+    font-weight: 600;
+    min-width: 180px;
+}
+
+.book-price {
+    color: #1f5eff;
+    font-weight: 700;
+}
+
+.book-description {
+    max-width: 280px;
+    color: #6b7280;
+}
+
+/* ===== ACTION COLUMN ===== */
+
+.action-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    min-width: 120px;
+    height: 100%;
+}
+
+/* icon edit */
+.edit-btn {
+    color: #1f5eff;
+    font-size: 22px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* icon delete */
+.delete-btn {
+    color: #ff2d2d;
+    font-size: 22px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* hover nhẹ */
+.edit-btn:hover {
+    color: #1749d1;
+}
+
+.delete-btn:hover {
+    color: #d60000;
+}
+
+.edit-btn {
+    color: #1f5eff;
+    font-size: 22px;
+}
+
+.delete-btn {
+    color: red;
+    font-size: 22px;
+}
+
+.edit-btn,
+.delete-btn {
+    text-decoration: none;
+}

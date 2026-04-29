@@ -1,0 +1,114 @@
+body {
+    background: #f7f8fc;
+    font-family: Arial, sans-serif;
+}
+
+.edit-wrapper {
+    max-width: 900px;
+    margin: 40px auto;
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.05);
+    overflow: hidden;
+}
+
+/* Header */
+.edit-header {
+    padding: 30px;
+    border-bottom: 1px solid #edf1f7;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.edit-header h2 {
+    font-size: 42px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.close-btn {
+    text-decoration: none;
+    font-size: 36px;
+    color: #9ca3af;
+}
+
+/* Form */
+form {
+    padding: 30px;
+}
+
+.form-label {
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.form-control {
+    height: 54px;
+    border-radius: 14px;
+}
+
+textarea.form-control {
+    height: auto;
+    resize: none;
+}
+
+/* Price */
+.price-input {
+    position: relative;
+}
+
+.price-input span {
+    position: absolute;
+    right: 20px;
+    top: 16px;
+    color: #6b7280;
+}
+
+/* Preview */
+.preview-image {
+    width: 130px;
+    height: 170px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+}
+
+/* Footer */
+.edit-footer {
+    margin-top: 40px;
+    padding-top: 30px;
+    border-top: 1px solid #edf1f7;
+    display: flex;
+    gap: 20px;
+}
+
+.cancel-btn,
+.save-btn {
+    flex: 1;
+    height: 56px;
+    border-radius: 14px;
+    font-weight: 700;
+    font-size: 18px;
+    border: none;
+    text-decoration: none;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cancel-btn {
+    background: white;
+    border: 1px solid #d1d5db;
+    color: #374151;
+}
+
+.save-btn {
+    background: #1f5eff;
+    color: white;
+}
+
+.save-btn:hover {
+    background: #1749d1;
+}

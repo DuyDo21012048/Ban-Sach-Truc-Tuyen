@@ -26,11 +26,17 @@ if (isset($_SESSION['cart']) && is_array($_SESSION['cart'])) {
         </a>
 
         <!-- Search -->
-        <input
-            type="text"
-            class="form-control search-box"
-            placeholder="Tìm kiếm sách..."
-        >
+        <form action="search.php" method="GET" class="d-flex">
+
+            <input
+                type="text"
+                name="keyword"
+                class="form-control search-box"
+                placeholder="Tìm kiếm sách..."
+                value="<?= isset($_GET['keyword']) ? $_GET['keyword'] : '' ?>"
+            >
+
+        </form>
 
         <!-- Right Menu -->
         <div class="nav-right">
