@@ -3,7 +3,6 @@ include 'db.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    $id = (int) $_POST['id'];
     $title = mysqli_real_escape_string($conn, $_POST['title']);
     $price = (int) $_POST['price'];
     $author = mysqli_real_escape_string($conn, $_POST['author']);
@@ -11,17 +10,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $image = mysqli_real_escape_string($conn, $_POST['image']);
     $description = mysqli_real_escape_string($conn, $_POST['description']);
 
-    // UPDATE query
     $sql = "
-        UPDATE books SET
-            title = '$title',
-            price = $price,
-            author = '$author',
-            quantity = $quantity,
-            image = '$image',
-            description = '$description',
-            updated_at = NOW()
-        WHERE id = $id
+        INSERT INTO books (title, price, author, quantity, image, description, created_at)
+        VALUES ('$title', $price, '$author', $quantity, '$image', '$description', NOW())
     ";
 
     if (mysqli_query($conn, $sql)) {

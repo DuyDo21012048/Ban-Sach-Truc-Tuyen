@@ -1,0 +1,94 @@
+body {
+    background: #f3f4f6;
+    font-family: Arial, sans-serif;
+}
+
+/* Container */
+.login-container {
+    max-width: 500px;
+    margin: 60px auto;
+}
+
+/* Back */
+.back-link {
+    display: inline-block;
+    margin-bottom: 20px;
+    color: #374151;
+    text-decoration: none;
+}
+
+/* Box */
+.login-box {
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+/* Header */
+.login-header {
+    background: linear-gradient(135deg, #2563eb, #9333ea);
+    color: white;
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.login-header h2 {
+    font-weight: 700;
+    font-size: 32px;
+}
+
+.login-header p {
+    margin-top: 10px;
+}
+
+/* Form */
+form {
+    padding: 30px;
+}
+
+/* Input */
+.input-group-text {
+    background: #f9fafb;
+    border-radius: 12px 0 0 12px;
+}
+
+.form-control {
+    border-radius: 0 12px 12px 0;
+    height: 50px;
+}
+
+/* Password icon */
+.toggle-password {
+    cursor: pointer;
+}
+
+/* Button */
+.login-btn {
+    width: 100%;
+    height: 50px;
+    border-radius: 12px;
+    border: none;
+    font-weight: 700;
+    color: white;
+    background: linear-gradient(135deg, #2563eb, #9333ea);
+    margin-top: 10px;
+}
+
+/* Register */
+.register-text {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.register-text a {
+    color: #2563eb;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+/* Forgot */
+.forgot-link {
+    text-decoration: none;
+    color: #2563eb;
+}

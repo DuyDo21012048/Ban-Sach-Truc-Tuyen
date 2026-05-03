@@ -35,9 +35,8 @@ $result = mysqli_query($conn, "SELECT * FROM books");
             </p>
         </div>
 
-        <a href="add_book.php" class="add-book-btn">
-            <i class="bi bi-plus-lg"></i>
-            Thêm sách mới
+        <a href="add_book.php" class="btn btn-primary">
+            + Thêm sách mới
         </a>
 
     </div>
