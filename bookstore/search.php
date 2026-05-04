@@ -2,15 +2,36 @@
 include 'db.php';
 session_start();
 
-$keyword = isset($_GET['keyword'])
-    ? mysqli_real_escape_string($conn, $_GET['keyword'])
-    : '';
+$conditions = [];
+
+/* Từ khóa */
+if (!empty($_GET['keyword'])) {
+    $keyword = mysqli_real_escape_string($conn, $_GET['keyword']);
+    $conditions[] = "(title LIKE '%$keyword%' OR author LIKE '%$keyword%')";
+}
+
+if (!empty($_GET['price'])) {
+    $priceConditions = [];
+
+    foreach ($_GET['price'] as $p) {
+        if ($p == 'low') {
+            $priceConditions[] = "price < 200000";
+        }
+        if ($p == 'mid') {
+            $priceConditions[] = "price BETWEEN 200000 AND 500000";
+        }
+        if ($p == 'high') {
+            $priceConditions[] = "price > 500000";
+        }
+    }
+
+    $conditions[] = "(" . implode(" OR ", $priceConditions) . ")";
+}
 
 $sql = "SELECT * FROM books";
 
-if (!empty($keyword)) {
-    $sql .= " WHERE title LIKE '%$keyword%'
-              OR author LIKE '%$keyword%'";
+if (!empty($conditions)) {
+    $sql .= " WHERE " . implode(" AND ", $conditions);
 }
 
 $result = mysqli_query($conn, $sql);
@@ -39,7 +60,11 @@ $totalResult = mysqli_num_rows($result);
     <div class="row">
 
         <!-- FILTER -->
-        <div class="col-md-3">
+        <form method="GET" action="search.php">
+
+            <input type="hidden" name="keyword"
+            value="<?= isset($_GET['keyword']) ? $_GET['keyword'] : '' ?>">
+            
             <div class="filter-box">
 
                 <h5>Bộ lọc</h5>
@@ -47,22 +72,28 @@ $totalResult = mysqli_num_rows($result);
                 <p><strong>Khoảng giá</strong></p>
 
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox">
+                    <input class="form-check-input" type="checkbox" name="price[]" value="low"
+                    <?= (isset($_GET['price']) && in_array('low', $_GET['price'])) ? 'checked' : '' ?>>
                     <label>Dưới 200.000đ</label>
                 </div>
 
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox">
+                    <input class="form-check-input" type="checkbox" name="price[]" value="mid"
+                    <?= (isset($_GET['price']) && in_array('mid', $_GET['price'])) ? 'checked' : '' ?>>
                     <label>200.000đ - 500.000đ</label>
                 </div>
 
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox">
+                    <input class="form-check-input" type="checkbox" name="price[]" value="high"
+                    <?= (isset($_GET['price']) && in_array('high', $_GET['price'])) ? 'checked' : '' ?>>
                     <label>Trên 500.000đ</label>
                 </div>
 
+                <button class="btn btn-primary mt-3 w-100">Lọc</button>
+
             </div>
-        </div>
+            
+        </form>
 
         <!-- RESULT -->
         <div class="col-md-9">

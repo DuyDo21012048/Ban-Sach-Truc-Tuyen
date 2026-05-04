@@ -20,22 +20,19 @@ if (isset($_SESSION['cart']) && is_array($_SESSION['cart'])) {
     <div class="d-flex justify-content-evenly align-items-center">
 
         <!-- Logo -->
-        
         <a href="home.php" class="logo-link">
             <h3 class="logo">BOOKSTORE</h3>
         </a>
 
         <!-- Search -->
-        <form action="search.php" method="GET" class="d-flex">
-
+        <form action="search.php" method="GET" class="search-form">
             <input
                 type="text"
                 name="keyword"
-                class="form-control search-box"
+                class="form-control search-input"
                 placeholder="Tìm kiếm sách..."
                 value="<?= isset($_GET['keyword']) ? $_GET['keyword'] : '' ?>"
             >
-
         </form>
 
         <!-- Right Menu -->
