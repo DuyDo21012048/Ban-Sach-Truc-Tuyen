@@ -39,10 +39,25 @@ if (isset($_SESSION['cart']) && is_array($_SESSION['cart'])) {
         <div class="nav-right">
 
             <!-- Login -->
-            <a href="login.php" class="nav-link-custom me-3">
-                <i class="bi bi-person-circle me-1"></i>
-                Login
-            </a>
+            <?php if (isset($_SESSION['user_id'])): ?>
+
+                <a href="user.php" class="nav-link-custom">
+                    <i class="bi bi-person"></i>
+                    <?= $_SESSION['user_name'] ?>
+                </a>
+
+                <a href="logout.php" class="nav-link-custom">
+                    Logout
+                </a>
+
+            <?php else: ?>
+
+                <a href="login.php" class="nav-link-custom">
+                    <i class="bi bi-person-circle me-1"></i>
+                    Login
+                </a>
+
+            <?php endif; ?>
 
             <!-- Cart -->
             <a href="cart.php" class="nav-link-custom cart-link position-relative pe-4">
