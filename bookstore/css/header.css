@@ -69,3 +69,11 @@ a.logo-link:visited {
     font-weight: 600;
     font-size: 16px;
 }
+
+.logout-link {
+    color: #dc3545;
+}
+
+.logout-link:hover {
+    color: #bb2d3b;
+}

@@ -38,7 +38,7 @@ if (isset($_SESSION['cart']) && is_array($_SESSION['cart'])) {
         <!-- Right Menu -->
         <div class="nav-right">
 
-            <!-- Login -->
+            <!-- USER -->
             <?php if (isset($_SESSION['user_id'])): ?>
 
                 <a href="user.php" class="nav-link-custom">
@@ -46,12 +46,15 @@ if (isset($_SESSION['cart']) && is_array($_SESSION['cart'])) {
                     <?= $_SESSION['user_name'] ?>
                 </a>
 
-                <a href="logout.php" class="nav-link-custom">
-                    Logout
-                </a>
+            <!-- LOGOUT -->
+            <a href="logout.php" class="nav-link-custom logout-link">
+                <i class="bi bi-box-arrow-right"></i>
+                Logout
+            </a>
 
             <?php else: ?>
-
+                
+            <!-- LOGIN -->
                 <a href="login.php" class="nav-link-custom">
                     <i class="bi bi-person-circle me-1"></i>
                     Login
