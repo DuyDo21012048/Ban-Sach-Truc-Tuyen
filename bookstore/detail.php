@@ -13,6 +13,27 @@ if (!$book) {
     die("Sản phẩm không tồn tại.");
 }
 
+$ratingQuery = mysqli_query($conn, "
+    SELECT 
+        AVG(rating) as avg_rating,
+        COUNT(*) as total_reviews
+    FROM reviews
+    WHERE book_id = $id
+");
+
+$ratingData = mysqli_fetch_assoc($ratingQuery);
+
+$avgRating = round($ratingData['avg_rating'], 1);
+$totalReviews = $ratingData['total_reviews'];
+
+
+$reviews = mysqli_query($conn, "
+    SELECT reviews.*, users.name
+    FROM reviews
+    JOIN users ON reviews.user_id = users.id
+    WHERE book_id = $id
+    ORDER BY reviews.created_at DESC
+");
 ?>
 
 <!DOCTYPE html>
@@ -68,7 +89,9 @@ if (!$book) {
                         <i class="bi bi-star-fill"></i>
                         <i class="bi bi-star-fill"></i>
                         <i class="bi bi-star-half"></i>
-                        <span>(4.5 đánh giá)</span>
+                        <span>
+                            (<?= $avgRating ?> đánh giá)
+                        </span>
                     </p>
 
                     <p class="book-author">
@@ -78,26 +101,41 @@ if (!$book) {
                         </strong>
                     </p>
 
-                    <p class="book-price">
-                        <?= number_format($book['price']) ?>đ
-                    </p>
-
-                    <!-- SỐ LƯỢNG -->
-                    <div class="qty-box mb-4">
-
-                        <?php if (isset($_GET['qty']) && $_GET['qty'] > 1): ?>
-                            <a href="detail.php?id=<?= $book['id'] ?>&qty=<?= $_GET['qty'] - 1 ?>"
-                            class="qty-btn">−</a>
-                        <?php else: ?>
-                            <span class="qty-btn disabled-btn">−</span>
-                        <?php endif; ?>
-
-                        <span class="qty-number">
-                            <?= isset($_GET['qty']) ? (int)$_GET['qty'] : 1 ?>
+                    <!-- PRICE -->
+                    <div class="price-box">
+                        <span class="book-price">
+                            <?= number_format($book['price']) ?>đ
                         </span>
+                    </div>
 
-                        <a href="detail.php?id=<?= $book['id'] ?>&qty=<?= isset($_GET['qty']) ? $_GET['qty'] + 1 : 2 ?>"
-                        class="qty-btn">+</a>
+                    <!-- LABEL -->
+                    <p class="qty-label">Số lượng</p>
+
+                    <!-- QTY -->
+                    <div class="qty-wrapper">
+
+                        <div class="qty-box">
+
+                            <?php if (isset($_GET['qty']) && $_GET['qty'] > 1): ?>
+                                <a href="detail.php?id=<?= $book['id'] ?>&qty=<?= $_GET['qty'] - 1 ?>"
+                                class="qty-btn">−</a>
+                            <?php else: ?>
+                                <span class="qty-btn disabled-btn">−</span>
+                            <?php endif; ?>
+
+                            <span class="qty-number">
+                                <?= isset($_GET['qty']) ? (int)$_GET['qty'] : 1 ?>
+                            </span>
+
+                            <a href="detail.php?id=<?= $book['id'] ?>&qty=<?= isset($_GET['qty']) ? $_GET['qty'] + 1 : 2 ?>"
+                            class="qty-btn">+</a>
+
+                        </div>
+
+                        <!-- STOCK -->
+                        <span class="stock-text">
+                            Còn <?= $book['quantity'] ?> sản phẩm
+                        </span>
 
                     </div>
 
@@ -164,20 +202,115 @@ if (!$book) {
 
     <!-- BOX DƯỚI -->
     <div class="detail-bottom-box mt-4">
-        <div class="row text-center info-tabs">
-            <div class="col-md-4">Mô tả sản phẩm</div>
-            <div class="col-md-4">Thông tin chi tiết</div>
-            <div class="col-md-4">Đánh giá</div>
+
+        <!-- TABS -->
+        <div class="detail-tabs">
+
+            <button class="tab-btn active" data-tab="description">
+                Mô tả sản phẩm
+            </button>
+
+            <button class="tab-btn" data-tab="info">
+                Thông tin chi tiết
+            </button>
+
+            <button class="tab-btn" data-tab="review">
+                Đánh giá
+            </button>
+
         </div>
 
-        <div class="content-box mt-4">
-            <p>
-                <?= $book['description'] ?? 'Nội dung sách đang được cập nhật. Đây là nơi hiển thị mô tả chi tiết về nội dung sách, giá trị mang lại và lý do nên sở hữu cuốn sách này.' ?>
-            </p>
+        <!-- CONTENT -->
+        <div class="tab-content-box">
+
+            <!-- DESCRIPTION -->
+            <div class="tab-content active" id="description">
+
+                <p>
+                    <?= $book['description'] ?? 'Nội dung đang cập nhật...' ?>
+                </p>
+
+            </div>
+
+            <!-- INFO -->
+            <div class="tab-content" id="info">
+
+                <p><strong>Tác giả:</strong> <?= $book['author'] ?></p>
+
+                <p><strong>Số lượng:</strong> <?= $book['quantity'] ?></p>
+
+                <p><strong>Giá:</strong> <?= number_format($book['price']) ?>đ</p>
+
+            </div>
+
+            <!-- REVIEW -->
+            <div class="tab-content" id="review">
+
+                <?php
+                $reviews = mysqli_query($conn, "
+                    SELECT reviews.*, users.name
+                    FROM reviews
+                    JOIN users ON reviews.user_id = users.id
+                    WHERE book_id = $id
+                    ORDER BY reviews.created_at DESC
+                ");
+                ?>
+
+                <?php if(mysqli_num_rows($reviews) > 0): ?>
+
+                    <?php while($review = mysqli_fetch_assoc($reviews)) { ?>
+
+                        <div class="review-item">
+
+                            <h6><?= $review['name'] ?></h6>
+
+                            <p class="review-stars">
+                                <?= str_repeat('⭐', $review['rating']) ?>
+                            </p>
+
+                            <p class="review-comment">
+                                <?= $review['comment'] ?>
+                            </p>
+
+                        </div>
+
+                    <?php } ?>
+
+                <?php else: ?>
+
+                    <p>Chưa có đánh giá nào.</p>
+
+                <?php endif; ?>
+
+            </div>
+
         </div>
+
     </div>
 
 </div>
+<script>
 
+const tabs = document.querySelectorAll('.tab-btn');
+const contents = document.querySelectorAll('.tab-content');
+
+tabs.forEach(tab => {
+
+    tab.addEventListener('click', () => {
+
+        tabs.forEach(btn => btn.classList.remove('active'));
+        contents.forEach(content => content.classList.remove('active'));
+
+        tab.classList.add('active');
+
+        document
+            .getElementById(tab.dataset.tab)
+            .classList.add('active');
+
+    });
+
+});
+
+</script>
 </body>
 </html>

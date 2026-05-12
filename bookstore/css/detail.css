@@ -41,122 +41,174 @@
     padding: 0;
 }
 
-/* Giá tiền */
-.book-price {
-    font-size: 24px;
-    font-weight: 700;
-    color: #1f5eff;
-    text-align: left;
+/* ===== PRICE ===== */
+
+.price-box {
+    margin-bottom: 18px;
 }
 
-/* Box số lượng */
+.book-price {
+    font-size: 52px;
+    font-weight: 800;
+    color: #1f5eff;
+    line-height: 1;
+}
+
+/* ===== LABEL ===== */
+
+.qty-label {
+    font-size: 16px;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 12px;
+}
+
+/* ===== WRAPPER ===== */
+
+.qty-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-bottom: 28px;
+}
+
+/* ===== QTY BOX ===== */
+
 .qty-box {
     display: flex;
     align-items: center;
-    gap: 24px;
-    margin-top: 12px;
+    border: 1px solid #dfe3eb;
+    border-radius: 14px;
+    overflow: hidden;
+    background: #ffffff;
 }
 
-/* Nút + - hình tròn */
+/* BUTTON */
+
 a.qty-btn,
 span.qty-btn {
-    font-size: 22px !important;
-    font-weight: 700 !important;
-    color: #111 !important;
-    text-decoration: none !important;
-
-    width: 42px;
-    height: 42px;
-
-    border: 1px solid #dddddd;
-    border-radius: 50%;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    background: #ffffff;
-    transition: 0.2s;
-}
-
-/* Hover */
-a.qty-btn:hover {
-    background: #f7f7f7 !important;
-    color: #111 !important;
-    text-decoration: none !important;
-}
-
-/* Số lượng */
-.qty-number {
-    font-size: 20px !important;
-    font-weight: 700 !important;
-    min-width: 30px;
-    text-align: center;
-}
-
-/* Nút disable */
-.disabled-btn {
-    opacity: 0.4;
-    cursor: not-allowed;
-    pointer-events: none;
-}
-
-/* Nút thêm vào giỏ */
-
-.action-buttons {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    margin-top: 20px;
-}
-
-/* Add to cart */
-.add-cart-btn {
-    height: 54px;
-    background: #1f5eff !important;
-    color: #ffffff !important;
-    font-weight: 700;
-    font-size: 16px;
-    border: none;
-    border-radius: 14px;
-    padding: 0 28px;
-    min-width: 220px;
-
-    display: flex; 
-    align-items: center; 
-    justify-content: center;
-
-    box-shadow: 0 6px 18px rgba(31, 94, 255, 0.15);
-    transition: 0.2s;
-}
-
-.add-cart-btn:hover {
-    background: #1749d1 !important;
-    color: #ffffff !important;
-    transform: translateY(-1px);
-}
-
-/* Wishlist */
-.wishlist-btn {
     width: 54px;
     height: 54px;
-    border: 1px solid #dfe6f2;
-    border-radius: 14px;
-    background: #ffffff;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
     font-size: 22px;
-    color: #1f5eff;
+    font-weight: 700;
+
+    color: #111;
+    text-decoration: none;
+
+    background: #ffffff;
     transition: 0.2s;
 }
 
+/* BORDER */
+
+.qty-number {
+    width: 56px;
+    height: 54px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-left: 1px solid #dfe3eb;
+    border-right: 1px solid #dfe3eb;
+
+    font-size: 20px;
+    font-weight: 700;
+}
+
+/* HOVER */
+
+a.qty-btn:hover {
+    background: #f5f7fb;
+    color: #1f5eff;
+}
+
+/* DISABLE */
+
+.disabled-btn {
+    opacity: 0.4;
+    pointer-events: none;
+}
+
+/* STOCK */
+
+.stock-text {
+    font-size: 16px;
+    color: #374151;
+    font-weight: 500;
+}
+
+/* ===== BUTTONS ===== */
+
+.action-buttons {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 10px;
+}
+
+.action-buttons form {
+    flex: 1;
+}
+
+/* ADD CART */
+
+.add-cart-btn {
+    width: 100%;
+    height: 60px;
+
+    border: none;
+    border-radius: 16px;
+
+    background: #1f5eff !important;
+    color: #ffffff !important;
+
+    font-size: 20px;
+    font-weight: 700;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    transition: 0.25s;
+}
+
+.add-cart-btn:hover {
+    background: #1749d1 !important;
+    transform: translateY(-2px);
+}
+
+/* WISHLIST */
+
+.wishlist-btn {
+    width: 60px;
+    height: 60px;
+
+    border: 1px solid #dfe3eb;
+    border-radius: 16px;
+
+    background: #ffffff;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 26px;
+    color: #4b5563;
+
+    transition: 0.25s;
+}
+
 .wishlist-btn:hover {
-    background: #f5f8ff;
     border-color: #1f5eff;
     color: #ff4d6d;
+    background: #f8fbff;
 }
 
 /* Thông tin dịch vụ */
@@ -181,4 +233,109 @@ a.qty-btn:hover {
     font-size: 22px;
     color: #1f5eff;
     min-width: 24px;
+}
+
+.review-item {
+    padding: 18px 0;
+    border-bottom: 1px solid #eceff5;
+}
+
+.review-item h6 {
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.review-stars {
+    margin-bottom: 8px;
+    font-size: 18px;
+}
+
+.review-comment {
+    color: #444;
+    line-height: 1.6;
+}
+
+/* ===== DETAIL TABS ===== */
+
+.detail-bottom-box {
+    background: #ffffff;
+    border: 1px solid #e8edf5;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-top: 32px;
+}
+
+/* Tabs */
+.detail-tabs {
+    display: flex;
+    border-bottom: 1px solid #e8edf5;
+}
+
+.tab-btn {
+    flex: 1;
+    height: 58px;
+
+    border: none;
+    background: #ffffff;
+
+    font-size: 17px;
+    font-weight: 600;
+    color: #444;
+
+    transition: 0.2s;
+
+    position: relative;
+}
+
+.tab-btn:hover {
+    background: #f8faff;
+}
+
+.tab-btn.active {
+    color: #1f5eff;
+}
+
+.tab-btn.active::after {
+    content: "";
+
+    position: absolute;
+    left: 0;
+    bottom: 0;
+
+    width: 100%;
+    height: 3px;
+
+    background: #1f5eff;
+}
+
+/* Content */
+.tab-content-box {
+    padding: 32px;
+}
+
+.tab-content {
+    display: none;
+    line-height: 1.9;
+    color: #333;
+    font-size: 16px;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Review */
+.review-item {
+    padding: 18px 0;
+    border-bottom: 1px solid #edf1f7;
+}
+
+.review-item:last-child {
+    border-bottom: none;
+}
+
+.review-stars {
+    font-size: 18px;
+    margin-bottom: 8px;
 }
