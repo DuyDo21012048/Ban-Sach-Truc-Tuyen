@@ -85,3 +85,314 @@ body {
 .stat-card h3 {
     font-weight: bold;
 }
+
+/* ===== LAYOUT ===== */
+
+body {
+    background: #f5f6fa;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    max-width: 1400px;
+}
+
+/* ===== SIDEBAR ===== */
+
+.user-sidebar {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 0;
+    overflow: hidden;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.05);
+}
+
+/* HEADER */
+
+.user-header {
+    background: linear-gradient(135deg, #2563eb, #9333ea);
+    padding: 32px 20px;
+    color: white;
+}
+
+.avatar {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    border: 4px solid white;
+    object-fit: cover;
+    margin-bottom: 14px;
+}
+
+.user-header h5 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.user-header p {
+    opacity: 0.9;
+    margin: 0;
+}
+
+/* ===== MENU ===== */
+
+.menu {
+    list-style: none;
+    padding: 18px;
+    margin: 0;
+}
+
+.menu li {
+    padding: 14px 16px;
+    border-radius: 12px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    font-size: 17px;
+    font-weight: 500;
+    transition: 0.2s;
+}
+
+.menu li i {
+    margin-right: 10px;
+}
+
+.menu li:hover,
+.menu li.active {
+    background: #eef2ff;
+    color: #2563eb;
+}
+
+/* ===== LOGOUT BUTTON ===== */
+
+.logout-btn {
+    margin: 20px 18px 18px;
+    height: 52px;
+    width: calc(100% - 36px);
+
+    border: 1.5px solid #ff4d4f;
+    border-radius: 14px;
+
+    background: #ffffff;
+    color: #ff4d4f;
+
+    font-size: 16px;
+    font-weight: 600;
+
+    transition: all 0.25s ease;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    text-decoration: none;
+}
+
+.logout-btn:hover {
+    background: #ff4d4f;
+    color: #ffffff;
+    transform: translateY(-2px);
+
+    box-shadow: 0 8px 18px rgba(255, 77, 79, 0.2);
+}
+
+.logout-btn:active {
+    transform: scale(0.98);
+}
+
+/* ===== INFO BOX ===== */
+
+.info-box {
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.05);
+}
+
+.info-box h4 {
+    font-size: 34px;
+    font-weight: 700;
+}
+
+.info-box p {
+    font-size: 17px;
+    margin-bottom: 24px;
+}
+
+/* EDIT */
+
+.edit-btn {
+    text-decoration: none;
+    color: #2563eb;
+    font-weight: 600;
+}
+
+/* ===== STATS ===== */
+
+.stat-card {
+    background: white;
+    border-radius: 18px;
+    padding: 28px;
+    text-align: center;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.05);
+    transition: 0.25s;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+}
+
+.stat-card i {
+    font-size: 34px;
+    margin-bottom: 12px;
+    color: #2563eb;
+}
+
+.stat-card h3 {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.stat-card p {
+    color: #666;
+    margin: 0;
+}
+
+/* ===== BACK LINK ===== */
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+
+    margin-bottom: 18px;
+
+    color: #334155;
+    text-decoration: none;
+
+    font-size: 20px;
+    font-weight: 600;
+
+    transition: all 0.2s ease;
+}
+
+.back-link i {
+    font-size: 22px;
+    transition: transform 0.2s ease;
+}
+
+/* Hover */
+.back-link:hover {
+    color: #2563eb;
+}
+
+.back-link:hover i {
+    transform: translateX(-4px);
+}
+
+/* ===== INFO BOX ===== */
+
+.info-box {
+    background: #ffffff;
+    border-radius: 22px;
+    padding: 34px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+}
+
+/* GRID */
+
+.info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 34px 50px;
+    margin-top: 30px;
+}
+
+/* ITEM */
+
+.info-item {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+
+    align-items: center;
+
+    padding-bottom: 14px;
+
+    border-bottom: 1px solid #e5e7eb;
+}
+
+/* LABEL */
+
+.info-label {
+    font-size: 17px;
+    font-weight: 700;
+    color: #111827;
+}
+
+/* VALUE */
+
+.info-value {
+    font-size: 17px;
+    color: #374151;
+    text-align: left;
+}
+
+/* ===== TITLE ===== */
+
+.info-title {
+    font-size: 20px;
+    font-weight: 800;
+    margin-bottom: 0;
+}
+
+/* ===== EDIT BUTTON ===== */
+
+.edit-btn {
+    border: none;
+    background: transparent;
+    color: #2563eb;
+
+    font-size: 20px;
+    font-weight: 600;
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    transition: 0.2s;
+}
+
+.edit-btn:hover {
+    opacity: 0.8;
+}
+
+/* ===== INPUT ===== */
+
+.profile-input {
+    height: 56px;
+    border-radius: 14px !important;
+    font-size: 17px;
+}
+
+/* ===== SAVE BUTTON ===== */
+
+.save-btn {
+    width: 100%;
+    height: 56px;
+
+    border: none;
+    border-radius: 14px;
+
+    background: #2563eb;
+    color: white;
+
+    font-size: 18px;
+    font-weight: 700;
+
+    transition: 0.2s;
+}
+
+.save-btn:hover {
+    background: #1749d1;
+}

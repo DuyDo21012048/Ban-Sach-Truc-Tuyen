@@ -53,10 +53,12 @@ $reviews = mysqli_query($conn, "
 <?php include 'header.php'; ?>
 
 <div class="container my-5">
+
     <!-- Back -->
     <a href="home.php" class="text-dark text-decoration-none fw-semibold">
-        ← Quay lại
+        ← Tiếp tục mua sắm
     </a>
+
     <!-- BOX TRÊN -->
     <div class="detail-top-box">
 

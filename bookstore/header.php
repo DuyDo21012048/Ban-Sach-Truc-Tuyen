@@ -49,7 +49,7 @@ if (isset($_SESSION['cart']) && is_array($_SESSION['cart'])) {
             <!-- LOGOUT -->
             <a href="logout.php" class="nav-link-custom logout-link">
                 <i class="bi bi-box-arrow-right"></i>
-                Logout
+                Đăng xuất
             </a>
 
             <?php else: ?>
@@ -57,7 +57,7 @@ if (isset($_SESSION['cart']) && is_array($_SESSION['cart'])) {
             <!-- LOGIN -->
                 <a href="login.php" class="nav-link-custom">
                     <i class="bi bi-person-circle me-1"></i>
-                    Login
+                    Đăng nhập
                 </a>
 
             <?php endif; ?>
@@ -65,7 +65,7 @@ if (isset($_SESSION['cart']) && is_array($_SESSION['cart'])) {
             <!-- Cart -->
             <a href="cart.php" class="nav-link-custom cart-link position-relative pe-4">
                 <i class="bi bi-cart3 me-1"></i>
-                Cart
+                Giỏ hàng
 
                 <?php if ($count > 0): ?>
                     <span class="cart-badge position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
