@@ -8,6 +8,16 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
 }
 
+.book-category {
+    margin-top: 10px;
+    font-size: 16px;
+    color: #4b5563;
+}
+
+.book-category strong {
+    color: #111827;
+}
+
 /* BOX ẢNH */
 .image-box {
     background: #ffffff;

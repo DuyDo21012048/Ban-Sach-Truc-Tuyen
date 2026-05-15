@@ -34,6 +34,17 @@ $reviews = mysqli_query($conn, "
     WHERE book_id = $id
     ORDER BY reviews.created_at DESC
 ");
+
+$categorySql = "
+    SELECT categories.name
+    FROM categories
+    JOIN book_categories
+        ON categories.id = book_categories.category_id
+    WHERE book_categories.book_id = $id
+";
+
+$categoryResult = mysqli_query($conn, $categorySql);
+
 ?>
 
 <!DOCTYPE html>
@@ -101,6 +112,20 @@ $reviews = mysqli_query($conn, "
                         <strong>
                             <?= $book['author'] ?? 'Đang cập nhật' ?>
                         </strong>
+                    </p>
+
+                    <p class="book-category">
+                        Thể loại:
+
+                        <?php
+                        $categories = [];
+
+                        while ($cat = mysqli_fetch_assoc($categoryResult)) {
+                            $categories[] = $cat['name'];
+                        }
+
+                        echo implode(', ', $categories);
+                        ?>
                     </p>
 
                     <!-- PRICE -->
