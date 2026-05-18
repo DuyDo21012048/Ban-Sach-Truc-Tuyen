@@ -92,7 +92,7 @@ $selectedCategories = isset($_GET['category'])
                                   </div>
 
                                   <!-- CATEGORY CON -->
-                                  <div class="children" id="children-<?= $parentId ?>" style="display:none;">
+                                  <div class="children" id="children-<?= $parentId ?>">
 
                                       <?php while($child = mysqli_fetch_assoc($children)) { ?>
 
@@ -228,7 +228,7 @@ document.querySelectorAll('.category-group').forEach(group => {
 
     const toggleBtn = group.querySelector('.toggle-btn');
 
-    const childList = group.querySelector('.child-list');
+    const childList = group.querySelector('.children');
 
     /* TICK CATEGORY CHA */
 
@@ -268,18 +268,14 @@ document.querySelectorAll('.category-group').forEach(group => {
 
     toggleBtn.addEventListener('click', () => {
 
-        childList.classList.toggle('hidden');
-
-        if(childList.classList.contains('hidden')){
+        if(childList.style.display === 'block'){
 
             childList.style.display = 'none';
-
             toggleBtn.innerHTML = '+';
 
         }else{
 
             childList.style.display = 'block';
-
             toggleBtn.innerHTML = '-';
 
         }

@@ -1,3 +1,34 @@
+/* ===== BACK LINK ===== */
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+
+    margin-bottom: 18px;
+
+    color: #334155;
+    text-decoration: none;
+
+    font-size: 20px;
+    font-weight: 600;
+
+    transition: all 0.2s ease;
+}
+
+.back-link i {
+    font-size: 22px;
+    transition: transform 0.2s ease;
+}
+
+/* Hover */
+.back-link:hover {
+    color: #2563eb;
+}
+
+.back-link:hover i {
+    transform: translateX(-4px);
+}
 /* ===== BOX TRÊN ===== */
 
 .detail-top-box {
@@ -245,25 +276,29 @@ a.qty-btn:hover {
     min-width: 24px;
 }
 
-.review-item {
+.review-item{
     padding: 18px 0;
-    border-bottom: 1px solid #eceff5;
+    border-bottom: 1px solid #e8edf5;
 }
 
-.review-item h6 {
-    font-size: 17px;
+.review-item:last-child{
+    border-bottom: none;
+}
+
+.review-item h6{
+    font-size: 16px;
     font-weight: 700;
     margin-bottom: 6px;
 }
 
-.review-stars {
+.review-stars{
+    color: #f59e0b;
     margin-bottom: 8px;
-    font-size: 18px;
 }
 
-.review-comment {
-    color: #444;
-    line-height: 1.6;
+.review-comment{
+    color: #374151;
+    line-height: 1.7;
 }
 
 /* ===== DETAIL TABS ===== */

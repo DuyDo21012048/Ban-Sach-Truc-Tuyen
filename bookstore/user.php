@@ -39,7 +39,37 @@ $user = mysqli_fetch_assoc($result);
             <div class="user-sidebar">
 
                 <div class="user-header text-center">
-                    <img src="https://i.pravatar.cc/100" class="avatar">
+
+                    <?php
+
+                    $avatar = !empty($user['avatar'])
+                        ? 'uploads/avatars/' . $user['avatar']
+                        : 'https://i.pravatar.cc/100';
+
+                    ?>
+
+                    <img src="<?= $avatar ?>" class="avatar">
+
+                    <form action="upload_avatar.php"
+                        method="POST"
+                        enctype="multipart/form-data"
+                        class="avatar-form">
+
+                        <input
+                            type="file"
+                            name="avatar"
+                            id="avatarInput"
+                            hidden
+                            accept="image/*"
+                        >
+
+                        <label for="avatarInput" class="change-avatar-btn">
+                            <i class="bi bi-camera"></i>
+                            Đổi ảnh
+                        </label>
+
+                    </form>
+
                     <h5><?= $user['name'] ?></h5>
                     <p><?= $user['email'] ?></p>
                 </div>
@@ -217,6 +247,16 @@ editBtn.addEventListener('click', () => {
 
 });
 
+</script>
+
+<script>
+const avatarInput = document.getElementById('avatarInput');
+
+avatarInput.addEventListener('change', () => {
+
+    avatarInput.form.submit();
+
+});
 </script>
 
 </body>

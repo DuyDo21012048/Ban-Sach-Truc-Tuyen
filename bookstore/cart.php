@@ -22,8 +22,9 @@ session_start();
 <div class="container mt-5">
 
     <!-- Back -->
-    <a href="home.php" class="text-dark text-decoration-none fw-semibold">
-        ← Tiếp tục mua sắm
+    <a href="home.php" class="back-link">
+        <i class="bi bi-arrow-left"></i>
+        Tiếp tục mua sắm
     </a>
 
     <!-- Title -->

@@ -9,6 +9,17 @@ if ($id <= 0) {
 }
 $result = mysqli_query($conn, "SELECT * FROM books WHERE id = $id");
 $book = mysqli_fetch_assoc($result);
+
+$qty = isset($_GET['qty']) ? (int)$_GET['qty'] : 1;
+
+if($qty < 1){
+    $qty = 1;
+}
+
+if($qty > $book['quantity']){
+    $qty = $book['quantity'];
+}
+
 if (!$book) {
     die("Sản phẩm không tồn tại.");
 }
@@ -66,8 +77,9 @@ $categoryResult = mysqli_query($conn, $categorySql);
 <div class="container my-5">
 
     <!-- Back -->
-    <a href="home.php" class="text-dark text-decoration-none fw-semibold">
-        ← Tiếp tục mua sắm
+    <a href="home.php" class="back-link">
+        <i class="bi bi-arrow-left"></i>
+        Quay lại
     </a>
 
     <!-- BOX TRÊN -->
@@ -97,14 +109,31 @@ $categoryResult = mysqli_query($conn, $categorySql);
                     </h2>
 
                     <p class="book-rating">
-                        <i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star-half"></i>
+
+                        <?php
+
+                        $fullStars = floor($avgRating);
+
+                        for($i = 1; $i <= 5; $i++){
+
+                            if($i <= $fullStars){
+
+                                echo '<i class="bi bi-star-fill"></i>';
+
+                            }else{
+
+                                echo '<i class="bi bi-star"></i>';
+
+                            }
+                        }
+
+                        ?>
+
                         <span>
-                            (<?= $avgRating ?> đánh giá)
+                            <?= $avgRating ?>/5
+                            (<?= $totalReviews ?> đánh giá)
                         </span>
+
                     </p>
 
                     <p class="book-author">
@@ -143,19 +172,27 @@ $categoryResult = mysqli_query($conn, $categorySql);
 
                         <div class="qty-box">
 
-                            <?php if (isset($_GET['qty']) && $_GET['qty'] > 1): ?>
-                                <a href="detail.php?id=<?= $book['id'] ?>&qty=<?= $_GET['qty'] - 1 ?>"
+                            <?php if ($qty > 1): ?>
+                                <a href="detail.php?id=<?= $book['id'] ?>&qty=<?= $qty - 1 ?>"
                                 class="qty-btn">−</a>
                             <?php else: ?>
                                 <span class="qty-btn disabled-btn">−</span>
                             <?php endif; ?>
 
                             <span class="qty-number">
-                                <?= isset($_GET['qty']) ? (int)$_GET['qty'] : 1 ?>
+                                <?= $qty ?>
                             </span>
 
-                            <a href="detail.php?id=<?= $book['id'] ?>&qty=<?= isset($_GET['qty']) ? $_GET['qty'] + 1 : 2 ?>"
-                            class="qty-btn">+</a>
+                            <?php if($qty < $book['quantity']): ?>
+
+                                <a href="detail.php?id=<?= $book['id'] ?>&qty=<?= $qty + 1 ?>"
+                                class="qty-btn">+</a>
+
+                            <?php else: ?>
+
+                                <span class="qty-btn disabled-btn">+</span>
+
+                            <?php endif; ?>
 
                         </div>
 
@@ -181,7 +218,7 @@ $categoryResult = mysqli_query($conn, $categorySql);
                             <input
                                 type="hidden"
                                 name="quantity"
-                                value="<?= isset($_GET['qty']) ? (int)$_GET['qty'] : 1 ?>"
+                                value="<?= $qty ?>"
                             >
 
                             <button class="btn add-cart-btn">
@@ -272,16 +309,6 @@ $categoryResult = mysqli_query($conn, $categorySql);
 
             <!-- REVIEW -->
             <div class="tab-content" id="review">
-
-                <?php
-                $reviews = mysqli_query($conn, "
-                    SELECT reviews.*, users.name
-                    FROM reviews
-                    JOIN users ON reviews.user_id = users.id
-                    WHERE book_id = $id
-                    ORDER BY reviews.created_at DESC
-                ");
-                ?>
 
                 <?php if(mysqli_num_rows($reviews) > 0): ?>
 

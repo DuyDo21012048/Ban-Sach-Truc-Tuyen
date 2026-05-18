@@ -1,3 +1,35 @@
+/* ===== BACK LINK ===== */
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+
+    margin-bottom: 18px;
+
+    color: #334155;
+    text-decoration: none;
+
+    font-size: 20px;
+    font-weight: 600;
+
+    transition: all 0.2s ease;
+}
+
+.back-link i {
+    font-size: 22px;
+    transition: transform 0.2s ease;
+}
+
+/* Hover */
+.back-link:hover {
+    color: #2563eb;
+}
+
+.back-link:hover i {
+    transform: translateX(-4px);
+}
+
 .summary-row,
 .summary-total {
     display: flex;
