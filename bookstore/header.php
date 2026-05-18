@@ -25,15 +25,29 @@ if (isset($_SESSION['cart']) && is_array($_SESSION['cart'])) {
         </a>
 
         <!-- Search -->
-        <form action="search.php" method="GET" class="search-form">
-            <input
-                type="text"
-                name="keyword"
-                class="form-control search-input"
-                placeholder="Tìm kiếm sách..."
-                value="<?= isset($_GET['keyword']) ? $_GET['keyword'] : '' ?>"
-            >
-        </form>
+        <div class="search-wrapper">
+
+                <div class="search-wrapper">
+
+                    <form action="search.php" method="GET" class="search-form">
+
+                        <input
+                            type="text"
+                            name="keyword"
+                            class="form-control search-input"
+                            placeholder="Tìm kiếm sách..."
+                            value="<?= isset($_GET['keyword']) ? $_GET['keyword'] : '' ?>"
+                        >
+
+                        <button type="submit" class="search-btn">
+                            <i class="bi bi-search"></i>
+                        </button>
+
+                    </form>
+
+                </div>
+
+        </div>
 
         <!-- Right Menu -->
         <div class="nav-right">
@@ -41,7 +55,7 @@ if (isset($_SESSION['cart']) && is_array($_SESSION['cart'])) {
             <!-- USER -->
             <?php if (isset($_SESSION['user_id'])): ?>
 
-                <a href="user.php" class="nav-link-custom">
+                <a href="user.php" class="nav-link-custom user-link">
                     <i class="bi bi-person"></i>
                     <?= $_SESSION['user_name'] ?>
                 </a>

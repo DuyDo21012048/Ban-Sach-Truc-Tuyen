@@ -2,6 +2,15 @@
 include 'db.php';
 session_start();
 
+$parentCategories = mysqli_query($conn, "
+    SELECT * FROM categories
+    WHERE parent_id IS NULL
+");
+
+$selectedCategories = isset($_GET['category'])
+    ? $_GET['category']
+    : [];
+
 $conditions = [];
 
 /* Từ khóa */
@@ -28,7 +37,26 @@ if (!empty($_GET['price'])) {
     $conditions[] = "(" . implode(" OR ", $priceConditions) . ")";
 }
 
-$sql = "SELECT * FROM books";
+/* CATEGORY */
+
+if (!empty($_GET['category'])) {
+
+    $categoryIds = array_map('intval', $_GET['category']);
+
+    $ids = implode(',', $categoryIds);
+
+    $conditions[] = "
+        books.id IN (
+
+            SELECT book_id
+            FROM book_categories
+            WHERE category_id IN ($ids)
+
+        )
+    ";
+}
+
+$sql = "SELECT DISTINCT books.* FROM books";
 
 if (!empty($conditions)) {
     $sql .= " WHERE " . implode(" AND ", $conditions);
@@ -90,6 +118,102 @@ $totalResult = mysqli_num_rows($result);
                         <label>Trên 500.000đ</label>
                     </div>
 
+                    <hr>
+
+                    <p><strong>Thể loại</strong></p>
+
+                    <?php while($parent = mysqli_fetch_assoc($parentCategories)) { ?>
+
+                        <?php
+                        $parentId = $parent['id'];
+
+                        $children = mysqli_query($conn, "
+                            SELECT * FROM categories
+                            WHERE parent_id = $parentId
+                        ");
+
+                        $hasChecked = false;
+
+                        foreach($selectedCategories as $selected){
+                            $checkQuery = mysqli_query($conn, "
+                                SELECT * FROM categories
+                                WHERE id = $selected
+                                AND parent_id = $parentId
+                            ");
+
+                            if(mysqli_num_rows($checkQuery) > 0){
+                                $hasChecked = true;
+                                break;
+                            }
+                        }
+                        ?>
+
+                        <div class="search-category-group">
+
+                            <!-- HEADER -->
+                            <div class="parent-header">
+
+                                <div class="parent-left">
+
+                                    <input
+                                        type="checkbox"
+                                        class="parent-checkbox"
+                                        <?= $hasChecked ? 'checked' : '' ?>
+                                    >
+
+                                    <h6 class="search-parent">
+                                        <?= $parent['name'] ?>
+                                    </h6>
+
+                                </div>
+
+                                <button
+                                    type="button"
+                                    class="toggle-btn <?= $hasChecked ? 'active' : '' ?>"
+                                    onclick="toggleCategory(<?= $parentId ?>, this)"
+                                >
+                                    <i class="bi bi-chevron-right"></i>
+                                </button>
+
+                            </div>
+
+                            <!-- CHILDREN -->
+                            <div
+                                class="children"
+                                id="children-<?= $parentId ?>"
+                                style="<?= $hasChecked ? 'display:block' : 'display:none' ?>"
+                            >
+
+                                <?php while($child = mysqli_fetch_assoc($children)) { ?>
+
+                                    <div class="form-check mb-2">
+
+                                        <input
+                                            class="form-check-input child-checkbox"
+                                            type="checkbox"
+                                            name="category[]"
+                                            value="<?= $child['id'] ?>"
+
+                                            <?= in_array($child['id'], $selectedCategories)
+                                                ? 'checked'
+                                                : ''
+                                            ?>
+                                        >
+
+                                        <label class="form-check-label">
+                                            <?= $child['name'] ?>
+                                        </label>
+
+                                    </div>
+
+                                <?php } ?>
+
+                            </div>
+
+                        </div>
+
+                    <?php } ?>
+
                     <button class="btn btn-primary mt-3 w-100">Lọc</button>
 
                 </div>
@@ -144,6 +268,66 @@ $totalResult = mysqli_num_rows($result);
 </div>
 
 </div>
+<script>
 
+function toggleCategory(id, btn){
+
+    const children =
+        document.getElementById(`children-${id}`);
+
+    if(children.style.display === 'block'){
+
+        children.style.display = 'none';
+
+        btn.classList.remove('active');
+
+    }else{
+
+        children.style.display = 'block';
+
+        btn.classList.add('active');
+    }
+}
+
+/* CHECKBOX CHA */
+
+document.querySelectorAll('.search-category-group').forEach(group => {
+
+    const parentCheckbox =
+        group.querySelector('.parent-checkbox');
+
+    const childCheckboxes =
+        group.querySelectorAll('.child-checkbox');
+
+    /* parent -> children */
+
+    parentCheckbox.addEventListener('change', () => {
+
+        childCheckboxes.forEach(child => {
+
+            child.checked = parentCheckbox.checked;
+
+        });
+
+    });
+
+    /* children -> parent */
+
+    childCheckboxes.forEach(child => {
+
+        child.addEventListener('change', () => {
+
+            const checked =
+                group.querySelectorAll('.child-checkbox:checked').length;
+
+            parentCheckbox.checked = checked > 0;
+
+        });
+
+    });
+
+});
+
+</script>
 </body>
 </html>

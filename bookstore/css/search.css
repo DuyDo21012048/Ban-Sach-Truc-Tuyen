@@ -2,13 +2,109 @@ body {
     background: #f5f6fa;
 }
 
-.filter-box {
-    background: #ffffff;
+/* FILTER */
+
+.filter-box{
+    background: #fff;
     padding: 24px;
     border-radius: 20px;
     border: 1px solid #e8edf5;
+
     position: sticky;
-    top: 120px;
+    top: 100px;
+}
+
+/* TITLE */
+
+.filter-box h5{
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 24px;
+}
+
+/* CATEGORY */
+
+.search-category-group{
+    margin-bottom:20px;
+}
+
+/* HEADER */
+
+.parent-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    margin-bottom:10px;
+}
+
+.parent-left{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+/* PARENT */
+
+.search-parent{
+    margin:0;
+    font-size:16px;
+    font-weight:700;
+    color:#1f5eff;
+}
+
+/* TOGGLE */
+
+.toggle-btn{
+    width:28px;
+    height:28px;
+
+    border:none;
+    border-radius:8px;
+
+    background:#eef3ff;
+    color:#1f5eff;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    transition:0.25s;
+}
+
+.toggle-btn:hover{
+    background:#1f5eff;
+    color:#fff;
+}
+
+.toggle-btn.active{
+    transform:rotate(90deg);
+}
+
+/* CHILDREN */
+
+.children{
+    padding-left:8px;
+}
+
+/* CHECKBOX */
+
+.form-check{
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.form-check-label{
+    cursor:pointer;
+}
+
+/* BUTTON */
+
+.filter-box .btn-primary{
+    height: 46px;
+    border-radius: 12px;
+    font-weight: 600;
 }
 
 .book-card {
