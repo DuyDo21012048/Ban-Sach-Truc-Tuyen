@@ -55,7 +55,8 @@ if (isset($_SESSION['cart']) && is_array($_SESSION['cart'])) {
             <!-- USER -->
             <?php if (isset($_SESSION['user_id'])): ?>
 
-                <a href="user.php" class="nav-link-custom user-link">
+                <a href="user.php?back=<?= urlencode($_SERVER['REQUEST_URI']) ?>"
+                    class="nav-link-custom user-link">
                     <i class="bi bi-person"></i>
                     <?= $_SESSION['user_name'] ?>
                 </a>
@@ -77,7 +78,8 @@ if (isset($_SESSION['cart']) && is_array($_SESSION['cart'])) {
             <?php endif; ?>
 
             <!-- Cart -->
-            <a href="cart.php" class="nav-link-custom cart-link position-relative pe-4">
+            <a href="cart.php?back=<?= urlencode($_SERVER['REQUEST_URI']) ?>"
+                class="nav-link-custom cart-link position-relative pe-4">
                 <i class="bi bi-cart3 me-1"></i>
                 Giỏ hàng
 

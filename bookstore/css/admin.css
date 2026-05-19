@@ -10,112 +10,192 @@ body {
     font-weight: 600;
 }
 
-/* Header */
-.admin-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 30px 0;
+.admin-topbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:40px;
+    gap:20px;
 }
 
-.admin-title {
-    font-size: 42px;
-    font-weight: 700;
-    margin-bottom: 6px;
+/* 3 CỘT BẰNG NHAU */
+
+.topbar-left,
+.topbar-center,
+.topbar-right{
+    flex:1;
 }
 
-.admin-subtitle {
-    color: #6b7280;
-    font-size: 17px;
+/* LEFT */
+
+.topbar-left{
+    display:flex;
+    gap:18px;
+    justify-content:center;
 }
 
-/* Add button */
-.add-book-btn {
-    background: #1f5eff;
-    color: white;
-    text-decoration: none;
-    padding: 14px 24px;
-    border-radius: 14px;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+/* CENTER */
+
+.topbar-center{
+    text-align:center;
 }
 
-.add-book-btn:hover {
-    color: white;
-    background: #1749d1;
+.admin-title{
+    font-size:54px;
+    font-weight:800;
+    margin:0;
+    line-height:1.1;
+    color:#111827;
+}
+
+.admin-subtitle{
+    margin-top:10px;
+    font-size:17px;
+    color:#6b7280;
+}
+
+/* RIGHT */
+
+.topbar-right{
+    display:flex;
+    justify-content:center;
+}
+
+/* BUTTON */
+
+.add-book-btn{
+    background:#2563eb;
+    color:#fff;
+    text-decoration:none;
+    padding:14px 24px;
+    border-radius:14px;
+    font-weight:600;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    transition:0.2s;
+}
+
+.add-book-btn:hover{
+    background:#1d4ed8;
+    color:#fff;
+    transform:translateY(-2px);
+}
+
+/* STATS */
+
+.mini-stat{
+    background:#fff;
+    border:1px solid #eee;
+    border-radius:18px;
+    padding:18px 24px;
+    display:flex;
+    align-items:center;
+    gap:16px;
+    min-width:190px;
+}
+
+.mini-stat i{
+    font-size:34px;
+    color:#2563eb;
+}
+
+.mini-stat h4{
+    margin:0;
+    font-size:32px;
+    font-weight:700;
+}
+
+.mini-stat p{
+    margin:0;
+    color:#6b7280;
 }
 
 /* Search */
-.search-wrapper {
-    background: white;
-    padding: 18px;
-    border-radius: 18px;
-    margin-bottom: 30px;
-    box-shadow: 0 4px 18px rgba(0,0,0,0.04);
+.search-wrapper{
+    margin-bottom:24px;
 }
 
-.admin-search {
-    height: 52px;
-    border-radius: 14px;
+.admin-search{
+    height:54px;
+    border-radius:14px;
+    border:1px solid #ddd;
+    padding:0 18px;
+    font-size:16px;
+}
+
+.admin-container{
+    padding-left: 40px;
+    padding-right: 40px;
 }
 
 /* Table */
-.table-box {
-    background: white;
-    border-radius: 20px;
-    overflow: hidden;
-    box-shadow: 0 6px 24px rgba(0,0,0,0.04);
+.table-box{
+    background:#fff;
+    border-radius:20px;
+    border:1px solid #eee;
+    width: 100%;
+    overflow: visible;
 }
 
-table th {
-    padding: 22px !important;
-    font-size: 14px;
-    font-weight: 700;
-    color: #4b5563;
-    text-align: center; /* căn giữa title */
-    vertical-align: middle;
+.table{
+    width: 100%;
+    table-layout: auto;
 }
 
-table td {
-    padding: 22px !important;
-    vertical-align: middle;
-    text-align: center;
+.table th{
+    background:#f8fafc;
+    padding:18px !important;
+    font-size:15px;
 }
 
-.admin-book-image {
-    width: 70px;
-    height: 90px;
-    object-fit: cover;
-    border-radius: 10px;
+.table td{
+    padding:18px !important;
+    vertical-align:middle;
 }
 
-.book-name {
-    font-weight: 600;
-    min-width: 180px;
+.admin-book-image{
+    width:70px;
+    height:95px;
+    object-fit:cover;
+    border-radius:10px;
 }
 
-.book-price {
-    color: #1f5eff;
-    font-weight: 700;
+.book-name{
+    font-weight:600;
+    max-width:220px;
 }
 
-.book-description {
-    max-width: 280px;
-    color: #6b7280;
+.book-price{
+    color:#2563eb;
+    font-weight:700;
+}
+
+.isbn-cell{
+    min-width:160px;
+    font-size:14px;
+    color:#555;
+}
+
+.table td{
+    white-space: nowrap;
+}
+
+
+.book-description{
+    max-width:260px;
+    color:#666;
+    white-space: normal !important;
+    line-height:1.5;
 }
 
 /* ===== ACTION COLUMN ===== */
 
-.action-buttons {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 18px;
-    min-width: 120px;
-    height: 100%;
+.action-buttons{
+    display:flex;
+    gap:10px;
 }
+
 
 /* icon edit */
 .edit-btn {
@@ -128,35 +208,25 @@ table td {
 }
 
 /* icon delete */
-.delete-btn {
-    color: #ff2d2d;
+.delete-btn{
+    width:38px;
+    height:38px;
+    border-radius:10px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-decoration:none;
+    color: red;
     font-size: 22px;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 /* hover nhẹ */
 .edit-btn:hover {
     color: #1749d1;
+    opacity:0.9;
 }
 
 .delete-btn:hover {
     color: #d60000;
-}
-
-.edit-btn {
-    color: #1f5eff;
-    font-size: 22px;
-}
-
-.delete-btn {
-    color: red;
-    font-size: 22px;
-}
-
-.edit-btn,
-.delete-btn {
-    text-decoration: none;
+    opacity:0.9;
 }

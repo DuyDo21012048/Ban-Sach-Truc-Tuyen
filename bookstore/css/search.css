@@ -126,10 +126,82 @@ body {
     object-fit: cover;
 }
 
-.book-price {
-    color: #1f5eff;
+/* CONTENT */
+
+.card-content{
+    padding: 18px;
+}
+
+/* TYPE */
+
+.book-type{
+    display: inline-block;
+
+    padding: 5px 10px;
+
+    border-radius: 999px;
+
+    background: #eef2ff;
+    color: #3155ff;
+
+    font-size: 12px;
     font-weight: 700;
-    font-size: 22px;
+
+    margin-bottom: 10px;
+}
+
+/* TITLE */
+
+.book-card h5{
+    font-size: 20px;
+    font-weight: 700;
+
+    line-height: 1.4;
+
+    min-height: 56px;
+
+    margin-bottom: 8px;
+}
+
+/* AUTHOR */
+
+.book-author{
+    color: #666;
+
+    font-size: 14px;
+
+    margin-bottom: 10px;
+}
+
+/* RATING */
+
+.book-rating{
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    color: #f59e0b;
+
+    font-size: 14px;
+
+    margin-bottom: 14px;
+}
+
+.book-rating span{
+    color: #777;
+    margin-left: 4px;
+}
+
+
+/* PRICE */
+
+.book-price{
+    font-size: 24px;
+    font-weight: 800;
+
+    color: #1f5eff;
+
+    margin-bottom: 18px;
 }
 
 .container {

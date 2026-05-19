@@ -230,32 +230,87 @@ $totalResult = mysqli_num_rows($result);
                     <div class="col-md-4 mb-4">
                         <div class="card book-card">
 
-                            <img src="<?= $row['image'] ?>" class="book-image">
+                            <a href="detail.php?id=<?= $row['id'] ?>&source=search" class="text-decoration-none text-dark">
+                                <img src="<?= $row['image'] ?>" class="book-image">
 
-                            <div class="p-3">
-                                <h5><?= $row['title'] ?></h5>
+                                <div class="card-content">
 
-                                <p class="book-price">
-                                    <?= number_format($row['price']) ?>đ
-                                </p>
+                                    <!-- HÌNH THỨC -->
+                                    <span class="book-type">
+                                        <?= $row['cover_type'] ?>
+                                    </span>
 
-                                <div class="d-flex gap-2">
+                                    <!-- TÊN -->
+                                    <h5>
+                                        <?= $row['title'] ?>
+                                    </h5>
 
-                                    <form action="add_to_cart.php" method="POST">
-                                        <input type="hidden" name="id" value="<?= $row['id'] ?>">
-                                        <button class="btn btn-primary">
-                                            Thêm vào giỏ
-                                        </button>
-                                    </form>
+                                    <!-- TÁC GIẢ -->
+                                    <p class="book-author">
+                                        <?= $row['author'] ?>
+                                    </p>
 
-                                    <a href="detail.php?id=<?= $row['id'] ?>"
-                                       class="btn btn-outline-primary">
-                                        Chi tiết
-                                    </a>
+                                    <!-- RATING -->
+                                    <div class="book-rating">
 
+                                        <?php
+
+                                        $ratingQuery = mysqli_query($conn, "
+                                            SELECT 
+                                                AVG(rating) as avg_rating,
+                                                COUNT(*) as total_reviews
+                                            FROM reviews
+                                            WHERE book_id = {$row['id']}
+                                        ");
+
+                                        $ratingData = mysqli_fetch_assoc($ratingQuery);
+
+                                        $avgRating = round($ratingData['avg_rating']);
+
+                                        for($i = 1; $i <= 5; $i++){
+
+                                            if($i <= $avgRating){
+
+                                                echo '<i class="bi bi-star-fill"></i>';
+
+                                            }else{
+
+                                                echo '<i class="bi bi-star"></i>';
+
+                                            }
+
+                                        }
+
+                                        ?>
+
+                                        <span>
+                                            (<?= $ratingData['total_reviews'] ?>)
+                                        </span>
+
+                                    </div>
+
+                                    <!-- PRICE -->
+                                    <p class="book-price">
+                                        <?= number_format($row['price']) ?>đ
+                                    </p>
+
+                                    <div class="d-flex gap-2">
+
+                                        <form action="add_to_cart.php" method="POST">
+                                            <input type="hidden" name="id" value="<?= $row['id'] ?>">
+                                            <button class="btn btn-primary">
+                                                Thêm vào giỏ
+                                            </button>
+                                        </form>
+
+                                        <a href="detail.php?id=<?= $row['id'] ?>&source=search"
+                                        class="btn btn-outline-primary">
+                                            Chi tiết
+                                        </a>
+
+                                    </div>
                                 </div>
-                            </div>
-
+                            </a>
                         </div>
                     </div>
 

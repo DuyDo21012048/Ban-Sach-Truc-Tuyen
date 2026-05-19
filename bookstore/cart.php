@@ -1,6 +1,14 @@
 <?php 
 include 'db.php';
 session_start();
+
+$backUrl = 'home.php';
+
+if(isset($_GET['back'])){
+
+    $backUrl = urldecode($_GET['back']);
+
+}
 ?>
 
 <!DOCTYPE html>
@@ -22,7 +30,7 @@ session_start();
 <div class="container mt-5">
 
     <!-- Back -->
-    <a href="home.php" class="back-link">
+    <a href="<?= $backUrl ?>" class="back-link">
         <i class="bi bi-arrow-left"></i>
         Tiếp tục mua sắm
     </a>

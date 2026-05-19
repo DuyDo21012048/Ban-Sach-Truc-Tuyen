@@ -229,31 +229,76 @@
 /* CONTENT */
 
 .card-content{
-    padding: 14px;
+    padding: 16px;
+}
+
+/* BOOK TYPE */
+
+.book-type{
+    display: inline-block;
+
+    padding: 5px 10px;
+
+    border-radius: 999px;
+
+    background: #eef2ff;
+    color: #3155ff;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    margin-bottom: 10px;
 }
 
 /* TITLE */
 
 .card h5{
-    font-size: 18px;
+    font-size: 20px;
     font-weight: 700;
-
-    margin-top: 12px;
-    margin-bottom: 10px;
 
     line-height: 1.4;
 
-    min-height: 50px;
+    margin-bottom: 6px;
+
+    min-height: 56px;
+}
+
+/* AUTHOR */
+
+.book-author{
+    color: #666;
+    font-size: 14px;
+
+    margin-bottom: 10px;
+}
+
+/* RATING */
+
+.book-rating{
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    margin-bottom: 14px;
+
+    color: #f59e0b;
+    font-size: 14px;
+}
+
+.book-rating span{
+    color: #666;
+    margin-left: 4px;
 }
 
 /* PRICE */
 
 .price{
-    font-size: 18px;
-    font-weight: 700;
+    font-size: 24px;
+    font-weight: 800;
+
     color: #1f5eff;
 
-    margin-bottom: 14px;
+    margin-bottom: 0;
 }
 
 /* BUTTON */

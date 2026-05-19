@@ -2,6 +2,14 @@
 session_start();
 include 'db.php';
 
+$backUrl = 'home.php';
+
+if(isset($_GET['back'])){
+
+    $backUrl = urldecode($_GET['back']);
+
+}
+
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit();
@@ -27,7 +35,7 @@ $user = mysqli_fetch_assoc($result);
 
 <div class="container mt-5">
 
-    <a href="home.php" class="back-link">
+    <a href="<?= $backUrl ?>" class="back-link">
         <i class="bi bi-arrow-left"></i>
         Quay lại
     </a>

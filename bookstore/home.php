@@ -160,10 +160,22 @@ $selectedCategories = isset($_GET['category'])
                           ";
                       }
 
-                      $sql = "
-                          SELECT * FROM books
-                          $where
-                      ";
+                        $sql = "
+                            SELECT 
+                                books.*,
+
+                                AVG(reviews.rating) AS avg_rating,
+                                COUNT(reviews.id) AS total_reviews
+
+                            FROM books
+
+                            LEFT JOIN reviews
+                                ON books.id = reviews.book_id
+
+                            $where
+
+                            GROUP BY books.id
+                        ";
 
                       $result = mysqli_query($conn, $sql);
 
@@ -175,16 +187,58 @@ $selectedCategories = isset($_GET['category'])
 
                         <div class="card">
 
-                            <a href="detail.php?id=<?= $row['id'] ?>" class="text-decoration-none text-dark">
+                            <a href="detail.php?id=<?= $row['id'] ?>&source=home"
+                            class="text-decoration-none text-dark">
 
                                 <img src="<?= $row['image'] ?>">
 
                                 <div class="card-content">
 
+                                    <!-- HÌNH THỨC -->
+                                    <span class="book-type">
+                                        <?= $row['cover_type'] ?>
+                                    </span>
+
+                                    <!-- TÊN -->
                                     <h5>
                                         <?= $row['title'] ?>
                                     </h5>
 
+                                    <!-- TÁC GIẢ -->
+                                    <p class="book-author">
+                                        <?= $row['author'] ?>
+                                    </p>
+
+                                    <!-- RATING -->
+                                    <div class="book-rating">
+
+                                        <?php
+
+                                        $rating = round($row['avg_rating']);
+
+                                        for($i = 1; $i <= 5; $i++){
+
+                                            if($i <= $rating){
+
+                                                echo '<i class="bi bi-star-fill"></i>';
+
+                                            }else{
+
+                                                echo '<i class="bi bi-star"></i>';
+
+                                            }
+
+                                        }
+
+                                        ?>
+
+                                        <span>
+                                            (<?= $row['total_reviews'] ?>)
+                                        </span>
+
+                                    </div>
+
+                                    <!-- PRICE -->
                                     <p class="price">
                                         <?= number_format($row['price']) ?>đ
                                     </p>
@@ -285,5 +339,6 @@ document.querySelectorAll('.category-group').forEach(group => {
 });
 
 </script>
+<?php include 'footer.php'; ?>
 </body>
 </html>

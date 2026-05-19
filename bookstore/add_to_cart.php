@@ -27,6 +27,6 @@ else {
     $_SESSION['cart'][$id] = $quantity;
 }
 
-header("Location: cart.php");
+header("Location: " . $_SERVER['HTTP_REFERER']);
 exit();
 ?>

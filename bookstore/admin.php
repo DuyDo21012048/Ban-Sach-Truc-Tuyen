@@ -2,7 +2,23 @@
 include 'db.php';
 session_start();
 
-$result = mysqli_query($conn, "SELECT * FROM books");
+$where = "";
+
+if(!empty($_GET['keyword'])){
+
+    $keyword = mysqli_real_escape_string($conn,$_GET['keyword']);
+
+    $where = "
+        WHERE title LIKE '%$keyword%'
+        OR author LIKE '%$keyword%'
+    ";
+}
+
+$result = mysqli_query($conn,"
+    SELECT * FROM books
+    $where
+");
+
 ?>
 
 <!DOCTYPE html>
@@ -18,42 +34,94 @@ $result = mysqli_query($conn, "SELECT * FROM books");
 </head>
 <body>
 
-<div class="container my-5">
+<div class="container-fluid admin-container my-4">
 
     <!-- Back -->
     <a href="home.php" class="back-link">
         <i class="bi bi-arrow-left"></i> Quay lại
     </a>
 
-    <!-- Header -->
-    <div class="admin-header">
+    <div class="admin-topbar">
 
-        <div>
-            <h1 class="admin-title">Quản lý sách</h1>
+        <!-- LEFT -->
+        <div class="topbar-left">
+
+            <div class="mini-stat">
+                <i class="bi bi-book"></i>
+
+                <div>
+                    <h4><?= mysqli_num_rows($result) ?></h4>
+                    <p>Tổng sách</p>
+                </div>
+            </div>
+
+            <div class="mini-stat">
+                <i class="bi bi-box-seam"></i>
+
+                <div>
+                    <h4>
+                        <?php
+                        $stockQuery = mysqli_query($conn,"
+                            SELECT SUM(quantity) as total_stock
+                            FROM books
+                        ");
+
+                        $stock = mysqli_fetch_assoc($stockQuery);
+
+                        echo $stock['total_stock'];
+                        ?>
+                    </h4>
+
+                    <p>Tồn kho</p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- CENTER -->
+        <div class="topbar-center">
+
+            <h1 class="admin-title">
+                Quản lý sách
+            </h1>
+
             <p class="admin-subtitle">
                 Thêm, sửa, xóa sách trong hệ thống
             </p>
+
         </div>
 
-        <a href="add_book.php" class="btn btn-primary">
-            + Thêm sách mới
-        </a>
+        <!-- RIGHT -->
+        <div class="topbar-right">
+
+            <a href="add_book.php" class="add-book-btn">
+                <i class="bi bi-plus-lg"></i>
+                Thêm sách mới
+            </a>
+
+        </div>
 
     </div>
 
     <!-- Search -->
     <div class="search-wrapper">
-        <input
-            type="text"
-            class="form-control admin-search"
-            placeholder="Tìm kiếm sách theo tên..."
-        >
+        <form method="GET">
+
+            <input
+                type="text"
+                name="keyword"
+                class="form-control admin-search"
+                placeholder="Tìm kiếm sách theo tên..."
+                value="<?= $_GET['keyword'] ?? '' ?>"
+            >
+
+        </form>
     </div>
 
     <!-- Table -->
-    <div class="table-box">
+    <div class="table-box shadow-sm">
 
-        <table class="table align-middle">
+        <table class="table align-middle table-hover">
 
             <thead>
                 <tr>
@@ -61,6 +129,12 @@ $result = mysqli_query($conn, "SELECT * FROM books");
                     <th>Tên sách</th>
                     <th>Tác giả</th>
                     <th>Giá</th>
+                    <th>Năm XB</th>
+                    <th>Ngôn ngữ</th>
+                    <th>Số trang</th>
+                    <th>Hình thức</th>
+                    <th>NXB</th>
+                    <th>ISBN</th>
                     <th>Mô tả</th>
                     <th>Số lượng</th>
                     <th>Mã ID</th>
@@ -91,6 +165,30 @@ $result = mysqli_query($conn, "SELECT * FROM books");
 
                     <td class="book-price">
                         <?= number_format($book['price']) ?>đ
+                    </td>
+
+                    <td>
+                        <?= $book['published_year'] ?>
+                    </td>
+
+                    <td>
+                        <?= $book['language'] ?>
+                    </td>
+
+                    <td>
+                        <?= $book['pages'] ?> trang
+                    </td>
+
+                    <td>
+                        <?= $book['cover_type'] ?>
+                    </td>
+
+                    <td>
+                        <?= $book['publisher'] ?>
+                    </td>
+
+                    <td class="isbn-cell">
+                        <?= $book['isbn'] ?>
                     </td>
 
                     <td class="book-description">

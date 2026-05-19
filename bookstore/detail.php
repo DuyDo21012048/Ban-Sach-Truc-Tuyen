@@ -77,7 +77,23 @@ $categoryResult = mysqli_query($conn, $categorySql);
 <div class="container my-5">
 
     <!-- Back -->
-    <a href="home.php" class="back-link">
+    <?php
+
+    $backUrl = 'home.php';
+
+    if(isset($_GET['source'])){
+
+        if($_GET['source'] == 'search'){
+
+            $backUrl = $_SERVER['HTTP_REFERER'] ?? 'search.php';
+
+        }
+
+    }
+
+    ?>
+
+    <a href="<?= $backUrl ?>" class="back-link">
         <i class="bi bi-arrow-left"></i>
         Quay lại
     </a>
