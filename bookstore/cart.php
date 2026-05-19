@@ -140,7 +140,7 @@ if(isset($_GET['back'])){
                                 Hãy thêm sản phẩm vào giỏ hàng để tiếp tục mua sắm
                             </p>
 
-                            <a href="home.php" class="btn explore-btn">
+                            <a href="<?= $backUrl ?>" class="btn explore-btn">
                                 Khám phá sách
                             </a>
 
