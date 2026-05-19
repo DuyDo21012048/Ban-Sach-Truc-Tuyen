@@ -369,6 +369,66 @@ a.qty-btn:hover {
 .tab-content.active {
     display: block;
 }
+/* ===== BOOK INFO GRID ===== */
+
+.book-info-grid{
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:0 40px;
+
+    padding:10px 0;
+}
+
+/* ROW */
+
+.info-row{
+    display:flex;
+
+    align-items:center;
+
+    padding:18px 0;
+
+    border-bottom:1px solid #edf1f7;
+}
+
+/* LABEL */
+
+.info-label{
+    width:160px;
+
+    font-weight:700;
+
+    color:#1f2937;
+
+    flex-shrink:0;
+}
+
+/* VALUE */
+
+.info-value{
+    color:#475569;
+
+    line-height:1.6;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:768px){
+
+    .book-info-grid{
+        grid-template-columns:1fr;
+    }
+
+    .info-row{
+        padding:14px 0;
+    }
+
+    .info-label{
+        width:140px;
+    }
+}
 
 /* Review */
 .review-item {

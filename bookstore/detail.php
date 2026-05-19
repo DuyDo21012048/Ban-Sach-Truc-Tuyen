@@ -299,11 +299,65 @@ $categoryResult = mysqli_query($conn, $categorySql);
             <!-- INFO -->
             <div class="tab-content" id="info">
 
-                <p><strong>Tác giả:</strong> <?= $book['author'] ?></p>
+                <div class="book-info-grid">
 
-                <p><strong>Số lượng:</strong> <?= $book['quantity'] ?></p>
+                    <div class="info-row">
+                        <span class="info-label">Tác giả:</span>
+                        <span class="info-value">
+                            <?= $book['author'] ?>
+                        </span>
+                    </div>
 
-                <p><strong>Giá:</strong> <?= number_format($book['price']) ?>đ</p>
+                    <div class="info-row">
+                        <span class="info-label">Nhà xuất bản:</span>
+                        <span class="info-value">
+                            <?= $book['publisher'] ?? 'Đang cập nhật' ?>
+                        </span>
+                    </div>
+
+                    <div class="info-row">
+                        <span class="info-label">Năm xuất bản:</span>
+                        <span class="info-value">
+                            <?= $book['published_year'] ?>
+                        </span>
+                    </div>
+
+                    <div class="info-row">
+                        <span class="info-label">Số trang:</span>
+                        <span class="info-value">
+                            <?= $book['pages'] ?> trang
+                        </span>
+                    </div>
+
+                    <div class="info-row">
+                        <span class="info-label">Ngôn ngữ:</span>
+                        <span class="info-value">
+                            <?= $book['language'] ?>
+                        </span>
+                    </div>
+
+                    <div class="info-row">
+                        <span class="info-label">Hình thức:</span>
+                        <span class="info-value">
+                            <?= $book['cover_type'] ?>
+                        </span>
+                    </div>
+
+                    <div class="info-row">
+                        <span class="info-label">ISBN:</span>
+                        <span class="info-value">
+                            <?= $book['isbn'] ?? 'Đang cập nhật' ?>
+                        </span>
+                    </div>
+
+                    <div class="info-row">
+                        <span class="info-label">Số lượng:</span>
+                        <span class="info-value">
+                            <?= $book['quantity'] ?>
+                        </span>
+                    </div>
+
+                </div>
 
             </div>
 
