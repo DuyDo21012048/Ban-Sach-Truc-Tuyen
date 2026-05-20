@@ -76,6 +76,124 @@ if (!$book) {
             >
         </div>
 
+        <!-- THÔNG TIN XUẤT BẢN -->
+
+        <div class="row">
+
+            <!-- Năm xuất bản -->
+            <div class="col-md-6 mb-4">
+
+                <label class="form-label">
+                    Năm xuất bản
+                </label>
+
+                <input
+                    type="number"
+                    name="published_year"
+                    class="form-control"
+                    value="<?= $book['published_year'] ?>"
+                >
+
+            </div>
+
+            <!-- Ngôn ngữ -->
+            <div class="col-md-6 mb-4">
+
+                <label class="form-label">
+                    Ngôn ngữ
+                </label>
+
+                <input
+                    type="text"
+                    name="language"
+                    class="form-control"
+                    value="<?= $book['language'] ?>"
+                >
+
+            </div>
+
+        </div>
+
+        <div class="row">
+
+            <!-- Số trang -->
+            <div class="col-md-6 mb-4">
+
+                <label class="form-label">
+                    Số trang
+                </label>
+
+                <input
+                    type="number"
+                    name="pages"
+                    class="form-control"
+                    value="<?= $book['pages'] ?>"
+                >
+
+            </div>
+
+            <!-- Hình thức -->
+            <div class="col-md-6 mb-4">
+
+                <label class="form-label">
+                    Hình thức
+                </label>
+
+                <select
+                    name="cover_type"
+                    class="form-select"
+                >
+
+                    <option value="Bìa mềm"
+                        <?= $book['cover_type'] == 'Bìa mềm' ? 'selected' : '' ?>>
+                        Bìa mềm
+                    </option>
+
+                    <option value="Bìa cứng"
+                        <?= $book['cover_type'] == 'Bìa cứng' ? 'selected' : '' ?>>
+                        Bìa cứng
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+        <!-- Nhà xuất bản -->
+
+        <div class="mb-4">
+
+            <label class="form-label">
+                Nhà xuất bản
+            </label>
+
+            <input
+                type="text"
+                name="publisher"
+                class="form-control"
+                value="<?= $book['publisher'] ?>"
+            >
+
+        </div>
+
+        <!-- ISBN -->
+
+        <div class="mb-4">
+
+            <label class="form-label">
+                ISBN
+            </label>
+
+            <input
+                type="text"
+                name="isbn"
+                class="form-control"
+                value="<?= $book['isbn'] ?>"
+            >
+
+        </div>        
+
         <!-- Số lượng -->
         <div class="mb-4">
             <label class="form-label">Số lượng *</label>

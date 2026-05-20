@@ -43,6 +43,124 @@
             <input type="text" name="author" class="form-control" required>
         </div>
 
+        <div class="row">
+
+            <!-- Năm xuất bản -->
+            <div class="col-md-6 mb-4">
+
+                <label class="form-label">
+                    Năm xuất bản
+                </label>
+
+                <input
+                    type="number"
+                    name="published_year"
+                    class="form-control"
+                    placeholder="VD: 2025"
+                >
+
+            </div>
+
+            <!-- Ngôn ngữ -->
+            <div class="col-md-6 mb-4">
+
+                <label class="form-label">
+                    Ngôn ngữ
+                </label>
+
+                <input
+                    type="text"
+                    name="language"
+                    class="form-control"
+                    placeholder="VD: Tiếng Việt"
+                >
+
+            </div>
+
+        </div>
+
+        <div class="row">
+
+            <!-- Số trang -->
+            <div class="col-md-6 mb-4">
+
+                <label class="form-label">
+                    Số trang
+                </label>
+
+                <input
+                    type="number"
+                    name="pages"
+                    class="form-control"
+                    placeholder="VD: 320"
+                >
+
+            </div>
+
+            <!-- Hình thức -->
+            <div class="col-md-6 mb-4">
+
+                <label class="form-label">
+                    Hình thức
+                </label>
+
+                <select
+                    name="cover_type"
+                    class="form-select"
+                >
+
+                    <option value="">
+                        -- Chọn hình thức --
+                    </option>
+
+                    <option value="Bìa mềm">
+                        Bìa mềm
+                    </option>
+
+                    <option value="Bìa cứng">
+                        Bìa cứng
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+        <!-- Nhà xuất bản -->
+
+        <div class="mb-4">
+
+            <label class="form-label">
+                Nhà xuất bản
+            </label>
+
+            <input
+                type="text"
+                name="publisher"
+                class="form-control"
+                placeholder="VD: NXB Văn Học"
+            >
+
+        </div>
+
+        <!-- ISBN -->
+
+        <div class="mb-4">
+
+            <label class="form-label">
+                ISBN
+            </label>
+
+            <input
+                type="text"
+                name="isbn"
+                class="form-control"
+                placeholder="VD: 978-604-2-12345-6"
+            >
+
+        </div>
+
         <!-- Số lượng -->
         <div class="mb-4">
             <label class="form-label">Số lượng *</label>

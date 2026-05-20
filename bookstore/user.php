@@ -19,8 +19,14 @@ $user_id = $_SESSION['user_id'];
 
 $result = mysqli_query($conn, "SELECT * FROM users WHERE id = $user_id");
 $user = mysqli_fetch_assoc($result);
-?>
 
+$orders = mysqli_query($conn, "
+    SELECT *
+    FROM orders
+    WHERE user_id = $user_id
+    ORDER BY created_at DESC
+");
+?>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -194,24 +200,53 @@ $user = mysqli_fetch_assoc($result);
             </div>
 
             <!-- STATS -->
-            <div class="row mt-4">
+            <div class="row mt-4 g-4">
 
                 <div class="col-md-4">
                     <div class="stat-card">
-                        <i class="bi bi-bag"></i>
-                        <h3>3</h3>
-                        <p>Đơn hàng</p>
+
+                        <div class="stat-icon blue">
+                            <i class="bi bi-bag"></i>
+                        </div>
+
+                        <div class="stat-content">
+                            <h3>3</h3>
+                            <p>Đơn hàng</p>
+                        </div>
+
                     </div>
                 </div>
 
                 <div class="col-md-4">
                     <div class="stat-card">
-                        <i class="bi bi-heart"></i>
-                        <h3>2</h3>
-                        <p>Yêu thích</p>
+
+                        <div class="stat-icon pink">
+                            <i class="bi bi-heart"></i>
+                        </div>
+
+                        <div class="stat-content">
+                            <h3>2</h3>
+                            <p>Yêu thích</p>
+                        </div>
+
                     </div>
                 </div>
-                
+
+                <div class="col-md-4">
+                    <div class="stat-card">
+
+                        <div class="stat-icon green">
+                            <i class="bi bi-credit-card"></i>
+                        </div>
+
+                        <div class="stat-content">
+                            <h3>2.1M</h3>
+                            <p>Tổng chi tiêu</p>
+                        </div>
+
+                    </div>
+                </div>
+
             </div>
 
         </div>
@@ -219,6 +254,129 @@ $user = mysqli_fetch_assoc($result);
     </div>
 </div>
 
+<!-- Đơn hàng -->
+<div class="orders-wrapper">
+
+    <div class="orders-box">
+
+        <div class="orders-header">
+            <h2>Đơn hàng của tôi</h2>
+        </div>
+
+        <?php while($order = mysqli_fetch_assoc($orders)) { ?>
+
+            <?php
+
+            $orderId = $order['id'];
+
+            $items = mysqli_query($conn, "
+
+                SELECT books.image
+                FROM order_items
+
+                JOIN books
+                ON books.id = order_items.book_id
+
+                WHERE order_items.order_id = $orderId
+
+                LIMIT 3
+
+            ");
+
+            $countItems = mysqli_query($conn, "
+
+                SELECT SUM(quantity) as total
+                FROM order_items
+
+                WHERE order_id = $orderId
+
+            ");
+
+            $count = mysqli_fetch_assoc($countItems)['total'];
+
+            ?>
+
+            <div class="order-card">
+
+                <!-- LEFT -->
+                <div class="order-left">
+
+                    <h4>
+                        Đơn hàng #<?= $order['order_code'] ?>
+                    </h4>
+
+                    <p class="order-date">
+                        <?= date('Y-m-d', strtotime($order['created_at'])) ?>
+                    </p>
+
+                    <!-- IMAGES -->
+                    <div class="order-images">
+
+                        <?php while($item = mysqli_fetch_assoc($items)) { ?>
+
+                            <img src="<?= $item['image'] ?>">
+
+                        <?php } ?>
+
+                    </div>
+
+                    <p class="order-total">
+
+                        <?= $count ?> sản phẩm
+                        •
+
+                        Tổng:
+                        <span>
+                            <?= number_format($order['total_price']) ?> đ
+                        </span>
+
+                    </p>
+
+                </div>
+
+                <!-- RIGHT -->
+                <div class="order-right">
+
+                    <?php
+
+                    $status = $order['status'];
+
+                    if($status == 'delivered'){
+                        echo '<div class="status delivered">
+                                <i class="bi bi-check-circle"></i>
+                                Đã giao
+                              </div>';
+                    }
+
+                    if($status == 'shipping'){
+                        echo '<div class="status shipping">
+                                <i class="bi bi-box-seam"></i>
+                                Đang giao
+                              </div>';
+                    }
+
+                    if($status == 'pending'){
+                        echo '<div class="status pending">
+                                <i class="bi bi-clock"></i>
+                                Đang xử lý
+                              </div>';
+                    }
+
+                    ?>
+
+                    <a href="#" class="detail-btn">
+                        Chi tiết
+                    </a>
+
+                </div>
+
+            </div>
+
+        <?php } ?>
+
+    </div>
+
+</div>
 <script>
 
 const editBtn = document.getElementById('editToggle');
