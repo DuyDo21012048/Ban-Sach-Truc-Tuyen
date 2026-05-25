@@ -27,6 +27,12 @@ else {
     $_SESSION['cart'][$id] = $quantity;
 }
 
-header("Location: " . $_SERVER['HTTP_REFERER']);
+$redirectTab = $_POST['redirect_tab'] ?? '';
+
+if($redirectTab == 'favorites'){
+    header("Location: user.php?tab=favorites");
+}else{
+    header("Location: " . $_SERVER['HTTP_REFERER']);
+}
+
 exit();
-?>

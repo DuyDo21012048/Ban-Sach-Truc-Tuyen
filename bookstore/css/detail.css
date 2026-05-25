@@ -227,29 +227,39 @@ a.qty-btn:hover {
 
 /* WISHLIST */
 
-.wishlist-btn {
-    width: 60px;
-    height: 60px;
+.wishlist-btn{
+    width:52px;
+    height:52px;
 
-    border: 1px solid #dfe3eb;
-    border-radius: 16px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
 
-    background: #ffffff;
+    border:1px solid #e5e7eb;
+    border-radius:14px;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background:#fff;
+    color:#6b7280;
 
-    font-size: 26px;
-    color: #4b5563;
-
-    transition: 0.25s;
+    text-decoration:none;
+    transition:.25s;
 }
 
-.wishlist-btn:hover {
-    border-color: #1f5eff;
-    color: #ff4d6d;
-    background: #f8fbff;
+.wishlist-btn i{
+    font-size:22px;
+}
+
+.wishlist-btn:hover{
+    color:#ef4444;
+    border-color:#ef4444;
+}
+
+/* Đã yêu thích */
+
+.wishlist-btn.active{
+    background:#ef4444;
+    border-color:#ef4444;
+    color:#fff;
 }
 
 /* Thông tin dịch vụ */

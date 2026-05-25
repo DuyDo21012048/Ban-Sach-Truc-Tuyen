@@ -24,6 +24,22 @@ if (!$book) {
     die("Sản phẩm không tồn tại.");
 }
 
+$isFavorite = false;
+
+if(isset($_SESSION['user_id'])){
+
+    $user_id = $_SESSION['user_id'];
+
+    $checkFavorite = mysqli_query($conn, "
+        SELECT id
+        FROM favorites
+        WHERE user_id = $user_id
+        AND book_id = {$book['id']}
+    ");
+
+    $isFavorite = mysqli_num_rows($checkFavorite) > 0;
+}
+
 $ratingQuery = mysqli_query($conn, "
     SELECT 
         AVG(rating) as avg_rating,
@@ -245,9 +261,12 @@ $categoryResult = mysqli_query($conn, $categorySql);
                         </form>
 
                         <!-- Wishlist -->
-                        <button class="wishlist-btn">
-                            <i class="bi bi-heart"></i>
-                        </button>
+                        <a
+                            href="toggle_favorite.php?id=<?= $book['id'] ?>"
+                            class="wishlist-btn <?= $isFavorite ? 'active' : '' ?>"
+                        >
+                            <i class="bi <?= $isFavorite ? 'bi-heart-fill' : 'bi-heart' ?>"></i>
+                        </a>
 
                     </div>
 

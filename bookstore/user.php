@@ -2,12 +2,15 @@
 session_start();
 include 'db.php';
 
+
+// =====================================================
+// AUTHENTICATION
+// =====================================================
+
 $backUrl = 'home.php';
 
 if(isset($_GET['back'])){
-
     $backUrl = urldecode($_GET['back']);
-
 }
 
 if (!isset($_SESSION['user_id'])) {
@@ -17,8 +20,58 @@ if (!isset($_SESSION['user_id'])) {
 
 $user_id = $_SESSION['user_id'];
 
-$result = mysqli_query($conn, "SELECT * FROM users WHERE id = $user_id");
+
+// =====================================================
+// USER INFORMATION
+// =====================================================
+
+$result = mysqli_query($conn, "
+    SELECT *
+    FROM users
+    WHERE id = $user_id
+");
+
 $user = mysqli_fetch_assoc($result);
+
+
+// =====================================================
+// STATISTICS
+// =====================================================
+
+// Tổng đơn hàng
+$orderCountQuery = mysqli_query($conn, "
+    SELECT COUNT(*) AS total
+    FROM orders
+    WHERE user_id = $user_id
+");
+
+$orderCount = mysqli_fetch_assoc($orderCountQuery)['total'];
+
+
+// Tổng yêu thích
+$favoriteCountQuery = mysqli_query($conn, "
+    SELECT COUNT(*) AS total
+    FROM favorites
+    WHERE user_id = $user_id
+");
+
+$favoriteCount = mysqli_fetch_assoc($favoriteCountQuery)['total'];
+
+
+// Tổng chi tiêu
+$totalSpentQuery = mysqli_query($conn, "
+    SELECT COALESCE(SUM(total_price),0) AS total
+    FROM orders
+    WHERE user_id = $user_id
+    AND status = 'delivered'
+");
+
+$totalSpent = mysqli_fetch_assoc($totalSpentQuery)['total'];
+
+
+// =====================================================
+// ORDERS
+// =====================================================
 
 $orders = mysqli_query($conn, "
     SELECT *
@@ -27,13 +80,38 @@ $orders = mysqli_query($conn, "
     ORDER BY created_at DESC
 ");
 
+
+// =====================================================
+// FAVORITES
+// =====================================================
+
+$favorites = mysqli_query($conn, "
+    SELECT books.*
+    FROM favorites
+
+    INNER JOIN books
+    ON books.id = favorites.book_id
+
+    WHERE favorites.user_id = $user_id
+
+    ORDER BY favorites.created_at DESC
+");
+
+$activeTab = $_GET['tab'] ?? 'overview';
+
+// =====================================================
+// ADDRESSES
+// =====================================================
+
 $addresses = mysqli_query($conn, "
     SELECT *
     FROM addresses
     WHERE user_id = $user_id
     ORDER BY is_default DESC
 ");
+
 ?>
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -44,10 +122,18 @@ $addresses = mysqli_query($conn, "
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 </head>
+
 <body>
 
+<!-- HEADER -->
+<?php include 'header.php'; ?>
+
+<!-- ==========================================
+     PAGE CONTAINER
+========================================== -->
 <div class="container mt-5">
 
+    <!-- BACK BUTTON -->
     <a href="<?= $backUrl ?>" class="back-link">
         <i class="bi bi-arrow-left"></i>
         Quay lại
@@ -55,7 +141,9 @@ $addresses = mysqli_query($conn, "
     
     <div class="row">
 
-        <!-- SIDEBAR -->
+        <!-- ==========================================
+             SIDEBAR
+        ========================================== -->
         <div class="col-md-3">
             <div class="user-sidebar">
 
@@ -132,7 +220,9 @@ $addresses = mysqli_query($conn, "
             </div>
         </div>
 
-        <!-- CONTENT -->
+        <!-- ==========================================
+             MAIN CONTENT
+        ========================================== -->
         <div class="col-md-9">
 
             <div id="overviewTab">
@@ -241,7 +331,7 @@ $addresses = mysqli_query($conn, "
                             </div>
 
                             <div class="stat-content">
-                                <h3>3</h3>
+                                <h5><?= $orderCount ?></h5>
                                 <p>Đơn hàng</p>
                             </div>
 
@@ -258,7 +348,7 @@ $addresses = mysqli_query($conn, "
                             </div>
 
                             <div class="stat-content">
-                                <h3>2</h3>
+                                <h5><?= $favoriteCount ?></h5>
                                 <p>Yêu thích</p>
                             </div>
 
@@ -275,7 +365,7 @@ $addresses = mysqli_query($conn, "
                             </div>
 
                             <div class="stat-content">
-                                <h3>2.1M</h3>
+                                <h5><?= number_format($totalSpent) ?>đ</h5>
                                 <p>Tổng chi tiêu</p>
                             </div>
 
@@ -287,12 +377,12 @@ $addresses = mysqli_query($conn, "
 
             </div>
 
-            <!-- Đơn hàng -->
+            <!-- ORDERS TAB -->
             <div id="ordersTab" style="display:none;">
 
                 <div class="orders-box">
 
-                    <div class="orders-header">
+                    <div class="orders-title">
                         <h2>Đơn hàng của tôi</h2>
                     </div>
 
@@ -407,7 +497,7 @@ $addresses = mysqli_query($conn, "
 
             </div>
 
-            <!-- FAVORITES -->
+            <!-- FAVORITES TAB -->
 
             <div id="favoritesContent" class="tab-content" style="display:none;">
 
@@ -422,44 +512,105 @@ $addresses = mysqli_query($conn, "
                         <?php
 
                         $favorites = mysqli_query($conn, "
-                            SELECT *
-                            FROM books
-                            LIMIT 6
+                            SELECT books.*
+                            FROM favorites
+
+                            INNER JOIN books
+                            ON books.id = favorites.book_id
+
+                            WHERE favorites.user_id = $user_id
+
+                            ORDER BY favorites.created_at DESC
                         ");
 
-                        while($book = mysqli_fetch_assoc($favorites)) {
+                        if(mysqli_num_rows($favorites) > 0){
+
+                            while($book = mysqli_fetch_assoc($favorites)){
 
                         ?>
 
-                        <div class="favorite-card">
+                            <div class="favorite-card">
 
-                            <img src="<?= $book['image'] ?>">
+                                <a href="book_detail.php?id=<?= $book['id'] ?>" class="book-link">
 
-                            <div class="favorite-body">
+                                    <img src="<?= $book['image'] ?>" alt="">
 
-                                <span class="favorite-type">
-                                    <?= $book['cover_type'] ?>
-                                </span>
+                                    <div class="favorite-body">
 
-                                <h3 class="favorite-title-book">
-                                    <?= $book['title'] ?>
-                                </h3>
+                                        <span class="favorite-type">
+                                            <?= $book['cover_type'] ?>
+                                        </span>
 
-                                <p class="favorite-author">
-                                    <?= $book['author'] ?>
-                                </p>
+                                        <h3 class="favorite-title-book">
+                                            <?= $book['title'] ?>
+                                        </h3>
 
-                                <div class="favorite-price">
-                                    <?= number_format($book['price']) ?>đ
+                                        <p class="favorite-author">
+                                            <?= $book['author'] ?>
+                                        </p>
+
+                                        <div class="favorite-price">
+                                            <?= number_format($book['price']) ?>đ
+                                        </div>
+
+                                    </div>
+
+                                </a>        
+
+                                <div class="favorite-actions">
+
+                                    <form action="add_to_cart.php" method="POST">
+
+                                        <input
+                                            type="hidden"
+                                            name="id"
+                                            value="<?= $book['id'] ?>"
+                                        >
+
+                                        <input
+                                            type="hidden"
+                                            name="quantity"
+                                            value="1"
+                                        >
+                                        
+                                        <input
+                                            type="hidden"
+                                            name="redirect_tab"
+                                            value="favorites"
+                                        >
+
+                                        <button type="submit" class="favorite-btn">
+                                            Thêm vào giỏ
+                                        </button>
+
+                                    </form>
+
+                                    <a href="remove_favorite.php?id=<?= $book['id'] ?>&tab=favorites"
+                                    class="remove-favorite">
+                                       Xóa
+                                    </a>
+
                                 </div>
-
-                                <button class="favorite-btn">
-                                    Thêm vào giỏ
-                                </button>
 
                             </div>
 
-                        </div>
+                        <?php
+
+                            }
+
+                        } else {
+
+                        ?>
+
+                            <div class="empty-favorites">
+
+                                <i class="bi bi-heart"></i>
+
+                                <p>
+                                    Bạn chưa có sách yêu thích nào
+                                </p>
+
+                            </div>
 
                         <?php } ?>
 
@@ -537,6 +688,9 @@ $addresses = mysqli_query($conn, "
 
 <script>
 
+// =====================================================
+// EDIT PROFILE
+// =====================================================
 const editBtn = document.getElementById('editToggle');
 
 const viewMode = document.getElementById('viewMode');
@@ -571,7 +725,9 @@ editBtn.addEventListener('click', () => {
 
 });
 
-
+// =====================================================
+// AVATAR UPLOAD
+// =====================================================
 const avatarInput = document.getElementById('avatarInput');
 
 avatarInput.addEventListener('change', () => {
@@ -580,6 +736,9 @@ avatarInput.addEventListener('change', () => {
 
 });
 
+// =====================================================
+// TAB NAVIGATION
+// =====================================================
 const menuItems = document.querySelectorAll('.menu-item');
 
 const overviewTab = document.getElementById('overviewTab');
@@ -630,6 +789,15 @@ menuItems.forEach(item => {
 
 });
 
+window.addEventListener('load', () => {
+
+    const activeTab = "<?= $activeTab ?>";
+
+    if(activeTab === 'favorites'){
+        document.querySelector('[data-tab="favorites"]').click();
+    }
+
+});
 </script>
 
 </body>
