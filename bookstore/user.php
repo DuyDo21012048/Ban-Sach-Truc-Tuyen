@@ -205,7 +205,7 @@ $addresses = mysqli_query($conn, "
                         Địa chỉ
                     </li>
 
-                    <li class="menu-item">
+                    <li class="menu-item" data-tab="settings">
                         <i class="bi bi-gear"></i>
                         Cài đặt
                     </li>
@@ -483,7 +483,7 @@ $addresses = mysqli_query($conn, "
 
                                 ?>
 
-                                <a href="#" class="detail-btn">
+                                <a href="order_detail.php?id=<?= $order['id'] ?>" class="detail-btn">
                                     Chi tiết
                                 </a>
 
@@ -626,15 +626,23 @@ $addresses = mysqli_query($conn, "
 
                 <div class="address-box">
 
+                    <!-- HEADER -->
+
                     <div class="address-header">
 
                         <h2>Địa chỉ giao hàng</h2>
 
-                        <button class="add-address-btn">
+                        <button
+                            class="add-address-btn"
+                            data-bs-toggle="modal"
+                            data-bs-target="#addAddressModal"
+                        >
                             + Thêm địa chỉ
                         </button>
 
                     </div>
+
+                    <!-- LIST -->
 
                     <?php while($address = mysqli_fetch_assoc($addresses)) { ?>
 
@@ -651,6 +659,7 @@ $addresses = mysqli_query($conn, "
                                     <?php if($address['is_default']) { ?>
 
                                         <span class="default-badge">
+                                            <i class="bi bi-star-fill"></i>
                                             Mặc định
                                         </span>
 
@@ -666,15 +675,354 @@ $addresses = mysqli_query($conn, "
                                     SDT: <?= $address['phone'] ?>
                                 </span>
 
-                            </div>
+                                <!-- ACTIONS -->
 
-                            <button class="edit-address-btn">
-                                <i class="bi bi-pencil-square"></i>
-                            </button>
+                                <div class="address-actions">
+
+                                    <?php if(!$address['is_default']) { ?>
+
+                                        <a
+                                            href="set_default_address.php?id=<?= $address['id'] ?>"
+                                            class="set-default-btn"
+                                        >
+                                            Đặt làm mặc định
+                                        </a>
+
+                                    <?php } ?>
+
+                                    <button
+                                        class="edit-btn-address"
+
+                                        data-id="<?= $address['id'] ?>"
+                                        data-title="<?= $address['title'] ?>"
+                                        data-phone="<?= $address['phone'] ?>"
+                                        data-address="<?= $address['address'] ?>"
+
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#editAddressModal"
+                                    >
+                                        <i class="bi bi-pencil-square"></i>
+                                        Sửa
+                                    </button>
+
+                                    <a
+                                        href="delete_address.php?id=<?= $address['id'] ?>"
+                                        class="delete-address-btn"
+                                        onclick="return confirm('Xóa địa chỉ này?')"
+                                    >
+                                        <i class="bi bi-trash"></i>
+                                        Xóa
+                                    </a>
+
+                                </div>
+
+                            </div>
 
                         </div>
 
                     <?php } ?>
+
+                </div>
+
+                <!-- ADD ADDRESS MODAL -->
+
+                <div class="modal fade" id="addAddressModal">
+
+                    <div class="modal-dialog modal-dialog-centered">
+
+                        <div class="modal-content">
+
+                            <form action="add_address.php" method="POST">
+
+                                <div class="modal-header">
+
+                                    <h3>Thêm địa chỉ mới</h3>
+
+                                    <button
+                                        type="button"
+                                        class="btn-close"
+                                        data-bs-dismiss="modal"
+                                    ></button>
+
+                                </div>
+
+                                <div class="modal-body">
+
+                                    <div class="mb-3">
+
+                                        <label>Tên địa chỉ</label>
+
+                                        <input
+                                            type="text"
+                                            name="title"
+                                            class="form-control"
+                                            placeholder="Ví dụ: Nhà riêng"
+                                            required
+                                        >
+
+                                    </div>
+
+                                    <div class="mb-3">
+
+                                        <label>Số điện thoại</label>
+
+                                        <input
+                                            type="text"
+                                            name="phone"
+                                            class="form-control"
+                                            required
+                                        >
+
+                                    </div>
+
+                                    <div class="mb-3">
+
+                                        <label>Địa chỉ chi tiết</label>
+
+                                        <textarea
+                                            name="address"
+                                            class="form-control"
+                                            rows="4"
+                                            required
+                                        ></textarea>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="modal-footer">
+
+                                    <button
+                                        type="button"
+                                        class="btn btn-light"
+                                        data-bs-dismiss="modal"
+                                    >
+                                        Hủy
+                                    </button>
+
+                                    <button type="submit" class="btn btn-primary">
+                                        Thêm địa chỉ
+                                    </button>
+
+                                </div>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- EDIT ADDRESS MODAL -->
+
+                <div class="modal fade" id="editAddressModal">
+
+                    <div class="modal-dialog modal-dialog-centered">
+
+                        <div class="modal-content">
+
+                            <form action="edit_address.php" method="POST">
+
+                                <input type="hidden" name="id" id="edit_id">
+
+                                <div class="modal-header">
+
+                                    <h3>Sửa địa chỉ</h3>
+
+                                    <button
+                                        type="button"
+                                        class="btn-close"
+                                        data-bs-dismiss="modal"
+                                    ></button>
+
+                                </div>
+
+                                <div class="modal-body">
+
+                                    <div class="mb-3">
+
+                                        <label>Tên địa chỉ</label>
+
+                                        <input
+                                            type="text"
+                                            name="title"
+                                            id="edit_title"
+                                            class="form-control"
+                                            required
+                                        >
+
+                                    </div>
+
+                                    <div class="mb-3">
+
+                                        <label>Số điện thoại</label>
+
+                                        <input
+                                            type="text"
+                                            name="phone"
+                                            id="edit_phone"
+                                            class="form-control"
+                                            required
+                                        >
+
+                                    </div>
+
+                                    <div class="mb-3">
+
+                                        <label>Địa chỉ</label>
+
+                                        <textarea
+                                            name="address"
+                                            id="edit_address"
+                                            class="form-control"
+                                            rows="4"
+                                            required
+                                        ></textarea>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="modal-footer">
+
+                                    <button
+                                        type="button"
+                                        class="btn btn-light"
+                                        data-bs-dismiss="modal"
+                                    >
+                                        Hủy
+                                    </button>
+
+                                    <button type="submit" class="btn btn-primary">
+                                        Lưu thay đổi
+                                    </button>
+
+                                </div>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- SETTINGS TAB -->
+            <div id="settingsTab" style="display:none;">
+
+                <!-- SETTINGS BOX -->
+
+                <div class="settings-box">
+
+                    <h2 class="settings-title">
+                        Cài đặt tài khoản
+                    </h2>
+
+                    <!-- EMAIL -->
+
+                    <div class="setting-row">
+
+                        <div>
+
+                            <h5>Thông báo qua Email</h5>
+
+                            <p>Nhận thông báo về đơn hàng và khuyến mãi</p>
+
+                        </div>
+
+                        <label class="switch">
+
+                            <input type="checkbox" checked>
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+                    <!-- SMS -->
+
+                    <div class="setting-row">
+
+                        <div>
+
+                            <h5>Thông báo qua SMS</h5>
+
+                            <p>Nhận tin nhắn về trạng thái đơn hàng</p>
+
+                        </div>
+
+                        <label class="switch">
+
+                            <input type="checkbox">
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+                <!-- CHANGE PASSWORD -->
+
+                <div class="password-box">
+
+                    <h2 class="settings-title">
+                        Đổi mật khẩu
+                    </h2>
+
+                    <form action="change_password.php" method="POST">
+
+                        <div class="mb-3">
+
+                            <label>Mật khẩu hiện tại</label>
+
+                            <input
+                                type="password"
+                                name="current_password"
+                                class="form-control"
+                                required
+                            >
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label>Mật khẩu mới</label>
+
+                            <input
+                                type="password"
+                                name="new_password"
+                                class="form-control"
+                                required
+                            >
+
+                        </div>
+
+                        <div class="mb-4">
+
+                            <label>Xác nhận mật khẩu mới</label>
+
+                            <input
+                                type="password"
+                                name="confirm_password"
+                                class="form-control"
+                                required
+                            >
+
+                        </div>
+
+                        <button class="save-password-btn">
+
+                            Cập nhật mật khẩu
+
+                        </button>
+
+                    </form>
 
                 </div>
 
@@ -739,66 +1087,116 @@ avatarInput.addEventListener('change', () => {
 // =====================================================
 // TAB NAVIGATION
 // =====================================================
+
 const menuItems = document.querySelectorAll('.menu-item');
 
 const overviewTab = document.getElementById('overviewTab');
 const ordersTab = document.getElementById('ordersTab');
 const favoritesContent = document.getElementById('favoritesContent');
 const addressTab = document.getElementById('addressTab');
+const settingsTab = document.getElementById('settingsTab');
 
+function showTab(tab){
+
+    // ACTIVE MENU
+    menuItems.forEach(item => {
+        item.classList.remove('active');
+    });
+
+    const activeMenu = document.querySelector(
+        `[data-tab="${tab}"]`
+    );
+
+    if(activeMenu){
+        activeMenu.classList.add('active');
+    }
+
+    // HIDE ALL
+    overviewTab.style.display = 'none';
+    ordersTab.style.display = 'none';
+    favoritesContent.style.display = 'none';
+    addressTab.style.display = 'none';
+    settingsTab.style.display = 'none';
+
+    // SHOW CURRENT
+    if(tab === 'overview'){
+        overviewTab.style.display = 'block';
+    }
+
+    if(tab === 'orders'){
+        ordersTab.style.display = 'block';
+    }
+
+    if(tab === 'favorites'){
+        favoritesContent.style.display = 'block';
+    }
+
+    if(tab === 'address'){
+        addressTab.style.display = 'block';
+    }
+
+    if(tab === 'settings'){
+        settingsTab.style.display = 'block';
+    }
+
+    // SAVE TAB
+    localStorage.setItem('activeUserTab', tab);
+}
+
+// CLICK EVENT
 menuItems.forEach(item => {
 
     item.addEventListener('click', () => {
 
-        /* ACTIVE MENU */
-
-        menuItems.forEach(i => {
-            i.classList.remove('active');
-        });
-
-        item.classList.add('active');
-
-        /* HIDE ALL TAB */
-
-        overviewTab.style.display = 'none';
-        ordersTab.style.display = 'none';
-        favoritesContent.style.display = 'none';
-        addressTab.style.display = 'none';
-
-        /* SHOW CURRENT TAB */
-
         const tab = item.dataset.tab;
 
-        if(tab === 'overview'){
-            overviewTab.style.display = 'block';
-        }
-
-        if(tab === 'orders'){
-            ordersTab.style.display = 'block';
-        }
-
-        if(tab === 'favorites'){
-            favoritesContent.style.display = 'block';
-        }
-
-        if(tab === 'address'){
-            addressTab.style.display = 'block';
-        }
+        showTab(tab);
 
     });
 
 });
 
+// =====================================================
+// RESTORE TAB AFTER REFRESH
+// =====================================================
+
 window.addEventListener('load', () => {
 
-    const activeTab = "<?= $activeTab ?>";
+    const savedTab =
+        localStorage.getItem('activeUserTab') || 'overview';
 
-    if(activeTab === 'favorites'){
-        document.querySelector('[data-tab="favorites"]').click();
-    }
+    showTab(savedTab);
 
 });
+
+// =====================================================
+// ADDRESS EDIT
+// =====================================================
+
+const editButtons = document.querySelectorAll('.edit-btn-address');
+
+editButtons.forEach(button => {
+
+    button.addEventListener('click', () => {
+
+        document.getElementById('edit_id').value =
+            button.dataset.id;
+
+        document.getElementById('edit_title').value =
+            button.dataset.title;
+
+        document.getElementById('edit_phone').value =
+            button.dataset.phone;
+
+        document.getElementById('edit_address').value =
+            button.dataset.address;
+
+    });
+
+});
+
 </script>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

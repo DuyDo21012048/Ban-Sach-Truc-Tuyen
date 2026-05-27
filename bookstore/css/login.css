@@ -92,3 +92,11 @@ form {
     text-decoration: none;
     color: #2563eb;
 }
+
+.login-error{
+    margin-top: 18px;
+    text-align: center;
+    color: #ff3b3b;
+    font-size: 15px;
+    font-weight: 500;
+}

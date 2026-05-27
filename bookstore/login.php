@@ -73,7 +73,16 @@ if (isset($_SESSION['user_id'])) {
             <button type="submit" class="login-btn">
                 Đăng nhập
             </button>
+            
+            <!-- ERROR MESSAGE -->
 
+            <?php if(isset($_SESSION['login_error'])) { ?>
+
+                <div class="login-error">
+                    <?= $_SESSION['login_error'] ?>
+                </div>
+
+            <?php unset($_SESSION['login_error']); } ?>            
         </form>
 
         <!-- Register -->

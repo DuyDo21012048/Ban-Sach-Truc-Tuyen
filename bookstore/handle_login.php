@@ -23,13 +23,17 @@ if (mysqli_num_rows($result) > 0) {
 
     } else {
 
-        echo "Sai mật khẩu!";
+        $_SESSION['login_error'] = "Sai mật khẩu hoặc email";
+        header("Location: login.php");
+        exit();
 
     }
 
 } else {
 
-    echo "Email không tồn tại!";
+    $_SESSION['login_error'] = "Sai mật khẩu hoặc email";
+    header("Location: login.php");
+    exit();
 
 }
 ?>
