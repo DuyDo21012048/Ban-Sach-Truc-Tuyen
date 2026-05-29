@@ -424,10 +424,10 @@ if($order['status'] == 'cancelled'){
                 <!-- ĐÃ GIAO -->
                 <?php if($order['status'] == 'delivered') { ?>
 
-                    <button class="primary-btn">
+                    <a href="buy_again.php?id=<?= $order['id'] ?>" class="primary-btn">
                         <i class="bi bi-arrow-repeat"></i>
                         Mua lại
-                    </button>
+                    </a>
 
                     <button class="outline-btn">
                         <i class="bi bi-download"></i>
@@ -446,10 +446,10 @@ if($order['status'] == 'cancelled'){
                 <!-- ĐÃ HỦY -->
                 <?php if($order['status'] == 'cancelled') { ?>
 
-                    <button class="primary-btn">
+                    <a href="buy_again.php?id=<?= $order['id'] ?>" class="primary-btn">
                         <i class="bi bi-arrow-repeat"></i>
                         Mua lại
-                    </button>
+                    </a>
 
                     <button class="outline-btn">
                         <i class="bi bi-telephone"></i>

@@ -30,9 +30,24 @@ if(isset($_GET['back'])){
 <div class="container mt-5">
 
     <!-- Back -->
+    <?php
+    if(isset($_SESSION['back_url'])){
+
+        $backUrl = $_SESSION['back_url'];
+
+        // dùng xong xóa luôn
+        unset($_SESSION['back_url']);
+
+    } else {
+
+        // quay lại trang trước
+        $backUrl = $_SERVER['HTTP_REFERER'] ?? 'home.php';
+    }
+    ?>
+
     <a href="<?= $backUrl ?>" class="back-link">
         <i class="bi bi-arrow-left"></i>
-        Tiếp tục mua sắm
+        Quay lại
     </a>
 
     <!-- Title -->

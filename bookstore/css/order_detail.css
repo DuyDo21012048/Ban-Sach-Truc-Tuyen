@@ -281,49 +281,86 @@ body{
     flex-wrap:wrap;
 }
 
-.primary-btn{
-    border:none;
-    background:#2563eb;
-    color:#fff;
+/* BUTTON CHUNG */
 
-    padding:14px 22px;
+.primary-btn,
+.outline-btn,
+.danger-btn{
+
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+
+    height:48px;
+    padding:0 22px;
+
     border-radius:12px;
 
+    font-size:16px;
     font-weight:600;
+
+    cursor:pointer;
+
+    transition:all 0.25s ease;
+
+    text-decoration:none;
+    outline:none;
 }
+
+/* PRIMARY */
+
+.primary-btn{
+
+    background:#2563eb;
+    color:white;
+    border:none;
+}
+
+.primary-btn:hover{
+    background:#1d4ed8;
+    transform:translateY(-2px);
+    box-shadow:0 8px 20px rgba(37,99,235,0.25);
+}
+
+.primary-btn:active{
+    transform:scale(0.98);
+}
+
+/* OUTLINE */
 
 .outline-btn{
+
     border:1px solid #d1d5db;
-    background:#fff;
-
-    padding:14px 22px;
-    border-radius:12px;
-
-    font-weight:600;
+    background:white;
+    color:#111827;
 }
 
+.outline-btn:hover{
+    border-color:#2563eb;
+    color:#2563eb;
+}
+
+/* DANGER */
+
 .danger-btn{
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
 
-    padding: 12px 22px;
-
-    border: 1px solid #ef4444;
-    border-radius: 12px;
-
-    background: white;
-    color: #ef4444;
-
-    font-weight: 600;
-    text-decoration: none;
-
-    transition: 0.25s;
+    border:1px solid #ef4444;
+    background:white;
+    color:#ef4444;
 }
 
 .danger-btn:hover{
-    background: #ef4444;
-    color: white;
+    background:#ef4444;
+    color:white;
+}
+
+/* ICON */
+
+.primary-btn i,
+.outline-btn i,
+.danger-btn i{
+    font-size:16px;
 }
 
 /* RESPONSIVE */
