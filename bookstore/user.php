@@ -460,6 +460,13 @@ $addresses = mysqli_query($conn, "
 
                                 $status = $order['status'];
 
+                                if($status == 'waiting_confirm'){
+                                    echo '<div class="status waiting-confirm">
+                                        <i class="bi bi-hourglass-split"></i>
+                                        Chờ xác nhận
+                                    </div>';
+                                }
+
                                 if($status == 'delivered'){
                                     echo '<div class="status delivered">
                                             <i class="bi bi-check-circle"></i>
@@ -478,6 +485,13 @@ $addresses = mysqli_query($conn, "
                                     echo '<div class="status pending">
                                             <i class="bi bi-clock"></i>
                                             Đang xử lý
+                                        </div>';
+                                }
+
+                                if($status == 'cancelled'){
+                                    echo '<div class="status cancelled">
+                                            <i class="bi bi-x-circle"></i>
+                                            Đã hủy
                                         </div>';
                                 }
 
