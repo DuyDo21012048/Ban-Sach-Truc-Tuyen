@@ -1,6 +1,35 @@
 <?php
-include 'db.php';
 session_start();
+include 'db.php';
+$bookId = (int)$_GET['id'];
+$book_id = (int)$_GET['id'];
+
+if(!isset($_SESSION['recently_viewed'])){
+    $_SESSION['recently_viewed'] = [];
+}
+
+/*
+    Nếu sách đã tồn tại trong danh sách
+    thì xóa đi để đưa lên đầu
+*/
+$key = array_search($bookId, $_SESSION['recently_viewed']);
+
+if($key !== false){
+    unset($_SESSION['recently_viewed'][$key]);
+}
+
+/*
+    Thêm sách vào đầu danh sách
+*/
+array_unshift(
+    $_SESSION['recently_viewed'],
+    $bookId
+);
+
+/*
+    Chỉ giữ lại 6 sách gần nhất
+*/
+$_SESSION['recently_viewed'] = array_slice($_SESSION['recently_viewed'],0,6);
 
 $id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
 
@@ -62,15 +91,55 @@ $reviews = mysqli_query($conn, "
     ORDER BY reviews.created_at DESC
 ");
 
-$categorySql = "
+$categoryResult = mysqli_query($conn,"
     SELECT categories.name
     FROM categories
     JOIN book_categories
         ON categories.id = book_categories.category_id
     WHERE book_categories.book_id = $id
-";
+");
 
-$categoryResult = mysqli_query($conn, $categorySql);
+$categoryIdResult = mysqli_query($conn,"
+    SELECT category_id
+    FROM book_categories
+    WHERE book_id = $book_id
+");
+
+$categoryIds = [];
+
+while($row = mysqli_fetch_assoc($categoryIdResult)){
+    $categoryIds[] = $row['category_id'];
+}
+
+$relatedBooks = null;
+
+if(!empty($categoryIds)){
+
+    $ids = implode(',', $categoryIds);
+
+    $relatedBooks = mysqli_query($conn,"
+        SELECT
+            books.*,
+            AVG(reviews.rating) as avg_rating
+
+        FROM books
+
+        JOIN book_categories
+            ON books.id = book_categories.book_id
+
+        LEFT JOIN reviews
+            ON books.id = reviews.book_id
+
+        WHERE book_categories.category_id IN ($ids)
+        AND books.id != $book_id
+
+        GROUP BY books.id
+
+        ORDER BY avg_rating DESC
+
+        LIMIT 5
+    ");
+}
 
 ?>
 
@@ -423,6 +492,43 @@ $categoryResult = mysqli_query($conn, $categorySql);
         </div>
 
     </div>
+    <?php if($relatedBooks && mysqli_num_rows($relatedBooks) > 0){ ?>
+
+<section class="related-section">
+
+    <h3>
+        Bạn có thể thích
+    </h3>
+
+    <div class="related-grid">
+
+        <?php while($relatedBook = mysqli_fetch_assoc($relatedBooks)){ ?>
+
+            <div class="related-card">
+
+                <a href="detail.php?id=<?= $relatedBook['id'] ?>">
+
+                    <img src="<?= $relatedBook['image'] ?>">
+
+                    <h5>
+                        <?= $relatedBook['title'] ?>
+                    </h5>
+
+                    <p>
+                        <?= number_format($relatedBook['price']) ?>đ
+                    </p>
+
+                </a>
+
+            </div>
+
+        <?php } ?>
+
+    </div>
+
+</section>
+
+<?php } ?>
 
 </div>
 <script>
