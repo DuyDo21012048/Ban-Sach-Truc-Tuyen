@@ -81,6 +81,28 @@
     background: transparent;
     padding: 0;
 }
+/* Book Rating */
+.book-rating{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    margin: 10px 0;
+}
+
+.book-rating i{
+    color: #fbbf24;
+    font-size: 14px;
+}
+
+.book-rating span{
+    color: #64748b;
+    font-size: 13px;
+}
+
+.book-rating span strong{
+    color: #111827;
+}
 
 /* ===== PRICE ===== */
 

@@ -143,26 +143,19 @@ $categoryResult = mysqli_query($conn, $categorySql);
                     <p class="book-rating">
 
                         <?php
-
                         $fullStars = floor($avgRating);
 
                         for($i = 1; $i <= 5; $i++){
-
                             if($i <= $fullStars){
-
                                 echo '<i class="bi bi-star-fill"></i>';
-
                             }else{
-
                                 echo '<i class="bi bi-star"></i>';
-
                             }
                         }
-
                         ?>
 
                         <span>
-                            <?= $avgRating ?>/5
+                            <strong><?= number_format($avgRating,1) ?></strong>/5
                             (<?= $totalReviews ?> đánh giá)
                         </span>
 

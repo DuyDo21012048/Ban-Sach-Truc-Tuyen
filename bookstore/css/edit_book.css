@@ -65,6 +65,15 @@ textarea.form-control {
     color: #6b7280;
 }
 
+.form-select[multiple]{
+    min-height: 220px;
+    border-radius: 12px;
+}
+
+.form-select[multiple] option{
+    padding: 8px;
+}
+
 /* Preview */
 .preview-image {
     width: 130px;

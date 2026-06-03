@@ -1,5 +1,7 @@
 <?php
+session_start();
 include 'db.php';
+include 'admin_auth.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -29,6 +31,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $isbn = mysqli_real_escape_string($conn, $_POST['isbn']);
 
+    $id = (int)$_POST['id'];
+
     /* UPDATE */
 
     $sql = "
@@ -51,6 +55,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         WHERE id = $id
     ";
+
+    mysqli_query($conn,"
+        DELETE FROM book_categories
+        WHERE book_id = $id
+    ");
+
+    if(isset($_POST['categories'])){
+
+        foreach($_POST['categories'] as $cat_id){
+
+            mysqli_query($conn,"
+                INSERT INTO book_categories(
+                    book_id,
+                    category_id
+                )
+                VALUES(
+                    $id,
+                    $cat_id
+                )
+            ");
+        }
+    }
 
     if (mysqli_query($conn, $sql)) {
 

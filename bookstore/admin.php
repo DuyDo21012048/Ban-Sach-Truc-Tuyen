@@ -1,6 +1,7 @@
 <?php
-include 'db.php';
 session_start();
+include 'db.php';
+include 'admin_auth.php';
 
 $where = "";
 
@@ -15,8 +16,23 @@ if(!empty($_GET['keyword'])){
 }
 
 $result = mysqli_query($conn,"
-    SELECT * FROM books
+    SELECT
+        books.*,
+        GROUP_CONCAT(categories.name SEPARATOR ', ') AS categories
+
+    FROM books
+
+    LEFT JOIN book_categories
+        ON books.id = book_categories.book_id
+
+    LEFT JOIN categories
+        ON categories.id = book_categories.category_id
+
     $where
+
+    GROUP BY books.id
+
+    ORDER BY books.id DESC
 ");
 
 ?>
@@ -128,6 +144,7 @@ $result = mysqli_query($conn,"
                     <th>Hình ảnh</th>
                     <th>Tên sách</th>
                     <th>Tác giả</th>
+                    <th>Thể loại</th>
                     <th>Giá</th>
                     <th>Năm XB</th>
                     <th>Ngôn ngữ</th>
@@ -161,6 +178,10 @@ $result = mysqli_query($conn,"
 
                     <td>
                         <?= $book['author'] ?>
+                    </td>
+                    
+                    <td class="category-cell">
+                        <?= $book['categories'] ?: 'Chưa phân loại' ?>
                     </td>
 
                     <td class="book-price">

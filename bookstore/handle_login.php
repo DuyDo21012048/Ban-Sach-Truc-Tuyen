@@ -17,6 +17,7 @@ if (mysqli_num_rows($result) > 0) {
 
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['user_name'] = $user['name'];
+        $_SESSION['role'] = $user['role'];
 
         header("Location: home.php");
         exit();

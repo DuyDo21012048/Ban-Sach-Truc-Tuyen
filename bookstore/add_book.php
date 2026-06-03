@@ -1,4 +1,9 @@
-<?php include 'db.php'; ?>
+<?php 
+include 'db.php'; 
+session_start();
+
+include 'admin_auth.php';
+?>
 
 <!DOCTYPE html>
 <html lang="vi">
@@ -41,6 +46,42 @@
         <div class="mb-4">
             <label class="form-label">Tác giả *</label>
             <input type="text" name="author" class="form-control" required>
+        </div>
+
+        <?php
+        $categories = mysqli_query($conn,"
+            SELECT *
+            FROM categories
+            WHERE parent_id IS NOT NULL
+            ORDER BY name
+        ");
+        ?>
+
+        <div class="mb-4">
+            <label class="form-label">
+                Thể loại
+            </label>
+
+            <select
+                name="categories[]"
+                class="form-select"
+                multiple
+                size="8"
+            >
+
+                <?php while($cat = mysqli_fetch_assoc($categories)) { ?>
+
+                    <option value="<?= $cat['id'] ?>">
+                        <?= $cat['name'] ?>
+                    </option>
+
+                <?php } ?>
+
+            </select>
+
+            <small class="text-muted">
+                Giữ Ctrl để chọn nhiều thể loại
+            </small>
         </div>
 
         <div class="row">

@@ -1,10 +1,32 @@
 <?php
+session_start();
 include 'db.php';
+include 'admin_auth.php';
 
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
 $result = mysqli_query($conn, "SELECT * FROM books WHERE id = $id");
+
 $book = mysqli_fetch_assoc($result);
+
+$bookCategories = [];
+
+$catQuery = mysqli_query($conn,"
+    SELECT category_id
+    FROM book_categories
+    WHERE book_id = $id
+");
+
+while($row = mysqli_fetch_assoc($catQuery)){
+    $bookCategories[] = $row['category_id'];
+}
+
+$categories = mysqli_query($conn,"
+    SELECT *
+    FROM categories
+    WHERE parent_id IS NOT NULL
+    ORDER BY name
+");
 
 if (!$book) {
     die("Không tìm thấy sách.");
@@ -74,6 +96,38 @@ if (!$book) {
                 value="<?= $book['author'] ?>"
                 required
             >
+        </div>
+
+        <div class="mb-4">
+
+            <label class="form-label">
+                Thể loại
+            </label>
+
+            <select
+                name="categories[]"
+                class="form-select"
+                multiple
+                size="8"
+            >
+
+                <?php while($cat = mysqli_fetch_assoc($categories)) { ?>
+
+                    <option
+                        value="<?= $cat['id'] ?>"
+                        <?= in_array($cat['id'],$bookCategories) ? 'selected' : '' ?>
+                    >
+                        <?= $cat['name'] ?>
+                    </option>
+
+                <?php } ?>
+
+            </select>
+
+            <small class="text-muted">
+                Giữ Ctrl để chọn nhiều thể loại
+            </small>
+
         </div>
 
         <!-- THÔNG TIN XUẤT BẢN -->

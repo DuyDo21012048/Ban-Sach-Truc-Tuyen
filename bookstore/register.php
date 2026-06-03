@@ -26,7 +26,7 @@
         </div>
 
         <!-- FORM -->
-        <form action="register_process.php" method="POST">
+        <form action="handle_register.php" method="POST">
 
             <!-- Name -->
             <div class="mb-3">

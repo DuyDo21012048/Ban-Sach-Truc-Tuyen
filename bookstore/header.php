@@ -70,10 +70,10 @@ if (isset($_SESSION['cart']) && is_array($_SESSION['cart'])) {
             <?php else: ?>
                 
             <!-- LOGIN -->
-                <a href="login.php" class="nav-link-custom">
-                    <i class="bi bi-person-circle me-1"></i>
-                    Đăng nhập
-                </a>
+            <a href="login.php" class="nav-link-custom">
+                <i class="bi bi-person-circle me-1"></i>
+                Đăng nhập
+            </a>
 
             <?php endif; ?>
 
@@ -89,6 +89,19 @@ if (isset($_SESSION['cart']) && is_array($_SESSION['cart'])) {
                     </span>
                 <?php endif; ?>
             </a>
+            <!-- ADMIN -->
+            <?php if(
+                isset($_SESSION['role']) &&
+                $_SESSION['role'] == 'admin'
+            ){ ?>
+
+                <a href="admin.php" class="nav-link-custom">
+                    <i class="bi bi-gear me-1"></i>
+                    Quản trị
+                </a>       
+
+            <?php } ?> 
+            
 
         </div>
     </div>

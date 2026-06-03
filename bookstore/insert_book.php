@@ -1,5 +1,7 @@
 <?php
+session_start();
 include 'db.php';
+include 'admin_auth.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -14,6 +16,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $image = mysqli_real_escape_string($conn, $_POST['image']);
 
     $description = mysqli_real_escape_string($conn, $_POST['description']);
+    
+    $book_id = mysqli_insert_id($conn);
 
     /* THÔNG TIN MỚI */
 
@@ -80,6 +84,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         )
     ";
+
+    if(isset($_POST['categories'])){
+
+        foreach($_POST['categories'] as $cat_id){
+
+            mysqli_query($conn,"
+                INSERT INTO book_categories(
+                    book_id,
+                    category_id
+                )
+                VALUES(
+                    $book_id,
+                    $cat_id
+                )
+            ");
+        }
+    }
 
     if (mysqli_query($conn, $sql)) {
 

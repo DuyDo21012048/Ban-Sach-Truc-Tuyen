@@ -140,7 +140,7 @@ body {
 
 .table{
     width: 100%;
-    table-layout: auto;
+    table-layout:fixed;
 }
 
 .table th{
@@ -150,20 +150,27 @@ body {
 }
 
 .table td{
-    padding:18px !important;
+    padding:12px !important;
     vertical-align:middle;
 }
 
 .admin-book-image{
-    width:70px;
-    height:95px;
+    width: 55px;
+    height: 75px;
     object-fit:cover;
     border-radius:10px;
 }
 
 .book-name{
     font-weight:600;
-    max-width:220px;
+    width:160px;
+}
+
+.category-cell{
+    width:120px;
+    font-size: 14px;
+    color: #374151;
+    line-height: 1.5;
 }
 
 .book-price{
@@ -172,21 +179,29 @@ body {
 }
 
 .isbn-cell{
-    min-width:160px;
+    width:120px;
     font-size:14px;
     color:#555;
 }
 
-.table td{
-    white-space: nowrap;
+.table td,
+.table th{
+    overflow:hidden;
+    text-overflow:ellipsis;
 }
 
-
 .book-description{
-    max-width:260px;
+    width:180px;
     color:#666;
     white-space: normal !important;
     line-height:1.5;
+}
+
+.book-description,
+.category-cell,
+.book-name{
+    white-space:normal;
+    word-break:break-word;
 }
 
 /* ===== ACTION COLUMN ===== */
