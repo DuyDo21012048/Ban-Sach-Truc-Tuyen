@@ -616,8 +616,8 @@ $addresses = mysqli_query($conn, "
                                     </form>
 
                                     <a href="remove_favorite.php?id=<?= $book['id'] ?>&tab=favorites"
-                                    class="remove-favorite">
-                                       Xóa
+                                        class="remove-favorite">
+                                        Xóa
                                     </a>
 
                                 </div>

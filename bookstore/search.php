@@ -16,7 +16,13 @@ $conditions = [];
 /* Từ khóa */
 if (!empty($_GET['keyword'])) {
     $keyword = mysqli_real_escape_string($conn, $_GET['keyword']);
-    $conditions[] = "(title LIKE '%$keyword%' OR author LIKE '%$keyword%')";
+    $conditions[] = "
+    (
+        books.title LIKE '%$keyword%'
+        OR books.author LIKE '%$keyword%'
+        OR books.publisher LIKE '%$keyword%'
+    )
+    ";
 }
 
 if (!empty($_GET['price'])) {
@@ -56,14 +62,62 @@ if (!empty($_GET['category'])) {
     ";
 }
 
-$sql = "SELECT DISTINCT books.* FROM books";
+$limit = 21;
 
-if (!empty($conditions)) {
-    $sql .= " WHERE " . implode(" AND ", $conditions);
+$page = isset($_GET['page'])
+    ? max(1, (int)$_GET['page'])
+    : 1;
+
+$offset = ($page - 1) * $limit;
+
+$sql = "
+SELECT
+    books.*,
+    AVG(reviews.rating) AS avg_rating,
+    COUNT(reviews.id) AS total_reviews
+
+FROM books
+
+LEFT JOIN reviews
+    ON books.id = reviews.book_id
+";
+
+if(!empty($conditions)){
+    $sql .= "
+    WHERE " . implode(' AND ', $conditions);
 }
 
+$sql .= "
+GROUP BY books.id
+
+ORDER BY avg_rating DESC
+
+LIMIT $limit OFFSET $offset
+";
+
 $result = mysqli_query($conn, $sql);
+
 $totalResult = mysqli_num_rows($result);
+
+$countSql = "
+SELECT COUNT(DISTINCT books.id) AS total
+
+FROM books
+
+LEFT JOIN reviews
+    ON books.id = reviews.book_id
+";
+
+if(!empty($conditions)){
+    $countSql .= "
+    WHERE " . implode(' AND ', $conditions);
+}
+
+$countResult = mysqli_query($conn,$countSql);
+
+$totalBooks = mysqli_fetch_assoc($countResult)['total'];
+
+$totalPages = ceil($totalBooks / $limit);
 ?>
 
 <!DOCTYPE html>
@@ -79,10 +133,10 @@ $totalResult = mysqli_num_rows($result);
 
 <?php include 'header.php'; ?>
 
-<div class="container mt-5">
+<div class="container search-page">
 
     <h4 class="mb-4">
-        Tìm thấy <?= $totalResult ?> kết quả
+        Tìm thấy <?= $totalBooks ?> kết quả
     </h4>
 
     <div class="row">
@@ -151,7 +205,7 @@ $totalResult = mysqli_num_rows($result);
                         <div class="search-category-group">
 
                             <!-- HEADER -->
-                            <div class="parent-header">
+                            <div class="search-parent-header">
 
                                 <div class="parent-left">
 
@@ -169,7 +223,7 @@ $totalResult = mysqli_num_rows($result);
 
                                 <button
                                     type="button"
-                                    class="toggle-btn <?= $hasChecked ? 'active' : '' ?>"
+                                    class="search-toggle-btn <?= $hasChecked ? 'active' : '' ?>"
                                     onclick="toggleCategory(<?= $parentId ?>, this)"
                                 >
                                     <i class="bi bi-chevron-right"></i>
@@ -179,7 +233,7 @@ $totalResult = mysqli_num_rows($result);
 
                             <!-- CHILDREN -->
                             <div
-                                class="children"
+                                class="seacrh-children"
                                 id="children-<?= $parentId ?>"
                                 style="<?= $hasChecked ? 'display:block' : 'display:none' ?>"
                             >
@@ -233,10 +287,10 @@ $totalResult = mysqli_num_rows($result);
                             <a href="detail.php?id=<?= $row['id'] ?>&source=search" class="text-decoration-none text-dark">
                                 <img src="<?= $row['image'] ?>" class="book-image">
 
-                                <div class="card-content">
+                                <div class="search-card-content">
 
                                     <!-- HÌNH THỨC -->
-                                    <span class="book-type">
+                                    <span class="search-book-type">
                                         <?= $row['cover_type'] ?>
                                     </span>
 
@@ -246,26 +300,16 @@ $totalResult = mysqli_num_rows($result);
                                     </h5>
 
                                     <!-- TÁC GIẢ -->
-                                    <p class="book-author">
+                                    <p class="search-book-author">
                                         <?= $row['author'] ?>
                                     </p>
 
                                     <!-- RATING -->
-                                    <div class="book-rating">
+                                    <div class="search-book-rating">
 
                                         <?php
 
-                                        $ratingQuery = mysqli_query($conn, "
-                                            SELECT 
-                                                AVG(rating) as avg_rating,
-                                                COUNT(*) as total_reviews
-                                            FROM reviews
-                                            WHERE book_id = {$row['id']}
-                                        ");
-
-                                        $ratingData = mysqli_fetch_assoc($ratingQuery);
-
-                                        $avgRating = round($ratingData['avg_rating']);
+                                        $avgRating = round($row['avg_rating']);
 
                                         for($i = 1; $i <= 5; $i++){
 
@@ -284,7 +328,7 @@ $totalResult = mysqli_num_rows($result);
                                         ?>
 
                                         <span>
-                                            (<?= $ratingData['total_reviews'] ?>)
+                                            (<?= $row['total_reviews'] ?>)
                                         </span>
 
                                     </div>
@@ -317,7 +361,41 @@ $totalResult = mysqli_num_rows($result);
                 <?php } ?>
 
             </div>
+            <?php if($totalPages > 1): ?>
+
+            <nav class="mt-4">
+
+                <ul class="pagination justify-content-center">
+
+                    <?php for($i = 1; $i <= $totalPages; $i++): ?>
+
+                        <?php
+
+                        $params = $_GET;
+                        $params['page'] = $i;
+
+                        ?>
+
+                        <li class="page-item <?= $i == $page ? 'active' : '' ?>">
+
+                            <a
+                                class="page-link"
+                                href="?<?= http_build_query($params) ?>"
+                            >
+                                <?= $i ?>
+                            </a>
+
+                        </li>
+
+                    <?php endfor; ?>
+
+                </ul>
+
+            </nav>
+
+            <?php endif; ?>
         </div>
+
     </div>
 
 </div>

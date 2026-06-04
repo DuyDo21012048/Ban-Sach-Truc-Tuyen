@@ -3,9 +3,18 @@ body {
 }
 
 /* BOX */
-.login-container {
-    max-width: 450px;
-    margin: 50px auto;
+body{
+    background:#f5f6fa;
+    min-height:100vh;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.login-container{
+    width:100%;
+    max-width:450px;
 }
 
 .login-box {
@@ -24,8 +33,12 @@ body {
 }
 
 /* FORM */
-form {
+.login-box form {
     padding: 20px;
+}
+
+.form-control{
+    height:48px;
 }
 
 .input-group-text {
@@ -33,19 +46,34 @@ form {
 }
 
 /* BUTTON */
-.register-btn {
-    background: linear-gradient(135deg, #3b82f6, #9333ea);
-    color: #fff;
-    border: none;
-    border-radius: 10px;
-    padding: 12px;
-    font-weight: 600;
+.btn.register-btn{
+    background: linear-gradient(135deg,#3b82f6,#9333ea);
+    color:#fff !important;
+    border:none;
+}
+
+.register-btn:hover{
+    opacity:.95;
+    transform:translateY(-1px);
+}
+
+.register-btn{
+    transition:.25s;
 }
 
 /* BACK */
-.back-link {
-    display: inline-block;
-    margin-bottom: 15px;
-    text-decoration: none;
-    color: #333;
+.back-link{
+    display:inline-block;
+    margin-bottom:15px;
+    text-decoration:none;
+    color:#333;
+    font-weight:600;
+}
+
+.back-link:hover{
+    color:#2563eb;
+}
+
+.toggle-password{
+    cursor:pointer;
 }

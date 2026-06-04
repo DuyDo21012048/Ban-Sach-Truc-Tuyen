@@ -7,8 +7,19 @@ if (session_status() === PHP_SESSION_NONE) {
 /* Đếm số lượng sản phẩm trong giỏ */
 $count = 0;
 
-if (isset($_SESSION['cart']) && is_array($_SESSION['cart'])) {
-    $count = array_sum($_SESSION['cart']);
+if(isset($_SESSION['user_id'])){
+
+    $user_id = $_SESSION['user_id'];
+
+    $result = mysqli_query($conn,"
+        SELECT SUM(quantity) AS total
+        FROM carts
+        WHERE user_id = $user_id
+    ");
+
+    $row = mysqli_fetch_assoc($result);
+
+    $count = $row['total'] ?? 0;
 }
 ?>
 

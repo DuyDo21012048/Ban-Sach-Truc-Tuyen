@@ -26,7 +26,11 @@
         </div>
 
         <!-- FORM -->
-        <form action="handle_register.php" method="POST">
+        <form 
+            action="handle_register.php" 
+            method="POST"
+            id="registerForm"
+        >
 
             <!-- Name -->
             <div class="mb-3">
@@ -59,8 +63,16 @@
                     <span class="input-group-text">
                         <i class="bi bi-lock"></i>
                     </span>
-                    <input type="password" name="password" class="form-control"
-                        placeholder="••••••••" required>
+
+                    <input 
+                        type="password" 
+                        name="password" 
+                        class="form-control"
+                        minlength="8"
+                        placeholder="••••••••" 
+                        required
+                    >
+
                     <span class="input-group-text toggle-password">
                         <i class="bi bi-eye"></i>
                     </span>
@@ -71,16 +83,30 @@
             <div class="mb-3">
                 <label>Xác nhận mật khẩu</label>
                 <div class="input-group">
+
                     <span class="input-group-text">
                         <i class="bi bi-lock"></i>
                     </span>
-                    <input type="password" name="confirm_password"
-                        class="form-control" placeholder="••••••••" required>
+
+                    <input 
+                        type="password" 
+                        name="confirm_password"
+                        class="form-control"
+                        minlength="8"
+                        placeholder="••••••••" 
+                        required
+                    >
+
+                    <span class="input-group-text toggle-password">
+                        <i class="bi bi-eye"></i>
+                    </span>
                 </div>
             </div>
-
             <!-- Button -->
-            <button class="btn register-btn w-100">
+            <button 
+                type="submit"
+                class="btn register-btn w-100"
+            >
                 Đăng ký
             </button>
 
@@ -98,17 +124,45 @@
 
 <!-- JS show/hide password -->
 <script>
-const toggle = document.querySelector('.toggle-password');
-const password = document.querySelector('input[name="password"]');
+document.querySelectorAll('.toggle-password').forEach(toggle => {
 
-toggle.addEventListener('click', () => {
-    if (password.type === "password") {
-        password.type = "text";
-        toggle.innerHTML = '<i class="bi bi-eye-slash"></i>';
-    } else {
-        password.type = "password";
-        toggle.innerHTML = '<i class="bi bi-eye"></i>';
+    toggle.addEventListener('click', () => {
+
+        const input = toggle.parentElement.querySelector('input');
+
+        if(input.type === 'password'){
+
+            input.type = 'text';
+            toggle.innerHTML = '<i class="bi bi-eye-slash"></i>';
+
+        }else{
+
+            input.type = 'password';
+            toggle.innerHTML = '<i class="bi bi-eye"></i>';
+
+        }
+
+    });
+
+});
+
+document.getElementById('registerForm')
+.addEventListener('submit', function(e){
+
+    const password =
+        document.querySelector('[name="password"]').value;
+
+    const confirm =
+        document.querySelector('[name="confirm_password"]').value;
+
+    if(password !== confirm){
+
+        e.preventDefault();
+
+        alert('Mật khẩu xác nhận không khớp');
+
     }
+
 });
 </script>
 

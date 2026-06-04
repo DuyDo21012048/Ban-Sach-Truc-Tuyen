@@ -2,6 +2,12 @@
 include 'db.php';
 session_start();
 
+if(!isset($_SESSION['user_id'])){
+    header("Location: login.php");
+    exit();
+}
+
+$user_id = $_SESSION['user_id'];
 $backUrl = 'home.php';
 
 if(isset($_GET['back'])){
@@ -48,119 +54,96 @@ if(isset($_GET['back'])){
         $total = 0;
         $shipping = 30000;
 
-        if (isset($_SESSION['cart']) && count($_SESSION['cart']) > 0) {
+        $cartItems = mysqli_query($conn,"
+            SELECT
+                carts.book_id,
+                carts.quantity,
+                books.*
+            FROM carts
+            JOIN books
+                ON books.id = carts.book_id
+            WHERE carts.user_id = $user_id
+        ");
+
+        $cartBooks = [];
+
+        while($row = mysqli_fetch_assoc($cartItems)){
+            $cartBooks[] = $row;
+        }
+
+        $cartCount = count($cartBooks);
         ?>
+        <?php if($cartCount > 0): ?>
         <div class="row">
             
             <!-- LEFT SIDE -->
             <div class="col-md-8">
-            <?php
-            foreach ($_SESSION['cart'] as $id => $qty) {
+                <?php foreach($cartBooks as $book): ?>
 
-                $result = mysqli_query($conn, "SELECT * FROM books WHERE id = $id");
-                $book = mysqli_fetch_assoc($result);
+                    <?php
+                    $id = $book['book_id'];
+                    $qty = $book['quantity'];
 
-                $subtotal = $book['price'] * $qty;
-                $total += $subtotal;
-            ?>
+                    $subtotal = $book['price'] * $qty;
+                    $total += $subtotal;
+                    ?>
 
-            <!-- MỖI SÁCH = 1 FRAME RIÊNG -->
-            <div class="cart-card mb-4">
+                    <!-- MỖI SÁCH = 1 FRAME RIÊNG -->
+                    <div class="cart-card mb-4">
 
-                <div class="d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center justify-content-between">
 
-                    <!-- LEFT -->
-                    <div class="d-flex align-items-center gap-4">
+                            <!-- LEFT -->
+                            <div class="d-flex align-items-center gap-4">
 
-                        <!-- IMAGE -->
-                        <img src="<?= $book['image'] ?>" class="cart-image">
+                                <!-- IMAGE -->
+                                <img src="<?= $book['image'] ?>" class="cart-image">
 
-                        <!-- INFO -->
-                        <div>
+                                <!-- INFO -->
+                                <div>
 
-                            <h3 class="book-title">
-                                <?= $book['title'] ?>
-                            </h3>
+                                    <h3 class="book-title">
+                                        <?= $book['title'] ?>
+                                    </h3>
 
-                            <p class="book-price">
-                                <?= number_format($book['price']) ?>đ
-                            </p>
+                                    <p class="book-price">
+                                        <?= number_format($book['price']) ?>đ
+                                    </p>
 
-                            <!-- QTY -->
-                            <div class="qty-box">
+                                    <!-- QTY -->
+                                    <div class="qty-box">
 
-                                <?php if ($qty > 1): ?>
-                                    <a href="update_cart.php?id=<?= $id ?>&action=minus"
-                                    class="qty-btn">−</a>
-                                <?php else: ?>
-                                    <span class="qty-btn disabled-btn">−</span>
-                                <?php endif; ?>
+                                        <?php if ($qty > 1): ?>
+                                            <a href="update_cart.php?id=<?= $id ?>&action=minus"
+                                            class="qty-btn">−</a>
+                                        <?php else: ?>
+                                            <span class="qty-btn disabled-btn">−</span>
+                                        <?php endif; ?>
 
-                                <span class="qty-number">
-                                    <?= $qty ?>
-                                </span>
+                                        <span class="qty-number">
+                                            <?= $qty ?>
+                                        </span>
 
-                                <a href="update_cart.php?id=<?= $id ?>&action=plus"
-                                class="qty-btn">+</a>
+                                        <a href="update_cart.php?id=<?= $id ?>&action=plus"
+                                        class="qty-btn">+</a>
 
+                                    </div>
+
+                                </div>
                             </div>
 
-                        </div>
-                    </div>
-
-                    <!-- RIGHT -->
-                    <div>
-                        <a href="update_cart.php?id=<?= $id ?>&action=delete" class="remove-btn">
-                            <i class="bi bi-trash3-fill"></i> Xóa
-                        </a>
-                    </div>
-
-                </div>
-
-            </div>
-                                    
-            <?php 
-
-                    } 
-
-            } else { 
-            ?>
-                <!-- Empty Cart Box -->
-                <div class="row justify-content-center">
-
-                    <div class="col-md-8">
-
-                        <div class="empty-cart-box text-center">
-
-                            <div class="empty-icon">
-                                <i class="bi bi-bag-heart"></i>
+                            <!-- RIGHT -->
+                            <div>
+                                <a href="update_cart.php?id=<?= $id ?>&action=delete" class="remove-btn">
+                                    <i class="bi bi-trash3-fill"></i> Xóa
+                                </a>
                             </div>
-
-                            <h3 class="empty-title">
-                                Giỏ hàng trống
-                            </h3>
-
-                            <p class="empty-text">
-                                Hãy thêm sản phẩm vào giỏ hàng để tiếp tục mua sắm
-                            </p>
-
-                            <a href="<?= $backUrl ?>" class="btn explore-btn">
-                                Khám phá sách
-                            </a>
-
                         </div>
-
                     </div>
+                <?php endforeach; ?>   
 
-                </div>
-
-            <?php } ?>
-
-        </div>      
-
-        <!-- RIGHT SIDE -->
-            <?php if (isset($_SESSION['cart']) && count($_SESSION['cart']) > 0): ?>
-         
+            </div>          
+            <!-- RIGHT SIDE -->            
             <div class="col-md-4">
 
                 <!-- FRAME RIÊNG CHO TÓM TẮT ĐƠN HÀNG -->
@@ -227,11 +210,37 @@ if(isset($_GET['back'])){
                 </div>
 
             </div>
+            <?php else: ?>                                    
+            <!-- Empty Cart Box -->
+            <div class="row justify-content-center">
 
+                <div class="col-md-8">
+
+                    <div class="empty-cart-box text-center">
+
+                        <div class="empty-icon">
+                            <i class="bi bi-bag-heart"></i>
+                        </div>
+
+                        <h3 class="empty-title">
+                            Giỏ hàng trống
+                        </h3>
+
+                        <p class="empty-text">
+                            Hãy thêm sản phẩm vào giỏ hàng để tiếp tục mua sắm
+                        </p>
+
+                        <a href="<?= $backUrl ?>" class="btn explore-btn">
+                            Khám phá sách
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
             <?php endif; ?>
-
-    </div>
-
+        </div>      
 </div>
 
 </body>
