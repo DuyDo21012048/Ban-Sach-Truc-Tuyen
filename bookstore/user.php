@@ -157,12 +157,18 @@ $addresses = mysqli_query($conn, "
 
                     ?>
 
-                    <img src="<?= $avatar ?>" class="avatar">
+                    <img
+                        src="<?= $avatar ?>"
+                        class="avatar"
+                        alt="Avatar"
+                    >
 
-                    <form action="upload_avatar.php"
+                    <form
+                        action="upload_avatar.php"
                         method="POST"
                         enctype="multipart/form-data"
-                        class="avatar-form">
+                        class="avatar-form"
+                    >
 
                         <input
                             type="file"
@@ -172,7 +178,10 @@ $addresses = mysqli_query($conn, "
                             accept="image/*"
                         >
 
-                        <label for="avatarInput" class="change-avatar-btn">
+                        <label
+                            for="avatarInput"
+                            class="change-avatar-btn"
+                        >
                             <i class="bi bi-camera"></i>
                             Đổi ảnh
                         </label>
@@ -181,7 +190,14 @@ $addresses = mysqli_query($conn, "
 
                     <h5><?= $user['name'] ?></h5>
                     <p><?= $user['email'] ?></p>
+
                 </div>
+
+                <script>
+                document.getElementById('avatarInput').addEventListener('change', function () {
+                    this.form.submit();
+                });
+                </script>
 
                 <ul class="menu">
 

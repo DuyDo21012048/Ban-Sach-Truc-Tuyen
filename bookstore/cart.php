@@ -31,18 +31,7 @@ if(isset($_GET['back'])){
 
     <!-- Back -->
     <?php
-    if(isset($_SESSION['back_url'])){
-
-        $backUrl = $_SESSION['back_url'];
-
-        // dùng xong xóa luôn
-        unset($_SESSION['back_url']);
-
-    } else {
-
-        // quay lại trang trước
-        $backUrl = $_SERVER['HTTP_REFERER'] ?? 'home.php';
-    }
+    $backUrl = $_SESSION['back_url'] ?? 'home.php';
     ?>
 
     <a href="<?= $backUrl ?>" class="back-link">
@@ -121,7 +110,7 @@ if(isset($_GET['back'])){
 
                     <!-- RIGHT -->
                     <div>
-                        <a href="remove.php?id=<?= $id ?>" class="remove-btn">
+                        <a href="update_cart.php?id=<?= $id ?>" class="remove-btn">
                             <i class="bi bi-trash3-fill"></i> Xóa
                         </a>
                     </div>

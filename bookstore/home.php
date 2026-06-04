@@ -28,6 +28,7 @@ if(!empty($_SESSION['recently_viewed'])){
         FROM books
         WHERE id IN ($ids)
         ORDER BY FIELD(id,$ids)
+        LIMIT 7
     ");
 }    
 
@@ -79,7 +80,7 @@ if(!empty($_SESSION['recently_viewed'])){
 
             ORDER BY avg_rating DESC
 
-            LIMIT 10
+            LIMIT 6
         ");
     }
 }
@@ -99,381 +100,415 @@ if(!empty($_SESSION['recently_viewed'])){
 
 <!-- HEADER -->
 <?php include 'header.php'; ?>
-<?php
-if($recentBooks && mysqli_num_rows($recentBooks) > 0){
-?>
-    
-<section class="recently-viewed">
 
-    <h2 class="recent-title">
-        Đã xem gần đây
-    </h2>
-
-    <div class="recent-grid">
-
-        <?php while($book = mysqli_fetch_assoc($recentBooks)){ ?>
-
-            <div class="recent-card">
-
-                <a href="detail.php?id=<?= $book['id'] ?>">
-
-                    <img
-                        src="<?= $book['image'] ?>"
-                        alt="<?= $book['title'] ?>"
-                    >
-
-                    <h4>
-                        <?= $book['title'] ?>
-                    </h4>
-
-                </a>
-
-            </div>
-
-        <?php } ?>
-
-    </div>
-
-</section>
-<?php if($recommendedBooks && mysqli_num_rows($recommendedBooks) > 0){ ?>
-
-<section class="recommended-section">
-
-    <h2>Dành cho bạn</h2>
-
-    <div class="row-books">
-
-        <?php while($book = mysqli_fetch_assoc($recommendedBooks)){ ?>
-        
-        <div class="col-custom-5">
-
-            <div class="card">
-
-                <a href="detail.php?id=<?= $book['id'] ?>&source=home"
-                class="text-decoration-none text-dark">
-
-                    <img src="<?= $book['image'] ?>">
-
-                    <div class="card-content">
-
-                        <!-- HÌNH THỨC -->
-                        <span class="book-type">
-                            <?= $book['cover_type'] ?>
-                        </span>
-
-                        <!-- TÊN -->
-                        <h5>
-                            <?= $book['title'] ?>
-                        </h5>
-
-                        <!-- TÁC GIẢ -->
-                        <p class="book-author">
-                            <?= $book['author'] ?>
-                        </p>
-
-                        <!-- RATING -->
-                        <div class="book-rating">
-
-                            <?php
-
-                            $rating = round($book['avg_rating']);
-
-                            for($i = 1; $i <= 5; $i++){
-
-                                if($i <= $rating){
-
-                                    echo '<i class="bi bi-star-fill"></i>';
-
-                                }else{
-
-                                    echo '<i class="bi bi-star"></i>';
-
-                                }
-
-                            }
-
-                            ?>
-
-                            <span>
-                                (<?= $book['total_reviews'] ?>)
-                            </span>
-
-                        </div>
-
-                        <!-- PRICE -->
-                        <p class="price">
-                            <?= number_format($book['price']) ?>đ
-                        </p>
-
-                    </div>
-
-                </a>
-
-                <div class="px-3 pb-3">
-                    <form action="add_to_cart.php" method="POST">
-
-                        <input type="hidden" name="id" value="<?= $book['id'] ?>">
-
-                            <button class="btn btn-primary">
-                                Thêm vào giỏ
-                            </button>
-
-                    </form>
-                </div>
-
-            </div>
-
-        </div>
-
-        <?php } ?>   
-
-    </div>
-
-</section>
-
-<?php } ?>
-
-<?php } ?>
 <!-- Bootstrap Icons -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
-      <!-- LIST BOOK -->
-      <div class="container-fluid  mt-5">
+<!-- LIST BOOK -->
+<div class="container-fluid  mt-5">
 
-          <div class="row">
+    <div class="row">
 
-              <!-- SIDEBAR -->
-              <div class="col-md-2">
+        <!-- SIDEBAR -->
+        <div class="col-md-2">
 
-                  <form method="GET" action="home.php">
+            <form method="GET" action="home.php">
 
-                      <div class="category-sidebar">
+                <div class="category-sidebar">
 
-                          <h4 class="sidebar-title">
-                              Thể loại
-                          </h4>
+                    <h4 class="sidebar-title">
+                        Thể loại
+                    </h4>
 
-                          <?php while($parent = mysqli_fetch_assoc($parentCategories)) { ?>
+                    <?php while($parent = mysqli_fetch_assoc($parentCategories)) { ?>
 
-                              <?php
-                              $parentId = $parent['id'];
+                        <?php
+                        $parentId = $parent['id'];
+                    
+                        $children = mysqli_query($conn, "
+                            SELECT * FROM categories
+                            WHERE parent_id = $parentId
+                        ");
+                        ?>
 
-                              $children = mysqli_query($conn, "
-                                  SELECT * FROM categories
-                                  WHERE parent_id = $parentId
-                              ");
-                              ?>
+                        <div class="category-group">
 
-                              <div class="category-group">
+                            <!-- CATEGORY CHA -->
+                            <div class="parent-header">
 
-                                  <!-- CATEGORY CHA -->
-                                  <div class="parent-header">
+                                <div class="parent-left">
 
-                                      <div class="parent-left">
+                                    <input
+                                        type="checkbox"
+                                        class="parent-checkbox"
+                                    >
 
-                                          <input
-                                              type="checkbox"
-                                              class="parent-checkbox"
-                                          >
-
-                                          <h5 class="parent-category">
-                                              <?= $parent['name'] ?>
-                                          </h5>
-
-                                      </div>
-
-                                      <button
-                                          type="button"
-                                          class="toggle-btn"
-                                          onclick="toggleCategory(<?= $parentId ?>)"
-                                      >
-                                          +
-                                      </button>
-
-                                  </div>
-
-                                  <!-- CATEGORY CON -->
-                                  <div class="children" id="children-<?= $parentId ?>">
-
-                                      <?php while($child = mysqli_fetch_assoc($children)) { ?>
-
-                                          <label class="category-item">
-
-                                              <input
-                                                  type="checkbox"
-                                                  class="child-checkbox"
-                                                  name="category[]"
-                                                  value="<?= $child['id'] ?>"
-
-                                                  <?= in_array($child['id'], $selectedCategories)
-                                                      ? 'checked'
-                                                      : ''
-                                                  ?>
-                                              >
-
-                                              <span>
-                                                  <?= $child['name'] ?>
-                                              </span>
-
-                                          </label>
-
-                                      <?php } ?>
-
-                                  </div>
-
-                              </div>
-
-                          <?php } ?>
-
-                          <button class="filter-btn">
-                              Áp dụng
-                          </button>
-
-                      </div>
-
-                  </form>
-
-              </div>
-
-              <!-- BOOK LIST -->
-              <div class="col-md-10">
-
-                  <div class="row-books">
-
-                      <?php
-
-                      $where = "";
-
-                      if (!empty($_GET['category'])) {
-
-                          $categoryIds = array_map('intval', $_GET['category']);
-
-                          $ids = implode(',', $categoryIds);
-
-                          $where = "
-                              WHERE books.id IN (
-
-                                  SELECT book_id
-                                  FROM book_categories
-                                  WHERE category_id IN ($ids)
-
-                              )
-                          ";
-                      }
-
-                        $sql = "
-                            SELECT 
-                                books.*,
-
-                                AVG(reviews.rating) AS avg_rating,
-                                COUNT(reviews.id) AS total_reviews
-
-                            FROM books
-
-                            LEFT JOIN reviews
-                                ON books.id = reviews.book_id
-
-                            $where
-
-                            GROUP BY books.id
-                        ";
-
-                      $result = mysqli_query($conn, $sql);
-
-                      while ($row = mysqli_fetch_assoc($result)) {
-
-                      ?>
-                      
-
-                      <div class="col-custom-5">
-
-                        <div class="card">
-
-                            <a href="detail.php?id=<?= $row['id'] ?>&source=home"
-                            class="text-decoration-none text-dark">
-
-                                <img src="<?= $row['image'] ?>">
-
-                                <div class="card-content">
-
-                                    <!-- HÌNH THỨC -->
-                                    <span class="book-type">
-                                        <?= $row['cover_type'] ?>
-                                    </span>
-
-                                    <!-- TÊN -->
-                                    <h5>
-                                        <?= $row['title'] ?>
+                                    <h5 class="parent-category">
+                                        <?= $parent['name'] ?>
                                     </h5>
-
-                                    <!-- TÁC GIẢ -->
-                                    <p class="book-author">
-                                        <?= $row['author'] ?>
-                                    </p>
-
-                                    <!-- RATING -->
-                                    <div class="book-rating">
-
-                                        <?php
-
-                                        $rating = round($row['avg_rating']);
-
-                                        for($i = 1; $i <= 5; $i++){
-
-                                            if($i <= $rating){
-
-                                                echo '<i class="bi bi-star-fill"></i>';
-
-                                            }else{
-
-                                                echo '<i class="bi bi-star"></i>';
-
-                                            }
-
-                                        }
-
-                                        ?>
-
-                                        <span>
-                                            (<?= $row['total_reviews'] ?>)
-                                        </span>
-
-                                    </div>
-
-                                    <!-- PRICE -->
-                                    <p class="price">
-                                        <?= number_format($row['price']) ?>đ
-                                    </p>
 
                                 </div>
 
-                            </a>
+                                <button
+                                    type="button"
+                                    class="toggle-btn"
+                                    onclick="toggleCategory(<?= $parentId ?>)"
+                                >
+                                    +
+                                </button>
 
-                            <div class="px-3 pb-3">
-                                <form action="add_to_cart.php" method="POST">
+                            </div>
 
-                                    <input type="hidden" name="id" value="<?= $row['id'] ?>">
+                            <!-- CATEGORY CON -->
+                            <div class="children" id="children-<?= $parentId ?>">
 
-                                    <button class="btn btn-primary">
-                                        Thêm vào giỏ
-                                    </button>
+                                <?php while($child = mysqli_fetch_assoc($children)) { ?>
 
-                                </form>
+                                    <label class="category-item">
+
+                                        <input
+                                            type="checkbox"
+                                            class="child-checkbox"
+                                            name="category[]"
+                                            value="<?= $child['id'] ?>"
+
+                                            <?= in_array($child['id'], $selectedCategories)
+                                                ? 'checked'
+                                                : ''
+                                            ?>
+                                        >
+
+                                        <span>
+                                            <?= $child['name'] ?>
+                                        </span>
+
+                                    </label>
+
+                                <?php } ?>
+
                             </div>
 
                         </div>
 
-                      </div>
+                    <?php } ?>
 
-                      <?php } ?>
+                    <button class="filter-btn">
+                        Áp dụng
+                    </button>
 
-                  </div>
+                </div>
 
-              </div>
+            </form>
 
-          </div>
+        </div>
 
-      </div>
+        <!-- BOOK LIST -->
+        <div class="col-md-10">
+            <div class="content-column">
+                <?php
+                if($recentBooks && mysqli_num_rows($recentBooks) > 0){
+                ?>
+                <div class="personalized-wrapper">
+                    <!-- Đã xem gần đây -->    
+                    <section class="recently-viewed">
+
+                        <h2 class="section-title">
+                            <i class="bi bi-clock-history"></i>
+                            Đã xem gần đây
+                        </h2>
+
+                        <div class="recent-grid">
+
+                            <?php while($book = mysqli_fetch_assoc($recentBooks)){ ?>
+
+                                <div class="recent-card">
+
+                                    <a href="detail.php?id=<?= $book['id'] ?>">
+
+                                        <img
+                                            src="<?= $book['image'] ?>"
+                                            alt="<?= $book['title'] ?>"
+                                        >
+
+                                        <h4>
+                                            <?= $book['title'] ?>
+                                        </h4>
+
+                                    </a>
+
+                                </div>
+
+                            <?php } ?>
+
+                        </div>
+
+                    </section>
+                    <?php if($recommendedBooks && mysqli_num_rows($recommendedBooks) > 0){ ?>
+
+                    <!-- Dành cho bạn -->
+                    <section class="recommended-section">
+
+                        <div class="recommend-header">
+
+                            <div class="recommend-icon">
+                                ✨
+                            </div>
+
+                            <div>
+                                <h2>Dành riêng cho bạn</h2>
+                                <p>Những cuốn sách chúng tôi nghĩ bạn sẽ thích</p>
+                            </div>
+
+                        </div>
+
+                        <div class="row-books">
+
+                            <?php while($book = mysqli_fetch_assoc($recommendedBooks)){ ?>
+                                
+                            <div class="col-custom-5">
+
+                                <div class="card">
+
+                                    <a href="detail.php?id=<?= $book['id'] ?>&source=home"
+                                    class="text-decoration-none text-dark">
+
+                                        <img src="<?= $book['image'] ?>">
+
+                                        <div class="card-content">
+
+                                            <!-- HÌNH THỨC -->
+                                            <span class="book-type">
+                                                <?= $book['cover_type'] ?>
+                                            </span>
+
+                                            <!-- TÊN -->
+                                            <h5>
+                                                <?= $book['title'] ?>
+                                            </h5>
+
+                                            <!-- TÁC GIẢ -->
+                                            <p class="book-author">
+                                                <?= $book['author'] ?>
+                                            </p>
+
+                                            <!-- RATING -->
+                                            <div class="book-rating">
+
+                                                <?php
+
+                                                $rating = round($book['avg_rating']);
+
+                                                for($i = 1; $i <= 5; $i++){
+
+                                                    if($i <= $rating){
+
+                                                        echo '<i class="bi bi-star-fill"></i>';
+
+                                                    }else{
+
+                                                        echo '<i class="bi bi-star"></i>';
+
+                                                    }
+
+                                                }
+
+                                                ?>
+
+                                                <span>
+                                                    (<?= $book['total_reviews'] ?>)
+                                                </span>
+
+                                            </div>
+
+                                            <!-- PRICE -->
+                                            <p class="price">
+                                                <?= number_format($book['price']) ?>đ
+                                            </p>
+
+                                        </div>
+
+                                    </a>
+
+                                    <div class="px-3 pb-3">
+                                        <form action="add_to_cart.php" method="POST">
+
+                                            <input type="hidden" name="id" value="<?= $book['id'] ?>">
+
+                                                <button class="btn btn-primary">
+                                                    Thêm vào giỏ
+                                                </button>
+
+                                        </form>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <?php } ?>   
+
+                        </div>
+
+                    </section>
+                    <?php } ?>
+                </div>
+                <?php } ?>
+                <!-- Sách nổi bật -->
+                <div class="trending-wrapper">
+                    <div class="section-header">
+
+                        <h2>
+                            Sách nổi bật
+                        </h2>
+
+                        <a href="search.php">
+                            Xem tất cả và tìm kiếm
+                        </a>
+
+                    </div>
+                    <div class="row-books">
+
+                        <?php
+
+                        $where = "";
+
+                        if (!empty($_GET['category'])) {
+
+                            $categoryIds = array_map('intval', $_GET['category']);
+
+                            $ids = implode(',', $categoryIds);
+
+                            $where = "
+                                WHERE books.id IN (
+
+                                    SELECT book_id
+                                    FROM book_categories
+                                    WHERE category_id IN ($ids)
+
+                                )
+                            ";
+                        }
+
+                            $sql = "
+                                SELECT 
+                                    books.*,
+
+                                    AVG(reviews.rating) AS avg_rating,
+                                    COUNT(reviews.id) AS total_reviews
+
+                                FROM books
+
+                                LEFT JOIN reviews
+                                    ON books.id = reviews.book_id
+
+                                $where
+
+                                GROUP BY books.id
+
+                                ORDER BY 
+                                    avg_rating DESC, 
+                                    total_reviews DESC
+
+                                LIMIT 42
+                            ";
+
+                        $result = mysqli_query($conn, $sql);
+
+                        while ($row = mysqli_fetch_assoc($result)) {
+
+                        ?>
+                            
+
+                        <div class="col-custom-5">
+
+                            <div class="card">
+
+                                <a href="detail.php?id=<?= $row['id'] ?>&source=home"
+                                class="text-decoration-none text-dark">
+
+                                    <img src="<?= $row['image'] ?>">
+
+                                    <div class="card-content">
+
+                                        <!-- HÌNH THỨC -->
+                                        <span class="book-type">
+                                            <?= $row['cover_type'] ?>
+                                        </span>
+
+                                        <!-- TÊN -->
+                                        <h5>
+                                            <?= $row['title'] ?>
+                                        </h5>
+
+                                        <!-- TÁC GIẢ -->
+                                        <p class="book-author">
+                                            <?= $row['author'] ?>
+                                        </p>
+
+                                        <!-- RATING -->
+                                        <div class="book-rating">
+
+                                            <?php
+
+                                            $rating = round($row['avg_rating']);
+
+                                            for($i = 1; $i <= 5; $i++){
+
+                                                if($i <= $rating){
+
+                                                    echo '<i class="bi bi-star-fill"></i>';
+
+                                                }else{
+
+                                                    echo '<i class="bi bi-star"></i>';
+
+                                                }
+
+                                            }
+
+                                            ?>
+
+                                            <span>
+                                                (<?= $row['total_reviews'] ?>)
+                                            </span>
+
+                                        </div>
+
+                                        <!-- PRICE -->
+                                        <p class="price">
+                                            <?= number_format($row['price']) ?>đ
+                                        </p>
+
+                                    </div>
+
+                                </a>
+
+                                <div class="px-3 pb-3">
+                                    <form action="add_to_cart.php" method="POST">
+
+                                        <input type="hidden" name="id" value="<?= $row['id'] ?>">
+
+                                        <button class="btn btn-primary">
+                                            Thêm vào giỏ
+                                        </button>
+
+                                    </form>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <?php } ?>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
 <script>
 
 document.querySelectorAll('.category-group').forEach(group => {

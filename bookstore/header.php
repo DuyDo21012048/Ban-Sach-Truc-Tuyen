@@ -57,7 +57,7 @@ if (isset($_SESSION['cart']) && is_array($_SESSION['cart'])) {
 
                 <a href="user.php?back=<?= urlencode($_SERVER['REQUEST_URI']) ?>"
                     class="nav-link-custom user-link">
-                    <i class="bi bi-person"></i>
+                    <i class="bi bi-person-circle me-1"></i>
                     <?= $_SESSION['user_name'] ?>
                 </a>
 
@@ -78,7 +78,14 @@ if (isset($_SESSION['cart']) && is_array($_SESSION['cart'])) {
             <?php endif; ?>
 
             <!-- Cart -->
-            <a href="cart.php?back=<?= urlencode($_SERVER['REQUEST_URI']) ?>"
+            <?php
+            $currentPage = basename($_SERVER['PHP_SELF']);
+
+            if($currentPage != 'cart.php'){
+                $_SESSION['back_url'] = $_SERVER['REQUEST_URI'];
+            }
+            ?>
+            <a href="cart.php"
                 class="nav-link-custom cart-link position-relative pe-4">
                 <i class="bi bi-cart3 me-1"></i>
                 Giỏ hàng
