@@ -110,7 +110,7 @@ if(isset($_GET['back'])){
 
                     <!-- RIGHT -->
                     <div>
-                        <a href="update_cart.php?id=<?= $id ?>" class="remove-btn">
+                        <a href="update_cart.php?id=<?= $id ?>&action=delete" class="remove-btn">
                             <i class="bi bi-trash3-fill"></i> Xóa
                         </a>
                     </div>
