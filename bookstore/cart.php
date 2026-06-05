@@ -57,7 +57,7 @@ if(isset($_GET['back'])){
         $cartItems = mysqli_query($conn,"
             SELECT
                 carts.book_id,
-                carts.quantity,
+                carts.quantity AS cart_quantity,
                 books.*
             FROM carts
             JOIN books
@@ -82,7 +82,7 @@ if(isset($_GET['back'])){
 
                     <?php
                     $id = $book['book_id'];
-                    $qty = $book['quantity'];
+                    $qty = $book['cart_quantity'];
 
                     $subtotal = $book['price'] * $qty;
                     $total += $subtotal;
