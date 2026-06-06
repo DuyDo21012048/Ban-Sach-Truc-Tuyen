@@ -1,0 +1,247 @@
+body {
+    background: #f7f8fc;
+    font-family: Arial, sans-serif;
+}
+
+/* Back */
+.back-link {
+    text-decoration: none;
+    color: #2d3748;
+    font-weight: 600;
+}
+
+.admin-topbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:40px;
+    gap:20px;
+}
+
+/* 3 CỘT BẰNG NHAU */
+
+.topbar-left,
+.topbar-center,
+.topbar-right{
+    flex:1;
+}
+
+/* LEFT */
+
+.topbar-left{
+    display:flex;
+    gap:18px;
+    justify-content:center;
+}
+
+/* CENTER */
+
+.topbar-center{
+    text-align:center;
+}
+
+.admin-title{
+    font-size:54px;
+    font-weight:800;
+    margin:0;
+    line-height:1.1;
+    color:#111827;
+}
+
+.admin-subtitle{
+    margin-top:10px;
+    font-size:17px;
+    color:#6b7280;
+}
+
+/* RIGHT */
+
+.topbar-right{
+    display:flex;
+    justify-content:center;
+}
+
+/* BUTTON */
+
+.add-book-btn{
+    background:#2563eb;
+    color:#fff;
+    text-decoration:none;
+    padding:14px 24px;
+    border-radius:14px;
+    font-weight:600;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    transition:0.2s;
+}
+
+.add-book-btn:hover{
+    background:#1d4ed8;
+    color:#fff;
+    transform:translateY(-2px);
+}
+
+/* STATS */
+
+.mini-stat{
+    background:#fff;
+    border:1px solid #eee;
+    border-radius:18px;
+    padding:18px 24px;
+    display:flex;
+    align-items:center;
+    gap:16px;
+    min-width:190px;
+}
+
+.mini-stat i{
+    font-size:34px;
+    color:#2563eb;
+}
+
+.mini-stat h4{
+    margin:0;
+    font-size:32px;
+    font-weight:700;
+}
+
+.mini-stat p{
+    margin:0;
+    color:#6b7280;
+}
+
+/* Search */
+.search-wrapper{
+    margin-bottom:24px;
+}
+
+.admin-search{
+    height:54px;
+    border-radius:14px;
+    border:1px solid #ddd;
+    padding:0 18px;
+    font-size:16px;
+}
+
+.admin-container{
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+/* Table */
+.table-box{
+    background:#fff;
+    border-radius:20px;
+    border:1px solid #eee;
+    width: 100%;
+    overflow: visible;
+}
+
+.table{
+    width: 100%;
+    table-layout:fixed;
+}
+
+.table th{
+    background:#f8fafc;
+    padding:18px !important;
+    font-size:15px;
+}
+
+.table td{
+    padding:12px !important;
+    vertical-align:middle;
+}
+
+.admin-book-image{
+    width: 55px;
+    height: 75px;
+    object-fit:cover;
+    border-radius:10px;
+}
+
+.book-name{
+    font-weight:600;
+    width:160px;
+}
+
+.category-cell{
+    width:120px;
+    font-size: 14px;
+    color: #374151;
+    line-height: 1.5;
+}
+
+.book-price{
+    color:#2563eb;
+    font-weight:700;
+}
+
+.isbn-cell{
+    width:120px;
+    font-size:14px;
+    color:#555;
+}
+
+.table td,
+.table th{
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.book-description{
+    width:180px;
+    color:#666;
+    white-space: normal !important;
+    line-height:1.5;
+}
+
+.book-description,
+.category-cell,
+.book-name{
+    white-space:normal;
+    word-break:break-word;
+}
+
+/* ===== ACTION COLUMN ===== */
+
+.action-buttons{
+    display:flex;
+    gap:10px;
+}
+
+
+/* icon edit */
+.edit-btn {
+    color: #1f5eff;
+    font-size: 22px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* icon delete */
+.delete-btn{
+    width:38px;
+    height:38px;
+    border-radius:10px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-decoration:none;
+    color: red;
+    font-size: 22px;
+}
+
+/* hover nhẹ */
+.edit-btn:hover {
+    color: #1749d1;
+    opacity:0.9;
+}
+
+.delete-btn:hover {
+    color: #d60000;
+    opacity:0.9;
+}
