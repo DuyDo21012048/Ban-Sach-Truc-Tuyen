@@ -93,14 +93,54 @@ $statusData = [];
 
 $statusQuery = mysqli_query($conn,"
     SELECT
-        status,
+        CASE
+            WHEN status IN ('waiting_confirm','pending')
+                THEN 'processing'
+            ELSE status
+        END AS status_group,
         COUNT(*) total
     FROM orders
-    GROUP BY status
+    GROUP BY status_group
 ");
 
 while($row=mysqli_fetch_assoc($statusQuery)){
-    $statusData[$row['status']] = $row['total'];
+    $statusData[$row['status_group']] = $row['total'];
+}
+
+$statusLabels = [
+    'processing' => 'Đang xử lý',
+    'shipping'   => 'Đang giao',
+    'delivered'  => 'Đã giao',
+    'cancelled'  => 'Đã hủy'
+];
+
+$chartLabels = [];
+
+foreach($statusData as $key=>$value){
+
+    $chartLabels[] =
+        $statusLabels[$key];
+
+}
+
+$categoryQuery = mysqli_query($conn,"
+    SELECT
+        categories.name,
+        COUNT(book_categories.book_id) total
+    FROM categories
+    LEFT JOIN book_categories
+        ON categories.id = book_categories.category_id
+    GROUP BY categories.id
+    ORDER BY total DESC
+    LIMIT 3
+");
+
+$categoryLabels = [];
+$categoryData = [];
+
+while($row = mysqli_fetch_assoc($categoryQuery)){
+    $categoryLabels[] = $row['name'];
+    $categoryData[] = $row['total'];
 }
 
 /*
@@ -177,6 +217,8 @@ href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+
 
 <link rel="stylesheet" href="css/admin.css">
 </head>
@@ -230,7 +272,13 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.c
     </div>
 
     <!-- THỐNG KÊ -->
+    <h1 class="admin-heading">
+        Dashboard
+    </h1>
 
+    <p class="admin-subtitle">
+        Tổng quan về hoạt động kinh doanh
+    </p>
     <div class="stats-grid">
 
         <div class="stat-card">
@@ -265,8 +313,8 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.c
 
             <div class="stat-header">
 
-                <div class="stat-icon green">
-                    <i class="bi bi-bag stat-icon blue"></i>
+                <div class="stat-icon blue">
+                    <i class="bi bi-bag"></i>
                 </div>
 
                 <span class="stat-change positive">
@@ -293,8 +341,8 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.c
 
             <div class="stat-header">
 
-                <div class="stat-icon green">
-                    <i class="bi bi-box-seam stat-icon purple"></i>
+                <div class="stat-icon purple">
+                    <i class="bi bi-box-seam"></i>
                 </div>
 
                 <span class="stat-change positive">
@@ -321,8 +369,8 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.c
 
             <div class="stat-header">
 
-                <div class="stat-icon green">
-                    <i class="bi bi-people stat-icon orange"></i>
+                <div class="stat-icon orange">
+                    <i class="bi bi-people"></i>
                 </div>
 
                 <span class="stat-change positive">
@@ -359,7 +407,9 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.c
                     Doanh thu 7 ngày qua
                 </h4>
 
-                <canvas id="revenueChart"></canvas>
+                <div class="chart-wrapper">
+                    <canvas id="revenueChart"></canvas>
+                </div>
 
             </div>
 
@@ -369,11 +419,11 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.c
 
             <div class="chart-card">
 
-                <h4>
-                    Trạng thái đơn hàng
-                </h4>
+                <h4>Trạng thái đơn hàng</h4>
 
-                <canvas id="statusChart"></canvas>
+                <div class="pie-wrapper">
+                    <canvas id="statusChart"></canvas>
+                </div>
 
             </div>
 
@@ -387,7 +437,9 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.c
                     Top sách bán chạy
                 </h4>
 
-                <canvas id="bookChart"></canvas>
+                <div class="chart-wrapper">
+                    <canvas id="bookChart"></canvas>
+                </div>
 
             </div>
 
@@ -397,11 +449,11 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.c
 
             <div class="chart-card">
 
-                <h4>
-                    Phân bố trạng thái đơn
-                </h4>
+                <h4>Phân bố danh mục</h4>
 
-                <canvas id="pieChart"></canvas>
+                <div class="pie-wrapper">
+                    <canvas id="pieChart"></canvas>
+                </div>
 
             </div>
 
@@ -410,81 +462,115 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.c
     </div>
 
     <!-- TOP DOANH THU -->
+    <div class="dashboard-card full-width">
+        <h3>Top sách theo doanh thu</h3>
 
-    <div class="table-card mt-4">
-
-        <h3>
-            Top sách theo doanh thu
-        </h3>
-
-        <table class="table">
-
+        <table class="revenue-table">
             <thead>
-
                 <tr>
-                    <th>#</th>
-                    <th>Tên sách</th>
-                    <th>Đã bán</th>
-                    <th>Doanh thu</th>
+                    <th>THỨ HẠNG</th>
+                    <th>TÊN SÁCH</th>
+                    <th>SỐ LƯỢNG BÁN</th>
+                    <th>DOANH THU</th>
                 </tr>
-
             </thead>
 
             <tbody>
 
             <?php
-            $rank=1;
+            $rank = 1;
 
-            while($book=mysqli_fetch_assoc($topRevenue)):
+            while($book = mysqli_fetch_assoc($topRevenue)):
             ?>
 
                 <tr>
 
-                    <td><?= $rank++ ?></td>
+                    <td>
+                        <?php if($rank == 1): ?>
+                            <span class="rank-badge gold">1</span>
 
-                    <td><?= $book['title'] ?></td>
+                        <?php elseif($rank == 2): ?>
+                            <span class="rank-badge silver">2</span>
 
-                    <td><?= $book['sold'] ?></td>
+                        <?php elseif($rank == 3): ?>
+                            <span class="rank-badge bronze">3</span>
+
+                        <?php else: ?>
+                            <span class="rank-badge normal">
+                                <?= $rank ?>
+                            </span>
+                        <?php endif; ?>
+                    </td>
+
+                    <td class="book-title-cell">
+                        <?= htmlspecialchars($book['title']) ?>
+                    </td>
 
                     <td>
+                        <?= number_format($book['sold']) ?> cuốn
+                    </td>
+
+                    <td class="revenue-money">
                         <?= number_format($book['revenue']) ?>đ
                     </td>
 
                 </tr>
 
-            <?php endwhile; ?>
+            <?php
+            $rank++;
+            endwhile;
+            ?>
 
             </tbody>
-
         </table>
-
     </div>
 
 </div>
 
 <script>
-
+Chart.register(ChartDataLabels);
 new Chart(
 document.getElementById('revenueChart'),
 {
     type:'line',
 
     data:{
-        labels:
-        <?= json_encode($labels) ?>,
+        labels: <?= json_encode($labels) ?>,
 
         datasets:[{
             label:'Doanh thu',
+            data: <?= json_encode($revenues) ?>,
 
-            data:
-            <?= json_encode($revenues) ?>,
+            borderColor:'#3b82f6',
+            backgroundColor:'#3b82f6',
 
-            borderWidth:3,
+            tension:0.4,
 
-            tension:.4
+            fill:false,
+
+            pointRadius:5
         }]
+    },
+
+    options:{
+        responsive:true,
+        maintainAspectRatio:false,
+
+        plugins:{
+            legend:{
+                position:'bottom'
+            }
+        },
+
+        scales:{
+            y:{
+                beginAtZero:true
+            }
+        }
     }
 });
+
+Chart.register(ChartDataLabels);
 
 new Chart(
 document.getElementById('statusChart'),
@@ -492,13 +578,63 @@ document.getElementById('statusChart'),
     type:'pie',
 
     data:{
-        labels:
-        <?= json_encode(array_keys($statusData)) ?>,
+        labels: <?= json_encode($chartLabels) ?>,
 
         datasets:[{
-            data:
-            <?= json_encode(array_values($statusData)) ?>
+            data: <?= json_encode(array_values($statusData)) ?>,
+
+            backgroundColor:[
+                '#10b981',
+                '#3b82f6',
+                '#f59e0b',
+                '#ef4444'
+            ],
+
+            borderColor:'#fff',
+            borderWidth:2
         }]
+    },
+
+    options:{
+        responsive:true,
+        maintainAspectRatio:false,
+
+        plugins:{
+            legend:{
+                position:'bottom',
+                align:'start',
+                labels:{
+                    usePointStyle:true,
+                    pointStyle:'circle',
+                    padding:15
+                }
+            },
+
+            datalabels:{
+                color:'#111',
+                anchor:'end',
+                align:'end',
+
+                formatter:(value,ctx)=>{
+
+                    const data =
+                    ctx.chart.data.datasets[0].data;
+
+                    const total =
+                    data.reduce((a,b)=>a+b,0);
+
+                    const percent =
+                    Math.round(value*100/total);
+
+                    return percent + '%';
+                },
+
+                font:{
+                    weight:'bold',
+                    size:14
+                }
+            }
+        }
     }
 });
 
@@ -517,22 +653,74 @@ document.getElementById('bookChart'),
             data:
             <?= json_encode($bookSold) ?>
         }]
+    },
+    
+    options:{
+        responsive:true,
+        maintainAspectRatio:false,
+        plugins:{
+            legend:{
+                display:false
+            }
+        },
+        scales:{
+            x:{
+                ticks:{
+                    maxRotation:45,
+                    minRotation:45
+                }
+            }
+        }
     }
 });
 
 new Chart(
 document.getElementById('pieChart'),
 {
-    type:'doughnut',
+    type:'pie',
 
     data:{
-        labels:
-        <?= json_encode(array_keys($statusData)) ?>,
+        labels: <?= json_encode($categoryLabels) ?>,
 
         datasets:[{
-            data:
-            <?= json_encode(array_values($statusData)) ?>
+            data: <?= json_encode($categoryData) ?>,
+
+            backgroundColor:[
+                '#ec4899',
+                '#3b82f6',
+                '#8b5cf6'
+            ],
+
+            borderColor:'#fff',
+            borderWidth:2
         }]
+    },
+
+    options:{
+        responsive:true,
+        maintainAspectRatio:false,
+
+        plugins:{
+            legend:{
+                position:'bottom',
+                align:'start',
+                labels:{
+                    usePointStyle:true,
+                    pointStyle:'circle',
+                    padding:15
+                }
+            },
+            datalabels:{
+                anchor:'end',
+                align:'end',
+                offset:10,
+                color:'#111',
+                font:{
+                    weight:'bold',
+                    size:14
+                }
+            }
+        }
     }
 });
 
