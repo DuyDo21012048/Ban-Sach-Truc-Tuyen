@@ -6,6 +6,17 @@ body{
     max-width:1400px;
 }
 
+.admin-layout .page-title{
+    font-size:34px;
+    font-weight:700;
+    color:#0f172a;
+}
+
+.admin-layout .page-subtitle{
+    color:#64748b;
+    margin-bottom:30px;
+}
+
 /* SEARCH */
 .admin-layout .search{
     background:#fff;

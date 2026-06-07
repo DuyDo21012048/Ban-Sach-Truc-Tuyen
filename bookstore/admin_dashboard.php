@@ -243,11 +243,11 @@ $topRevenue = mysqli_query($conn,"
     <?php include 'admin_menu.php'; ?>
 
     <!-- THỐNG KÊ -->
-    <h1 class="admin-heading">
+    <h1 class="page-title">
         Dashboard
     </h1>
 
-    <p class="admin-subtitle">
+    <p class="page-subtitle">
         Tổng quan về hoạt động kinh doanh
     </p>
     <div class="stats-grid">
