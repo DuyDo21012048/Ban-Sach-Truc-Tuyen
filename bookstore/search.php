@@ -95,9 +95,9 @@ ORDER BY avg_rating DESC
 LIMIT $limit OFFSET $offset
 ";
 
-$result = mysqli_query($conn, $sql);
+$book_result = mysqli_query($conn, $sql);
 
-$totalResult = mysqli_num_rows($result);
+$totalResult = mysqli_num_rows($book_result);
 
 $countSql = "
 SELECT COUNT(DISTINCT books.id) AS total
@@ -233,7 +233,7 @@ $totalPages = ceil($totalBooks / $limit);
 
                             <!-- CHILDREN -->
                             <div
-                                class="seacrh-children"
+                                class="search-children"
                                 id="children-<?= $parentId ?>"
                                 style="<?= $hasChecked ? 'display:block' : 'display:none' ?>"
                             >
@@ -278,8 +278,8 @@ $totalPages = ceil($totalBooks / $limit);
         <!-- RESULT -->
         <div class="col-md-9">
             <div class="row">
-
-                <?php while ($row = mysqli_fetch_assoc($result)) { ?>
+                
+                <?php while ($row = mysqli_fetch_assoc($book_result)) { ?>
 
                     <div class="col-md-4 mb-4">
                         <div class="card book-card">
