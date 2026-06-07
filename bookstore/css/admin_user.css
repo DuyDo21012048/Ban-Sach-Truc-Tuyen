@@ -1,0 +1,157 @@
+body{
+    background:#f8fafc!important;
+}
+
+.admin-layout .container{
+    max-width:1400px;
+}
+
+/* SEARCH */
+.admin-layout .search{
+    background:#fff;
+    border-radius:16px;
+    padding:10px;
+    gap:12px;
+    flex-wrap:wrap;
+    margin-bottom:20px;
+    box-shadow:0 2px 12px rgba(0,0,0,.05);
+}
+
+.admin-layout .search-box{
+    display:flex;
+    align-items:center;
+    border:1px solid #cbd5e1;
+    border-radius:8px;
+    padding:10px 15px;
+}
+
+.admin-layout .search-box i{
+    color:#94a3b8;
+    margin-right:10px;
+    font-size:18px;
+}
+
+.admin-layout .search-box input{
+    border:none;
+    outline:none;
+    width:100%;
+    font-size:15px;
+}
+.admin-layout .table{
+    background:#fff;
+    border-radius:8px;
+    overflow:hidden;
+    box-shadow:0 2px 12px rgba(0,0,0,.05);
+}
+
+.admin-layout .table thead th{
+    font-size:13px;
+    color:#64748b;
+    font-weight:700;
+}
+
+.table th:first-child,
+.table td:first-child{
+    width: 80px;
+    text-align:center;
+}
+
+.admin-layout .customer-name{
+    font-weight:600;
+    color:#0f172a;
+}
+
+.admin-layout .customer-email{
+    color:#64748b;
+    font-size:14px;
+}
+
+.admin-layout .total-orders{
+    font-weight:600;
+}
+
+.admin-layout .spent-money{
+    color:#16a34a;
+    font-weight:600;
+}
+
+.admin-layout .view-btn{
+    border:none;
+    background:none;
+    color:#2563eb;
+    font-size:20px;
+}
+
+.admin-layout .customer-modal{
+    border-radius:18px;
+}
+
+.admin-layout .customer-info-box{
+    background:#f8fafc;
+    border-radius:16px;
+    padding:25px;
+
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:25px;
+}
+
+.admin-layout .customer-info-box span{
+    display:block;
+    color:#64748b;
+    margin-bottom:6px;
+}
+
+.admin-layout .customer-info-box strong{
+    font-size:18px;
+}
+
+.admin-layout .admin-layout .customer-stats{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+    margin:25px 0;
+}
+
+.admin-layout .admin-layout .info-card{
+    padding:20px;
+    border-radius:16px;
+}
+
+.admin-layout .admin-layout .info-card span{
+    display:block;
+    margin-bottom:10px;
+}
+
+.admin-layout .admin-layout .info-card strong{
+    font-size:34px;
+    font-weight:700;
+}
+
+.admin-layout .admin-layout .blue{
+    background:#eff6ff;
+    color:#2563eb;
+}
+
+.admin-layout .admin-layout .green{
+    background:#ecfdf5;
+    color:#16a34a;
+}
+
+.admin-layout .admin-layout .purple{
+    background:#f3e8ff;
+    color:#9333ea;
+}
+
+.admin-layout .history-title{
+    font-weight:700;
+    margin-bottom:20px;
+}
+
+.admin-layout .status-pill{
+    padding:8px 14px;
+    border-radius:999px;
+    background:#dcfce7;
+    color:#16a34a;
+    font-weight:600;
+}

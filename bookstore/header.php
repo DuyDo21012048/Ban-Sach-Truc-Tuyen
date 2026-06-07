@@ -113,7 +113,7 @@ if(isset($_SESSION['user_id'])){
                 $_SESSION['role'] == 'admin'
             ){ ?>
 
-                <a href="admin.php" class="nav-link-custom">
+                <a href="admin_dashboard.php" class="nav-link-custom">
                     <i class="bi bi-gear me-1"></i>
                     Quản trị
                 </a>       

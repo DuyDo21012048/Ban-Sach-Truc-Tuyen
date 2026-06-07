@@ -1,0 +1,249 @@
+body{
+    background:#f8fafc!important;
+}
+.admin-layout .container{
+    max-width:1400px;
+}
+/* =========================
+   ORDER PAGE
+========================= */
+
+/* FILTER */
+
+.admin-layout .order-filters{
+    background:#fff;
+    border-radius:16px;
+    padding:16px;
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+    margin-bottom:20px;
+    box-shadow:0 2px 12px rgba(0,0,0,.05);
+}
+
+.admin-layout .order-filters a{
+    text-decoration:none;
+    border:none;
+    background:#f1f5f9;
+    color:#334155;
+    padding:10px 18px;
+    border-radius:10px;
+    font-weight:600;
+    transition:.2s;
+}
+
+.admin-layout .order-filters a:hover{
+    background:#e2e8f0;
+}
+
+.admin-layout .order-filters a.active{
+    background:#2563eb;
+    color:#fff;
+}
+
+/* SEARCH */
+.admin-layout .search{
+    background:#fff;
+    border-radius:16px;
+    padding:10px;
+    gap:12px;
+    flex-wrap:wrap;
+    margin-bottom:20px;
+    box-shadow:0 2px 12px rgba(0,0,0,.05);
+}
+
+.admin-layout .search-box{
+    display:flex;
+    align-items:center;
+    border:1px solid #cbd5e1;
+    border-radius:12px;
+    padding:10px 15px;
+}
+
+.admin-layout .search-box i{
+    color:#94a3b8;
+    margin-right:10px;
+    font-size:18px;
+}
+
+.admin-layout .search-box input{
+    border:none;
+    outline:none;
+    width:100%;
+    font-size:15px;
+}
+
+/* TABLE */
+
+.admin-layout .table-box{
+    background:#fff;
+    border-radius:18px;
+    padding:20px;
+    box-shadow:0 2px 12px rgba(0,0,0,.05);
+}
+
+.admin-layout .table-box table{
+    margin-bottom:0;
+}
+
+.admin-layout .table-box th{
+    color:#64748b;
+    font-size:13px;
+    text-transform:uppercase;
+    letter-spacing:.5px;
+}
+
+.admin-layout .table-box td{
+    vertical-align:middle;
+}
+
+/* CUSTOMER */
+
+.admin-layout .customer-name{
+    font-weight:600;
+    color:#0f172a;
+}
+
+.admin-layout .customer-email{
+    color:#94a3b8;
+    font-size:13px;
+    margin-top:3px;
+}
+
+.admin-layout .total-price{
+    font-weight:600;
+    color:#0f172a;
+}
+
+.admin-layout .order-code{
+    font-weight:600;
+    color:#2563eb;
+}
+
+/* STATUS */
+
+.admin-layout .status{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    padding:8px 14px;
+    border-radius:999px;
+    font-size:13px;
+    font-weight:600;
+}
+
+.admin-layout .status.waiting{
+    background:#f1f5f9;
+    color:#475569;
+}
+
+.admin-layout .status.pending{
+    background:#fef3c7;
+    color:#a16207;
+}
+
+.admin-layout .status.shipping{
+    background:#dbeafe;
+    color:#2563eb;
+}
+
+.admin-layout .status.delivered{
+    background:#dcfce7;
+    color:#16a34a;
+}
+
+.admin-layout .status.cancelled{
+    background:#fee2e2;
+    color:#dc2626;
+}
+
+/* ACTIONS */
+
+.admin-layout .actions{
+    white-space:nowrap;
+}
+
+.admin-layout .view-btn,
+.admin-layout .edit-btn{
+    border:none;
+    background:none;
+    font-size:20px;
+    margin-right:12px;
+    cursor:pointer;
+}
+
+.admin-layout .view-btn{
+    color:#2563eb;
+}
+
+.admin-layout .edit-btn{
+    color:#16a34a;
+}
+
+.admin-layout .view-btn:hover,
+.admin-layout .edit-btn:hover{
+    opacity:.7;
+}
+
+/* MODAL */
+
+.admin-layout .status-options{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+.admin-layout .status-card{
+    display:flex;
+    align-items:flex-start;
+    gap:14px;
+    border:1px solid #e2e8f0;
+    border-radius:14px;
+    padding:16px;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.admin-layout .status-card:hover{
+    border-color:#22c55e;
+    background:#f8fffa;
+}
+
+.admin-layout .status-card input{
+    margin-top:4px;
+}
+
+.admin-layout .status-card h5{
+    margin:0;
+    font-size:18px;
+    font-weight:600;
+}
+
+.admin-layout .status-card p{
+    margin:4px 0 0;
+    color:#64748b;
+    font-size:14px;
+}
+
+.admin-layout .status-card input:checked + div h5{
+    color:#16a34a;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:768px){
+
+    .order-filters{
+        gap:8px;
+    }
+
+    .order-filters a{
+        font-size:13px;
+        padding:8px 12px;
+    }
+
+    .table-box{
+        overflow-x:auto;
+    }
+
+}

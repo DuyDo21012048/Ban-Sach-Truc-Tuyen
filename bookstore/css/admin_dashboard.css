@@ -2,56 +2,17 @@ body{
     background:#f8fafc;
 }
 
-.container{
+.admin-layout .container{
     max-width:1400px;
 }
 
-.admin-tabs{
-    display:flex;
-    gap:35px;
-
-    border-bottom:1px solid #e5e7eb;
-
-    margin:25px 0 35px;
-}
-
-.admin-tabs a{
-    text-decoration:none;
-
-    color:#475569;
-
-    font-weight:600;
-
-    padding:15px 0;
-
-    position:relative;
-}
-
-.admin-tabs a.active{
-    color:#2563eb;
-}
-
-.admin-tabs a.active::after{
-    content:'';
-
-    position:absolute;
-
-    left:0;
-    right:0;
-    bottom:-1px;
-
-    height:3px;
-
-    background:#2563eb;
-}
-
-.dashboard-cards{
+.admin-layout .dashboard-cards{
     display:grid;
     grid-template-columns:repeat(4,1fr);
     gap:25px;
 }
 
-.dashboard-card{
+.admin-layout .dashboard-card{
     background:white;
 
     border-radius:16px;
@@ -61,30 +22,30 @@ body{
     box-shadow:0 3px 10px rgba(0,0,0,.05);
 }
 
-.dashboard-card i{
+.admin-layout .dashboard-card i{
     font-size:35px;
     color:#2563eb;
 }
 
-.dashboard-card h3{
+.admin-layout .dashboard-card h3{
     margin-top:15px;
 
     font-size:30px;
     font-weight:700;
 }
 
-.dashboard-card p{
+.admin-layout .dashboard-card p{
     color:#666;
 }
 
-.stats-grid{
+.admin-layout .stats-grid{
     display:grid;
     grid-template-columns:repeat(4,1fr);
     gap:22px;
     margin:30px 0;
 }
 
-.stat-card{
+.admin-layout .stat-card{
     background:#fff;
 
     border-radius:18px;
@@ -97,14 +58,14 @@ body{
     0 2px 8px rgba(0,0,0,.05);
 }
 
-.stat-header{
+.admin-layout .stat-header{
     display:flex;
     justify-content:space-between;
     align-items:center;
     margin-bottom:18px;
 }
 
-.stat-icon{
+.admin-layout .stat-icon{
     width:48px;
     height:48px;
 
@@ -117,55 +78,55 @@ body{
     font-size:26px;
 }
 
-.green{
+.admin-layout .green{
     background:#dcfce7;
     color:#16a34a;
 }
 
-.blue{
+.admin-layout .blue{
     background:#dbeafe;
     color:#2563eb;
 }
 
-.purple{
+.admin-layout .purple{
     background:#f3e8ff;
     color:#9333ea;
 }
 
-.orange{
+.admin-layout .orange{
     background:#ffedd5;
     color:#ea580c;
 }
 
-.stat-change{
+.admin-layout .stat-change{
     font-weight:600;
 }
 
-.positive{
+.admin-layout .positive{
     color:#16a34a;
 }
 
-.negative{
+.admin-layout .negative{
     color:#ef4444;
 }
 
-.stat-label{
+.admin-layout .stat-label{
     color:#475569;
     margin-bottom:10px;
 }
 
-.stat-value{
+.admin-layout .stat-value{
     font-size:42px;
     font-weight:700;
 }
 
-.stat-sub{
+.admin-layout .stat-sub{
     color:#94a3b8;
     margin-top:10px;
     font-size:14px;
 }
 
-.icon{
+.admin-layout .icon{
     width:60px;
     height:60px;
     border-radius:12px;
@@ -177,50 +138,50 @@ body{
     font-size:28px;
 }
 
-.green{background:#dcfce7;}
-.blue{background:#dbeafe;}
-.purple{background:#f3e8ff;}
-.orange{background:#ffedd5;}
+.admin-layout .green{background:#dcfce7;}
+.admin-layout .blue{background:#dbeafe;}
+.admin-layout .purple{background:#f3e8ff;}
+.admin-layout .orange{background:#ffedd5;}
 
-.chart-grid{
+.admin-layout .chart-grid{
     display:grid;
     grid-template-columns:1fr 1fr;
     gap:25px;
     margin-bottom:25px;
 }
 
-.chart-card{
+.admin-layout .chart-card{
     background:#fff;
     border-radius:20px;
     padding:24px;
     height:420px;
     border:1px solid #e5e7eb;
 }
-.chart-card canvas{
+.admin-layout .chart-card canvas{
     width:100% !important;
     height:320px !important;
 }
 
-#statusChart,
-#pieChart{
+.admin-layout #statusChart,
+.admin-layout #pieChart{
     max-width:250px;
     max-height:250px;
     margin:0 auto;
 }
 
 /* khung chứa chart */
-.chart-wrapper{
+.admin-layout .chart-wrapper{
     height:320px;
 }
 
-.pie-wrapper{
+.admin-layout .pie-wrapper{
     height:320px;
     display:flex;
     justify-content:center;
     align-items:center;
 }
 
-.pie-wrapper canvas{
+.admin-layout .pie-wrapper canvas{
     max-width:260px !important;
     max-height:260px !important;
 }
@@ -229,41 +190,41 @@ body{
    TOP REVENUE TABLE
 ========================= */
 
-.revenue-table{
+.admin-layout .revenue-table{
     width:100%;
     border-collapse:collapse;
 }
 
-.revenue-table thead{
+.admin-layout .revenue-table thead{
     background:#f8fafc;
 }
 
-.revenue-table th{
+.admin-layout .revenue-table th{
     padding:18px;
     font-size:14px;
     font-weight:700;
     color:#64748b;
 }
 
-.revenue-table td{
+.admin-layout .revenue-table td{
     padding:18px;
     border-top:1px solid #eef2f7;
     vertical-align:middle;
 }
 
-.book-title-cell{
+.admin-layout .book-title-cell{
     font-weight:700;
     color:#0f172a;
 }
 
-.revenue-money{
+.admin-layout .revenue-money{
     color:#2563eb;
     font-weight:700;
 }
 
 /* Badge ranking */
 
-.rank-badge{
+.admin-layout .rank-badge{
     width:38px;
     height:38px;
 
@@ -279,28 +240,28 @@ body{
 
 /* Hạng 1 */
 
-.rank-badge.gold{
+.admin-layout .rank-badge.gold{
     background:#fff7cc;
     color:#d4a017;
 }
 
 /* Hạng 2 */
 
-.rank-badge.silver{
+.admin-layout .rank-badge.silver{
     background:#eef2f7;
     color:#94a3b8;
 }
 
 /* Hạng 3 */
 
-.rank-badge.bronze{
+.admin-layout .rank-badge.bronze{
     background:#fff1e6;
     color:#cd7f32;
 }
 
 /* Hạng còn lại */
 
-.rank-badge.normal{
+.admin-layout .rank-badge.normal{
     background:#e0f2fe;
     color:#0284c7;
 }

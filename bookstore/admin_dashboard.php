@@ -210,21 +210,19 @@ $topRevenue = mysqli_query($conn,"
 
 <title>Admin Dashboard</title>
 
-<link rel="stylesheet"
-href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 
-<link rel="stylesheet"
-href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
 
 
-<link rel="stylesheet" href="css/admin.css">
+<link rel="stylesheet" href="css/admin_dashboard.css">
 </head>
 
 <body>
-
+<div class="admin-layout">
 <div class="container my-4">
 
     <a href="home.php" class="back-link">
@@ -242,34 +240,7 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.c
 
     <!-- MENU -->
 
-    <div class="admin-tabs">
-
-        <a href="admin.php" class="active">
-            <i class="bi bi-grid"></i>
-            Dashboard
-        </a>
-
-        <a href="admin_books.php">
-            <i class="bi bi-book"></i>
-            Quản lý sách
-        </a>
-
-        <a href="admin_orders.php">
-            <i class="bi bi-bag"></i>
-            Quản lý đơn hàng
-        </a>
-
-        <a href="admin_users.php">
-            <i class="bi bi-people"></i>
-            Quản lý người dùng
-        </a>
-
-        <a href="admin_categories.php">
-            <i class="bi bi-folder"></i>
-            Quản lý danh mục
-        </a>
-
-    </div>
+    <?php include 'admin_menu.php'; ?>
 
     <!-- THỐNG KÊ -->
     <h1 class="admin-heading">
@@ -526,7 +497,7 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.c
     </div>
 
 </div>
-
+</div>
 <script>
 Chart.register(ChartDataLabels);
 new Chart(

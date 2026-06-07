@@ -22,16 +22,29 @@ $categories = mysqli_query($conn,"
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
 </head>
 <body>
 
 <div class="container my-4">
 
-<h1 class="admin-title">
-    Quản lý danh mục
-</h1>
+    <a href="home.php" class="back-link">
+        <i class="bi bi-arrow-left"></i>
+        Quay lại
+    </a>
 
-<?php include 'admin_menu.php'; ?>
+    <h1 class="admin-heading">
+        Quản trị
+    </h1>
+
+    <p class="admin-subtitle">
+        Quản lý hệ thống cửa hàng
+    </p>
+
+    <!-- MENU -->
+
+    <?php include 'admin_menu.php'; ?>
 
 <table class="table table-hover">
 

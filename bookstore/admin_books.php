@@ -97,13 +97,20 @@ $result = mysqli_query($conn,"
         <!-- CENTER -->
         <div class="topbar-center">
 
-            <h1 class="admin-title">
-                Quản lý sách
+            <a href="home.php" class="back-link">
+                <i class="bi bi-arrow-left"></i>
+                Quay lại
+            </a>
+
+            <h1 class="admin-heading">
+                Quản trị
             </h1>
 
             <p class="admin-subtitle">
-                Thêm, sửa, xóa sách trong hệ thống
+                Quản lý hệ thống cửa hàng
             </p>
+
+            <!-- MENU -->
 
             <?php include 'admin_menu.php'; ?>
 

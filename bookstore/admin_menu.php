@@ -1,11 +1,11 @@
 <?php
 $current = basename($_SERVER['PHP_SELF']);
 ?>
-
+<link rel="stylesheet" href="css/admin_menu.css">
 <div class="admin-tabs">
 
-    <a href="admin.php"
-       class="<?= $current=='admin.php' ? 'active' : '' ?>">
+    <a href="admin_dashboard.php"
+       class="<?= $current=='admin_dashboard.php' ? 'active' : '' ?>">
         <i class="bi bi-grid"></i>
         Dashboard
     </a>

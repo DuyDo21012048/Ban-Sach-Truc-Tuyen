@@ -1,0 +1,38 @@
+.admin-tabs{
+    display:flex;
+    gap:35px;
+
+    border-bottom:1px solid #e5e7eb;
+
+    margin:25px 0 35px;
+}
+
+.admin-tabs a{
+    text-decoration:none;
+
+    color:#475569;
+
+    font-weight:600;
+
+    padding:15px 0;
+
+    position:relative;
+}
+
+.admin-tabs a.active{
+    color:#2563eb;
+}
+
+.admin-tabs a.active::after{
+    content:'';
+
+    position:absolute;
+
+    left:0;
+    right:0;
+    bottom:-1px;
+
+    height:3px;
+
+    background:#2563eb;
+}
