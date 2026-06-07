@@ -178,13 +178,15 @@ $parentCategories = mysqli_query($conn,"
 
                 <div class="parent-actions">
 
-                    <a
-                        href="add_category.php?parent=<?= $parent['id'] ?>"
+                    <button
+                        type="button"
                         class="add-child-btn"
+                        data-bs-toggle="modal"
+                        data-bs-target="#addCategoryModal"
                     >
                         <i class="bi bi-plus"></i>
                         Thêm danh mục con
-                    </a>
+                    </button>
 
                     <i
                         class="bi bi-chevron-down collapse-arrow"
@@ -277,8 +279,111 @@ $parentCategories = mysqli_query($conn,"
 
     </div>
 </div>
-<script>
+<div
+    class="modal fade"
+    id="addCategoryModal"
+    tabindex="-1"
+>
 
+    <div class="modal-dialog">
+
+        <div class="modal-content category-modal">
+
+        <form
+            action="add_category.php"
+            method="POST"
+        >
+
+            <div class="modal-header">
+
+                <h4>Thêm danh mục mới</h4>
+
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal">
+                </button>
+
+            </div>
+
+            <div class="modal-body">
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Danh mục cha
+                    </label>
+
+                    <select
+                        name="parent_id"
+                        class="form-select"
+                        required
+                    >
+                        <option value="">
+                            Chọn danh mục cha
+                        </option>
+
+                        <option value="1">
+                            Hư cấu
+                        </option>
+
+                        <option value="2">
+                            Phi hư cấu
+                        </option>
+
+                        <option value="3">
+                            Khác
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div>
+
+                    <label class="form-label">
+                        Tên danh mục con
+                    </label>
+
+                    <input
+                        type="text"
+                        name="name"
+                        class="form-control"
+                        placeholder="Nhập tên danh mục"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+
+                <button
+                    type="button"
+                    class="btn btn-light"
+                    data-bs-dismiss="modal"
+                >
+                    Hủy
+                </button>
+
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                >
+                    Thêm danh mục
+                </button>
+
+            </div>
+
+        </form>
+
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
 document.querySelectorAll('.collapse-arrow')
 .forEach(arrow=>{
 
@@ -289,7 +394,6 @@ document.querySelectorAll('.collapse-arrow')
     });
 
 });
-
 </script>
 </body>
 </html>

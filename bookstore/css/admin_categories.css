@@ -262,3 +262,54 @@ body{
     color:#ef4444;
     font-size:16px;
 }
+
+/* form thêm danh mục */
+.category-modal{
+    border:none;
+    border-radius:18px;
+}
+
+.category-modal .modal-header{
+    padding:20px 24px;
+}
+
+.category-modal .modal-body{
+    padding:24px;
+}
+
+.category-modal .modal-footer{
+    padding:20px 24px;
+}
+
+.category-modal h4{
+    font-weight:700;
+    margin:0;
+}
+
+.category-modal .form-label{
+    font-weight:600;
+    margin-bottom:8px;
+}
+
+.category-modal .form-control,
+.category-modal .form-select{
+    height:50px;
+    border-radius:12px;
+}
+
+.add-child-btn{
+    border:1px solid #2563eb;
+    background:white;
+    color:#2563eb;
+
+    padding:10px 18px;
+
+    border-radius:12px;
+
+    font-weight:600;
+}
+
+.add-child-btn:hover{
+    background:#2563eb;
+    color:white;
+}
