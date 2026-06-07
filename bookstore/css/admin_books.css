@@ -1,7 +1,11 @@
-body {
-    background: #f7f8fc;
-    font-family: Arial, sans-serif;
+body{
+    background:#f8fafc;
 }
+
+.admin-layout .container{
+    max-width:1400px;
+}
+
 
 /* Back */
 .back-link {
@@ -32,26 +36,6 @@ body {
     display:flex;
     gap:18px;
     justify-content:center;
-}
-
-/* CENTER */
-
-.topbar-center{
-    text-align:center;
-}
-
-.admin-title{
-    font-size:54px;
-    font-weight:800;
-    margin:0;
-    line-height:1.1;
-    color:#111827;
-}
-
-.admin-subtitle{
-    margin-top:10px;
-    font-size:17px;
-    color:#6b7280;
 }
 
 /* RIGHT */

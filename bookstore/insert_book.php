@@ -104,7 +104,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (mysqli_query($conn, $sql)) {
 
-        header("Location: admin.php");
+        header("Location: admin_books.php");
 
         exit();
 

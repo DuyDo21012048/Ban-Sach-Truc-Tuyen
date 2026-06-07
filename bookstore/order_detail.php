@@ -133,9 +133,18 @@ if($order['status'] == 'cancelled'){
 
 <div class="container">
 
-    <a href="user.php?tab=orders" class="back-link">
+    <?php
+    $from = $_GET['from'] ?? 'user';
+
+    $backLink =
+        ($from == 'admin')
+        ? 'admin_orders.php'
+        : 'user.php?tab=orders';
+    ?>
+
+    <a href="<?= $backLink ?>" class="back-link">
         <i class="bi bi-arrow-left"></i>
-        Quay lại đơn hàng
+        Quay lại
     </a>
 
     <!-- HEADER -->

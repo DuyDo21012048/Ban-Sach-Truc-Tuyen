@@ -5,6 +5,13 @@ body{
     max-width:1400px;
 }
 
+/* Back */
+.admin-layout .back-link {
+    text-decoration: none;
+    color: #2d3748;
+    font-weight: 600;
+}
+
 .admin-layout .page-title{
     font-size:34px;
     font-weight:700;

@@ -20,6 +20,6 @@ mysqli_query($conn,"
     WHERE id = $id
 ");
 
-header("Location: admin.php");
+header("Location: admin_books.php");
 exit();
 ?>

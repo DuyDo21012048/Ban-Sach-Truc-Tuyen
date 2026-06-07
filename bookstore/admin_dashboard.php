@@ -125,14 +125,17 @@ foreach($statusData as $key=>$value){
 
 $categoryQuery = mysqli_query($conn,"
     SELECT
-        categories.name,
-        COUNT(book_categories.book_id) total
+        name,
+        (
+            SELECT COUNT(*)
+            FROM book_categories bc
+            JOIN categories c2
+                ON c2.id = bc.category_id
+            WHERE c2.parent_id = categories.id
+        ) total
     FROM categories
-    LEFT JOIN book_categories
-        ON categories.id = book_categories.category_id
-    GROUP BY categories.id
-    ORDER BY total DESC
-    LIMIT 3
+    WHERE id IN (1,2,3)
+    ORDER BY id
 ");
 
 $categoryLabels = [];
@@ -260,10 +263,6 @@ $topRevenue = mysqli_query($conn,"
                     <i class="bi bi-currency-dollar"></i>
                 </div>
 
-                <span class="stat-change positive">
-                    ↑ 12.5%
-                </span>
-
             </div>
 
             <div class="stat-label">
@@ -272,10 +271,6 @@ $topRevenue = mysqli_query($conn,"
 
             <div class="stat-value">
                 <?= number_format($revenue) ?>đ
-            </div>
-
-            <div class="stat-sub">
-                30 ngày qua
             </div>
 
         </div>
@@ -288,10 +283,6 @@ $topRevenue = mysqli_query($conn,"
                     <i class="bi bi-bag"></i>
                 </div>
 
-                <span class="stat-change positive">
-                    ↑ 8.3%
-                </span>
-
             </div>
 
             <div class="stat-label">
@@ -300,10 +291,6 @@ $topRevenue = mysqli_query($conn,"
 
             <div class="stat-value">
                 <?= $totalOrders ?>
-            </div>
-
-            <div class="stat-sub">
-                30 ngày qua
             </div>
 
         </div>
@@ -315,10 +302,6 @@ $topRevenue = mysqli_query($conn,"
                 <div class="stat-icon purple">
                     <i class="bi bi-box-seam"></i>
                 </div>
-
-                <span class="stat-change positive">
-                    ↑ 11.2%
-                </span>
 
             </div>
 
@@ -344,10 +327,6 @@ $topRevenue = mysqli_query($conn,"
                     <i class="bi bi-people"></i>
                 </div>
 
-                <span class="stat-change positive">
-                    ↑ 11.2%
-                </span>
-
             </div>
 
             <div class="stat-label">
@@ -356,10 +335,6 @@ $topRevenue = mysqli_query($conn,"
 
             <div class="stat-value">
                 <?= $totalUsers ?>
-            </div>
-
-            <div class="stat-sub">
-                30 ngày qua
             </div>
 
         </div>
@@ -582,20 +557,23 @@ document.getElementById('statusChart'),
             },
 
             datalabels:{
-                color:'#111',
-                anchor:'end',
-                align:'end',
+                color:'#fff',
+
+                anchor:'center',
+                align:'center',
 
                 formatter:(value,ctx)=>{
 
                     const data =
-                    ctx.chart.data.datasets[0].data;
+                    ctx.chart.data.datasets[0].data.map(Number);
 
                     const total =
                     data.reduce((a,b)=>a+b,0);
 
+                    if(total === 0) return '';
+
                     const percent =
-                    Math.round(value*100/total);
+                    ((value / total) * 100).toFixed(1);
 
                     return percent + '%';
                 },
@@ -682,13 +660,32 @@ document.getElementById('pieChart'),
                 }
             },
             datalabels:{
-                anchor:'end',
-                align:'end',
-                offset:10,
-                color:'#111',
+                color:'#fff',
+
+                anchor:'center',
+                align:'center',
+
                 font:{
                     weight:'bold',
-                    size:14
+                    size:16
+                },
+
+                formatter:(value,ctx)=>{
+
+                    const data =
+                    ctx.chart.data.datasets[0].data.map(Number);
+
+                    const total =
+                    data.reduce((a,b)=>a+b,0);
+
+                    if(total === 0){
+                        return '';
+                    }
+
+                    const percent =
+                    Math.round(value * 100 / total);
+
+                    return percent + '%';
                 }
             }
         }

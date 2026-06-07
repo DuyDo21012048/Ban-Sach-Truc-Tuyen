@@ -52,218 +52,186 @@ $result = mysqli_query($conn,"
 
 </head>
 <body>
+<div class="admin-layout">
+    <div class="container my-4">
+        <a href="home.php" class="back-link">
+            <i class="bi bi-arrow-left"></i>
+            Quay lại
+        </a>
 
-<div class="container-fluid admin-container my-4">
+        <h1 class="admin-heading">
+            Quản trị
+        </h1>
 
-    <!-- Back -->
-    <a href="home.php" class="back-link">
-        <i class="bi bi-arrow-left"></i> Quay lại
-    </a>
+        <p class="admin-subtitle">
+            Quản lý hệ thống cửa hàng
+        </p>
 
-    <div class="admin-topbar">
+        <!-- MENU -->
 
-        <!-- LEFT -->
-        <div class="topbar-left">
+        <?php include 'admin_menu.php'; ?>
 
-            <div class="mini-stat">
-                <i class="bi bi-book"></i>
+        <!-- THỐNG KÊ -->
+        <h1 class="page-title">
+            Quản lý sách
+        </h1>
 
-                <div>
-                    <h4><?= mysqli_num_rows($result) ?></h4>
-                    <p>Tổng sách</p>
+        <p class="page-subtitle">
+            Xem và quản lý tất cả sách
+        </p>
+
+        <div class="admin-topbar">
+
+            <!-- LEFT -->
+            <div class="topbar-left">
+
+                <div class="mini-stat">
+                    <i class="bi bi-book"></i>
+
+                    <div>
+                        <h4><?= mysqli_num_rows($result) ?></h4>
+                        <p>Tổng sách</p>
+                    </div>
                 </div>
+
+                <div class="mini-stat">
+                    <i class="bi bi-box-seam"></i>
+
+                    <div>
+                        <h4>
+                            <?php
+                            $stockQuery = mysqli_query($conn,"
+                                SELECT SUM(quantity) as total_stock
+                                FROM books
+                            ");
+
+                            $stock = mysqli_fetch_assoc($stockQuery);
+
+                            echo $stock['total_stock'];
+                            ?>
+                        </h4>
+
+                        <p>Tồn kho</p>
+                    </div>
+                </div>
+
             </div>
 
-            <div class="mini-stat">
-                <i class="bi bi-box-seam"></i>
+            <!-- RIGHT -->
+            <div class="topbar-right">
 
-                <div>
-                    <h4>
-                        <?php
-                        $stockQuery = mysqli_query($conn,"
-                            SELECT SUM(quantity) as total_stock
-                            FROM books
-                        ");
+                <a href="add_book.php" class="add-book-btn">
+                    <i class="bi bi-plus-lg"></i>
+                    Thêm sách mới
+                </a>
 
-                        $stock = mysqli_fetch_assoc($stockQuery);
-
-                        echo $stock['total_stock'];
-                        ?>
-                    </h4>
-
-                    <p>Tồn kho</p>
-                </div>
             </div>
 
         </div>
 
-        <!-- CENTER -->
-        <div class="topbar-center">
+        <!-- Search -->
+        <div class="search-wrapper">
+            <form method="GET">
 
-            <a href="home.php" class="back-link">
-                <i class="bi bi-arrow-left"></i>
-                Quay lại
-            </a>
+                <input
+                    type="text"
+                    name="keyword"
+                    class="form-control admin-search"
+                    placeholder="Tìm kiếm sách theo tên..."
+                    value="<?= $_GET['keyword'] ?? '' ?>"
+                >
 
-            <h1 class="admin-heading">
-                Quản trị
-            </h1>
+            </form>
+        </div>
 
-            <p class="admin-subtitle">
-                Quản lý hệ thống cửa hàng
-            </p>
+        <!-- Table -->
+        <div class="table-box shadow-sm">
 
-            <!-- MENU -->
+            <table class="table align-middle table-hover">
 
-            <?php include 'admin_menu.php'; ?>
+                <thead>
+                    <tr>
+                        <th>Hình ảnh</th>
+                        <th>Tên sách</th>
+                        <th>Tác giả</th>
+                        <th>Thể loại</th>
+                        <th>Giá</th>
+                        <th>NXB</th>
+                        <th>Tồn kho</th>
+                        <th>Mã ID</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <?php while ($book = mysqli_fetch_assoc($result)) { ?>
+
+                    <tr>
+
+                        <td>
+                            <img
+                                src="<?= $book['image'] ?>"
+                                class="admin-book-image"
+                            >
+                        </td>
+
+                        <td class="book-name">
+                            <?= $book['title'] ?>
+                        </td>
+
+                        <td>
+                            <?= $book['author'] ?>
+                        </td>
+                        
+                        <td class="category-cell">
+                            <?= $book['categories'] ?: 'Chưa phân loại' ?>
+                        </td>
+
+                        <td class="book-price">
+                            <?= number_format($book['price']) ?>đ
+                        </td>
+
+                        <td>
+                            <?= $book['publisher'] ?>
+                        </td>
+
+                        <td>
+                            <?= $book['quantity'] ?>
+                        </td>
+
+                        <td>
+                            #<?= $book['id'] ?>
+                        </td>
+
+                        <td>
+                            <div class="action-buttons">
+
+                                <a href="edit_book.php?id=<?= $book['id'] ?>"
+                                class="edit-btn">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+
+                                <a href="delete_book.php?id=<?= $book['id'] ?>"
+                                class="delete-btn"
+                                onclick="return confirm('Bạn có chắc muốn xóa?')">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+
+                            </div>
+                        </td>
+
+                    </tr>
+
+                    <?php } ?>
+
+                </tbody>
+
+            </table>
 
         </div>
 
-        <!-- RIGHT -->
-        <div class="topbar-right">
-
-            <a href="add_book.php" class="add-book-btn">
-                <i class="bi bi-plus-lg"></i>
-                Thêm sách mới
-            </a>
-
-        </div>
-
     </div>
-
-    <!-- Search -->
-    <div class="search-wrapper">
-        <form method="GET">
-
-            <input
-                type="text"
-                name="keyword"
-                class="form-control admin-search"
-                placeholder="Tìm kiếm sách theo tên..."
-                value="<?= $_GET['keyword'] ?? '' ?>"
-            >
-
-        </form>
-    </div>
-
-    <!-- Table -->
-    <div class="table-box shadow-sm">
-
-        <table class="table align-middle table-hover">
-
-            <thead>
-                <tr>
-                    <th>Hình ảnh</th>
-                    <th>Tên sách</th>
-                    <th>Tác giả</th>
-                    <th>Thể loại</th>
-                    <th>Giá</th>
-                    <th>Năm XB</th>
-                    <th>Ngôn ngữ</th>
-                    <th>Số trang</th>
-                    <th>Hình thức</th>
-                    <th>NXB</th>
-                    <th>ISBN</th>
-                    <th>Mô tả</th>
-                    <th>Số lượng</th>
-                    <th>Mã ID</th>
-                    <th>Thao tác</th>
-                </tr>
-            </thead>
-
-            <tbody>
-
-                <?php while ($book = mysqli_fetch_assoc($result)) { ?>
-
-                <tr>
-
-                    <td>
-                        <img
-                            src="<?= $book['image'] ?>"
-                            class="admin-book-image"
-                        >
-                    </td>
-
-                    <td class="book-name">
-                        <?= $book['title'] ?>
-                    </td>
-
-                    <td>
-                        <?= $book['author'] ?>
-                    </td>
-                    
-                    <td class="category-cell">
-                        <?= $book['categories'] ?: 'Chưa phân loại' ?>
-                    </td>
-
-                    <td class="book-price">
-                        <?= number_format($book['price']) ?>đ
-                    </td>
-
-                    <td>
-                        <?= $book['published_year'] ?>
-                    </td>
-
-                    <td>
-                        <?= $book['language'] ?>
-                    </td>
-
-                    <td>
-                        <?= $book['pages'] ?> trang
-                    </td>
-
-                    <td>
-                        <?= $book['cover_type'] ?>
-                    </td>
-
-                    <td>
-                        <?= $book['publisher'] ?>
-                    </td>
-
-                    <td class="isbn-cell">
-                        <?= $book['isbn'] ?>
-                    </td>
-
-                    <td class="book-description">
-                        <?= substr($book['description'], 0, 80) ?>...
-                    </td>
-
-                    <td>
-                        <?= $book['quantity'] ?>
-                    </td>
-
-                    <td>
-                        #<?= $book['id'] ?>
-                    </td>
-
-                    <td>
-                        <div class="action-buttons">
-
-                            <a href="edit_book.php?id=<?= $book['id'] ?>"
-                            class="edit-btn">
-                                <i class="bi bi-pencil-square"></i>
-                            </a>
-
-                            <a href="delete_book.php?id=<?= $book['id'] ?>"
-                            class="delete-btn"
-                            onclick="return confirm('Bạn có chắc muốn xóa?')">
-                                <i class="bi bi-trash"></i>
-                            </a>
-
-                        </div>
-                    </td>
-
-                </tr>
-
-                <?php } ?>
-
-            </tbody>
-
-        </table>
-
-    </div>
-
 </div>
-
 </body>
 </html>

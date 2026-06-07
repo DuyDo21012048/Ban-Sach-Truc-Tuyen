@@ -271,7 +271,7 @@ $cancelledCount = mysqli_num_rows(mysqli_query($conn,"
                         <td class="actions">
 
                             <a
-                            href="order_detail.php?id=<?= $order['id'] ?>"
+                            href="order_detail.php?id=<?= $order['id'] ?>&from=admin"
                             class="view-btn">
 
                                 <i class="bi bi-eye"></i>

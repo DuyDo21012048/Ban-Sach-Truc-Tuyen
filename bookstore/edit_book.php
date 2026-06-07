@@ -50,7 +50,7 @@ if (!$book) {
     <!-- Header -->
     <div class="edit-header">
         <h2>Chỉnh sửa sách</h2>
-        <a href="admin.php" class="close-btn">×</a>
+        <a href="admin_books.php" class="close-btn">×</a>
     </div>
 
     <!-- Form -->
@@ -297,7 +297,7 @@ if (!$book) {
         <!-- Footer -->
         <div class="edit-footer">
 
-            <a href="admin.php" class="cancel-btn">
+            <a href="admin_books.php" class="cancel-btn">
                 Hủy
             </a>
 

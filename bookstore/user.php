@@ -513,7 +513,7 @@ $addresses = mysqli_query($conn, "
 
                                 ?>
 
-                                <a href="order_detail.php?id=<?= $order['id'] ?>" class="detail-btn">
+                                <a href="order_detail.php?id=<?= $order['id'] ?>&from=user" class="detail-btn">
                                     Chi tiết
                                 </a>
 
