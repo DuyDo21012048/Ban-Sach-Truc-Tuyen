@@ -21,7 +21,7 @@ include 'admin_auth.php';
     <!-- Header -->
     <div class="edit-header">
         <h2>Thêm sách mới</h2>
-        <a href="admin.php" class="close-btn">×</a>
+        <a href="admin_books.php" class="close-btn">×</a>
     </div>
 
     <!-- FORM -->
@@ -231,7 +231,7 @@ include 'admin_auth.php';
         <!-- Footer -->
         <div class="edit-footer">
 
-            <a href="admin.php" class="cancel-btn">
+            <a href="admin_books.php" class="cancel-btn">
                 Hủy
             </a>
 
